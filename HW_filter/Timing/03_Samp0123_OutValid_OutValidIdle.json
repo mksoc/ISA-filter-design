@@ -1,6 +1,6 @@
 {signal: [
   {name: 'clk', wave: 'p........'},
-  {name: 'rst_n', wave: '1.........'},
+  {name: 'rst_n', wave: '1........'},
   {name: 'vIn', wave: '1.....0xx'},
   {name: 'PS', wave: '========x', data: ["IDLE", "SAMP_0", "SAMP_1", "SAMP_2", "SAMP_3", "OUT_VALID", "OUT_VALID", "OUT_VALID_IDLE"]},
   {name: 'reg_en', wave: '01.....0x'},
