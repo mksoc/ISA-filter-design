@@ -37,10 +37,10 @@ idy = find(yq == 2^(nb - 1));
 yq(idy) = 2^(nb - 1) - 1;
 
 %% save input and output
-fp = fopen('samples.txt', 'w');
+fp = fopen('../common/samples.txt', 'w');
 fprintf(fp, '%d\n', xq);
 fclose(fp);
 
-fp = fopen('results-matlab.txt', 'w');
+fp = fopen('../common/results-matlab.txt', 'w');
 fprintf(fp, '%d\n', yq);
 fclose(fp);
