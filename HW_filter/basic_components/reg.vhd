@@ -32,7 +32,7 @@ end component;
 begin
 
 reg_structure : 
-	for i in nBit-1 to 0 generate
+	for i in nBit-1 downto 0 generate
 		dff : d_ff port map (
 			clk => clk,
 			rst_n => rst_n,

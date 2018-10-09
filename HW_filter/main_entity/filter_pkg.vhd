@@ -1,3 +1,6 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
 package filter_pkg is
 	constant nBit : natural := 12;
 	constant fOrder : positive := 3;
