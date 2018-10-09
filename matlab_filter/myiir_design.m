@@ -1,4 +1,4 @@
-function [bi, ai, bq, aq]=myiir_design(N,nb)
+function [bi, ai, bq, aq] = myiir_design(N,nb)
 %% function myiir_design(N,nb)
 %% N is order of the filter
 %% nb is the number of bits
@@ -29,8 +29,3 @@ plot(w2/pi, 20*log10(abs(h2)),'r--');
 grid on;
 xlabel('Normalized frequency');
 ylabel('dB');
-
-
-
-
-
