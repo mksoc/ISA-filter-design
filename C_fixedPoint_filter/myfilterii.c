@@ -69,7 +69,7 @@ int main(int argc, char **argv)
   fp_in = fopen(argv[1], "r");
   if (fp_in == NULL)
   {
-    printf("Error: cannot open %s\n");
+    printf("Error: cannot open %s\n", argv[1]);
     exit(2);
   }
   fp_out = fopen(argv[2], "w");

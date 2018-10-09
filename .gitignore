@@ -9,6 +9,7 @@
 *.pin
 *.pof
 *.sof
+*.exe
 
 # Directories global
 **/db/
