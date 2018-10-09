@@ -1,0 +1,16 @@
+{signal: [
+  {name: 'clk', wave: 'p........'},
+  {name: 'rst_n', wave: '1.........'},
+  {name: 'vIn', wave: '1.....0xx'},
+  {name: 'PS', wave: '========x', data: ["IDLE", "SAMP_0", "SAMP_1", "SAMP_2", "SAMP_3", "OUT_VALID", "OUT_VALID", "OUT_VALID_IDLE"]},
+  {name: 'reg_en', wave: '01.....0x'},
+  {name: 'reg_out_en', wave: '0...1....'},
+  {name: 'vOut', wave: '0....1...'},
+  {name: 'dIn', wave: 'x======xx', data: ["x[k-2]", "x[k-1]", "x[k]", "x[k+1]", "x[k+2]", "x[k+3]"]},
+  {name: 'w', wave: 'xx======.', data: ["w[k-2]", "w[k-1]", "w[k]", "w[k+1]", "w[k+2]", "w[k+3]"]},
+  {name: 'sw0', wave: 'xxx======', data: ["sw0[k-2]", "sw0[k-1]", "sw0[k]", "sw0[k+1]", "sw0[k+2]", "sw0[k+3]"]},
+  {name: 'sw1', wave: 'xxxx=====', data: ["sw1[k-2]", "sw1[k-1]", "sw1[k]", "sw1[k+1]", "sw1[k+2]"]},
+  {name: 'dOut', wave: 'xxxxx====', data: ["y[k-2]", "y[k-1]", "y[k]", "y[k+1]"]}
+],
+  config:{hscale:3},
+}

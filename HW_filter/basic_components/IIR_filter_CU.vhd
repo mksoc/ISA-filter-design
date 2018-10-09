@@ -9,6 +9,7 @@ port (
 	vIn : in std_logic;
 
 	reg_en,
+	reg_out_en,
 	reg_rst_N : out std_logic;
 
 	vOut : out std_logic );
@@ -25,7 +26,10 @@ architecture behaviour of IIR_filter_CU is
 		SAMP_1_IDLE,
 		SAMP_2,
 		SAMP_2_IDLE,
-		OUT_VALID );
+		SAMP_3,
+		SAMP_3_IDLE,
+		OUT_VALID,
+		OUT_VALID_IDLE );
 
 	signal 
 	ps, 
@@ -87,16 +91,44 @@ ns_process : process(ps, vIn)
 
 			when SAMP_2 =>
 				if (vIn = '1') then
-					ns <= SAMP_2;
+					ns <= SAMP_3;
 				else
 					ns <= SAMP_2_IDLE;
 				end if;
 				
 			when SAMP_2_IDLE =>
 				if (vIn = '1') then
-					ns <= SAMP_2;
+					ns <= SAMP_3;
 				else
 					ns <= SAMP_2_IDLE;
+				end if;
+
+			when SAMP_3 =>
+				if (vIn = '1') then
+					ns <= OUT_VALID;
+				else
+					ns <= SAMP_3_IDLE;
+				end if;
+
+			when SAMP_3_IDLE =>
+				if (vIn = '1') then
+					ns <= OUT_VALID;
+				else
+					ns <= SAMP_3_IDLE;
+				end if;
+
+			when OUT_VALID =>
+				if (vIn = '1') then
+					ns <= OUT_VALID;
+				else
+					ns <= OUT_VALID_IDLE;
+				end if;
+
+			when OUT_VALID =>
+				if (vIn = '1') then
+					ns <= OUT_VALID;
+				else
+					ns <= OUT_VALID_IDLE;
 				end if;
 
 			when others => 
@@ -109,6 +141,7 @@ out_process : process(ps)
 	
 	reg_rst_n <= '1';
 	reg_en <= '0';
+	reg_out_en <= '0';
 	vOut <= '0';
 
 		case ps is
@@ -127,22 +160,42 @@ out_process : process(ps)
 				
 			when SAMP_0_IDLE =>
 				reg_en <= '0';
-				vOut <= '1';
+				vOut <= '0';
 
 			when SAMP_1 =>
 				reg_en <= '1';
-				vOut <= '1';
+				vOut <= '0';
 				
 			when SAMP_1_IDLE =>
 				reg_en <= '0';
-				vOut <= '1';
+				vOut <= '0';
 
 			when SAMP_2 =>
 				reg_en <= '1';
-				vOut <= '1';
+				vOut <= '0';
 				
 			when SAMP_2_IDLE =>
 				reg_en <= '0';
+				vOut <= '0';
+
+			when SAMP_3 =>
+				reg_en <= '0';
+				reg_out_en <= '1';
+				vOut <= '0';
+
+			when SAMP_3_IDLE =>
+				reg_en <= '0';
+				reg_out_en <= '1';
+				vOut <= '0';
+
+			when OUT_VALID =>
+				reg_en <= '1';
+				reg_out_en <= '1';
+				vOut <= '1';
+
+			when OUT_VALID_IDLE =>
+				reg_en <= '0';
+				reg_out_en <= '1';
 				vOut <= '1';
 
 			when others => 

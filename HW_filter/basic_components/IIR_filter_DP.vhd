@@ -14,6 +14,7 @@ port (
 	a : in aCoeffType;
 
 	reg_en,
+	reg_out_en,
 	reg_rst_N : in std_logic;
 
 	dOut : out std_logic_vector(nBit-1 downto 0) );
@@ -101,7 +102,7 @@ generic map (
 port map (
 	clk => clk,
 	rst_n => reg_rst_n,
-	en => reg_en,
+	en => reg_out_en,
 	d => y_k,
 	q => dOut );
 

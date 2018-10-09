@@ -65,6 +65,7 @@ port (
 	vIn : in std_logic;
 
 	reg_en,
+	reg_out_en,
 	reg_rst_N : out std_logic;
 
 	vOut : out std_logic );
@@ -77,6 +78,7 @@ port (
 	dIn : in std_logic_vector(nBit-1 downto 0);
 
 	reg_en,
+	reg_out_en,
 	reg_rst_N : in std_logic;
 
 	dOut : out std_logic_vector(nBit-1 downto 0) );
@@ -84,6 +86,7 @@ end component;
 
 signal
 reg_en,
+reg_out_en,
 reg_rst_n : std_logic;
 
 begin
@@ -94,6 +97,7 @@ port map (
 	rst_N => rst_N,
 	vIn => vIn,
 	reg_en => reg_en,
+	reg_out_en => reg_out_en,
 	reg_rst_N => reg_rst_N,
 	vOut => vOut );
 
@@ -102,6 +106,7 @@ port map (
 	clk => clk,
 	dIn => dIn,
 	reg_en => reg_en,
+	reg_out_en => reg_out_en,
 	reg_rst_N => reg_rst_N,
 	dOut => dOut );
 
