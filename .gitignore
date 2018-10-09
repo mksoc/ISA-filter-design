@@ -1,0 +1,17 @@
+# File extensions:
+*.bak
+*.rpt
+*.summary
+*.qpf
+*.qsf
+*.qws
+*.done
+*.pin
+*.pof
+*.sof
+
+# Directories global
+**/db/
+**/incremental_db/
+**/output_files/
+**/simulation/
