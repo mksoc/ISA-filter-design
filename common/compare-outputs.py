@@ -6,22 +6,23 @@ if len(sys.argv) != 3:
     print('Usage: python compare-ouputs.py <file1> <file2>')
     sys.exit(1)
 
-# read file1
-with open(sys.argv[1], 'r') as file1:
-    file1Data = []
-    for line in file1:
-        line = line.split()
-        line = [int(i) for i in line]
-        file1Data += line
+# read both files
+fileData = []
+for inFile in sys.argv[1:]: # iterate through argv excluding argv[0] (the name of this script)
+    with open(inFile, 'r') as readFile:
+        data = [int(line) for line in readFile] # read all lines as integers and save them in a list
+    fileData.append(data) # save all files in another list
 
-# read file2
-with open(sys.argv[2], 'r') as file2:
-    file2Data = []
-    for line in file2:
-        line = line.split()
-        line = [int(i) for i in line]
-        file2Data += line
+# check if every file has at least the same length
+if len(fileData[0]) != len(fileData[1]):
+    print('The files have different lengths. There is something wrong.')
+    sys.exit(1)
+else:
+    length = len(fileData[0])
 
+# 
+
+"""
 # compare number by number the two outputs
 matchCounter = 0
 errorLines = []
@@ -48,4 +49,4 @@ if errorLines:
             for line in inputs:
                 if i in errorLines:
                     errFile.write(line)
-                i += 1
+                i += 1 """
