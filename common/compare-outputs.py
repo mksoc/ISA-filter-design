@@ -8,10 +8,12 @@ if len(sys.argv) != 3:
 
 # read both files
 fileData = []
-for inFile in sys.argv[1:]: # iterate through argv excluding argv[0] (the name of this script)
+# iterate through argv excluding argv[0] (the name of this script)
+for inFile in sys.argv[1:]:
     with open(inFile, 'r') as readFile:
-        data = [int(line) for line in readFile] # read all lines as integers and save them in a list
-    fileData.append(data) # save all files in another list
+        # read all lines as integers and save them in a list
+        data = [int(line) for line in readFile]
+    fileData.append(data)  # save all files in another list
 
 # check if every file has at least the same length
 if len(fileData[0]) != len(fileData[1]):
@@ -20,33 +22,25 @@ if len(fileData[0]) != len(fileData[1]):
 else:
     length = len(fileData[0])
 
-# 
-
-"""
-# compare number by number the two outputs
+# compare files
 matchCounter = 0
-errorLines = []
-for i, j in zip(file1Data, file2Data):
-    if i == j:
+offByOneCounter = 0
+for i in range(length):
+    if fileData[0][i] == fileData[1][i]:
         matchCounter += 1
+    elif abs(fileData[0][i] - fileData[1][i]) == 1:
+        offByOneCounter += 1
+        print('Off-by-one at line {}'.format(i+1))
     else:
-        errStr = "Error at line {}".format(file2Data.index(j))
-        # save lines that generated an error
-        errorLines.append(file2Data.index(j))
-        print(errStr)
+        print('Error at line {}'.format(i+1))
 
-# print results
-outStr = "Total matches: {}/{} ({}%)".format(matchCounter, len(file2Data), 100*matchCounter/len(file2Data))
-print(outStr)
-if matchCounter == len(file2Data):
-    print("Yeeeeee!!!")
-
-# save samples that generate errors
-if errorLines:
-    i = 0
-    with open('samples.txt', 'r') as inputs:
-        with open('error_samples.txt', 'w') as errFile:
-            for line in inputs:
-                if i in errorLines:
-                    errFile.write(line)
-                i += 1 """
+# print stats
+print('=============================================')
+print('Comparison completed.')
+print('Total matches: {}/{} ({}%)'.format(matchCounter,
+                                          length, 100*matchCounter/length))
+if matchCounter == length:
+    print('Yeeeeee!!!')
+else:
+    print('Off-by-one errors: {}/{} ({}% of errors)'.format(offByOneCounter,
+                                                            length, 100*offByOneCounter/(length - matchCounter)))
