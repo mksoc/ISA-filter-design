@@ -1,0 +1,9 @@
+{signal: [
+  {name: 'clk', wave: 'p.|....'},
+  {name: 'vIn', wave: 'x0|10..'},
+  {name: 'PS', wave: 'x=|.==.', data: ["IDLE", "SAMP_0", "SAMP_0_IDLE"]},
+  {name: 'reg_en', wave: 'x0|.10.'},
+  {name: 'vOut', wave: 'x0|....'},
+],
+  config:{hscale:2},
+}
