@@ -11,7 +11,7 @@ const int a[N] = {-757, 401}; // a array
 // Perform fixed point filtering assuming direct form II
 //\param x is the new input sample
 //\return the new output sample
-int myfilter(int x)
+int iir_filter(int x)
 {
     static int sw[N];         // w shift register
     static int first_run = 0; // for cleaning the shift register
@@ -78,7 +78,7 @@ int main(int argc, char **argv)
     fscanf(fp_in, "%d", &x);
     do
     {
-        y = myfilter(x);
+        y = iir_filter(x);
         fprintf(fp_out, "%d\n", y);
         fscanf(fp_in, "%d", &x);
     } while (!feof(fp_in));
