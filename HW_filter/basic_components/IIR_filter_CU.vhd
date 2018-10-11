@@ -124,7 +124,7 @@ ns_process : process(ps, vIn)
 					ns <= OUT_VALID_IDLE;
 				end if;
 
-			when OUT_VALID =>
+			when OUT_VALID_IDLE =>
 				if (vIn = '1') then
 					ns <= OUT_VALID;
 				else

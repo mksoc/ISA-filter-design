@@ -22,32 +22,6 @@ end entity;
 
 architecture behaviour of IIR_filter_DP is
 
-component d_ff is
-port (
-	clk,
-	rst_n : in std_logic;
-
-	en : in std_logic;
-
-	d : in std_logic;
-
-	q : out std_logic );
-end component;
-
-component reg is
-generic (
-	nBit : natural := 8 );
-port (
-	clk,
-	rst_n : in std_logic;
-
-	en : in std_logic;
-
-	d : in std_logic_vector(nBit-1 downto 0);
-
-	q : out std_logic_vector(nBit-1 downto 0) );
-end component;
-
 signal
 x_k,
 fb,
@@ -114,6 +88,8 @@ process (w, b(0))
 	variable in1 : signed(nBit-1 downto 0) := signed(b(0));
 	variable out0 : signed(2*nBit-1 downto 0) := in0 * in1;
 begin
+	in0 := signed(w);
+	in1 := signed(b(0));
 	out0 := in0 * in1;
 	w_b0 <= std_logic_vector(out0(nBit-1 downto 0));
 end process;
@@ -124,6 +100,8 @@ process (sw0, b(1))
 	variable in1 : signed(nBit-1 downto 0) := signed(b(1));
 	variable out0 : signed(2*nBit-1 downto 0) := in0 * in1;
 begin
+	in0 := signed(sw0);
+	in1 := signed(b(1));
 	out0 := in0 * in1;
 	sw0_b1 <= std_logic_vector(out0(nBit-1 downto 0));
 end process;
@@ -134,6 +112,8 @@ process (sw1, b(2))
 	variable in1 : signed(nBit-1 downto 0) := signed(b(2));
 	variable out0 : signed(2*nBit-1 downto 0) := in0 * in1;
 begin
+	in0 := signed(sw1);
+	in1 := signed(b(2));
 	out0 := in0 * in1;
 	sw1_b2 <= std_logic_vector(out0(nBit-1 downto 0));
 end process;
@@ -144,6 +124,8 @@ process (sw0, a(1))
 	variable in1 : signed(nBit-1 downto 0) := signed(a(1));
 	variable out0 : signed(2*nBit-1 downto 0) := in0 * in1;
 begin
+	in0 := signed(sw0);
+	in1 := signed(a(1));
 	out0 := in0 * in1;
 	sw0_a1 <= std_logic_vector(out0(nBit-1 downto 0));
 end process;
@@ -154,6 +136,8 @@ process (sw1, a(2))
 	variable in1 : signed(nBit-1 downto 0) := signed(a(2));
 	variable out0 : signed(2*nBit-1 downto 0) := in0 * in1;
 begin
+	in0 := signed(sw1);
+	in1 := signed(a(2));
 	out0 := in0 * in1;
 	sw1_a2 <= std_logic_vector(out0(nBit-1 downto 0));
 end process;
@@ -166,6 +150,8 @@ process (x_k, fb)
 	variable in1 : signed(nBit-1 downto 0) := signed(fb);
 	variable out0 : signed(nBit-1 downto 0) := in0 + in1;
 begin
+	in0 := signed(x_k);
+	in1 := signed(fb);
 	out0 := in0 + in1;
 	w <= std_logic_vector(out0);
 end process;
@@ -176,6 +162,8 @@ process (sw0_a1, sw1_a2)
 	variable in1 : signed(nBit-1 downto 0) := signed(sw1_a2);
 	variable out0 : signed(nBit-1 downto 0) := in0 + in1;
 begin
+	in0 := signed(sw0_a1);
+	in1 := signed(sw1_a2);
 	out0 := in0 + in1;
 	fb <= std_logic_vector(out0);
 end process;
@@ -186,6 +174,8 @@ process (sw0_b1, sw1_b2)
 	variable in1 : signed(nBit-1 downto 0) := signed(sw1_b2);
 	variable out0 : signed(nBit-1 downto 0) := in0 + in1;
 begin
+	in0 := signed(sw0_b1);
+	in1 := signed(sw1_b2);
 	out0 := in0 + in1;
 	ff <= std_logic_vector(out0);
 end process;
@@ -196,6 +186,8 @@ process (w_b0, ff)
 	variable in1 : signed(nBit-1 downto 0) := signed(ff);
 	variable out0 : signed(nBit-1 downto 0) := in0 + in1;
 begin
+	in0 := signed(w_b0);
+	in1 := signed(ff);
 	out0 := in0 + in1;
 	y_k <= std_logic_vector(out0);
 end process;
