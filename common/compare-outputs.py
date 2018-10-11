@@ -3,7 +3,7 @@ import sys
 # check if both files are given as arguments
 if len(sys.argv) != 3:
     print('Error: not enough input arguments.')
-    print('Usage: python compare-ouputs.py <file1> <file2>')
+    print('Usage: python compare-outputs.py <file1> <file2>')
     sys.exit(1)
 
 # read both files
