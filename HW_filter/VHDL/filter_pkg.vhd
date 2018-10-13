@@ -1,40 +1,28 @@
 library ieee;
 use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 
--- nBit : parallelism of data of the filter
--- fOrder : order of the filter
--- bCoeffType, aCoeffType : compact form to express the coefficients. They depend on fOrder
+-- NB : parallelism of data of the filter
+-- N : order of the filter
+-- bCoeffType, aCoeffType : compact form to express the coefficients. They depend on N
 
 package filter_pkg is
-	constant nBit : natural := 12;
-	constant fOrder : positive := 3;
+	constant NB : natural := 12;
+	constant N : positive := 3;
 
-	type bCoeffType is array (0 to fOrder-1) of std_logic_vector(nBit-1 downto 0);
-	type aCoeffType is array (1 to fOrder-1) of std_logic_vector(nBit-1 downto 0);
+	type bCoeffType is array (0 to N-1) of signed(NB-1 downto 0);
+	type aCoeffType is array (1 to N-1) of signed(NB-1 downto 0);
 
-	component d_ff is
-	port (
-		clk,
-		rst_n : in std_logic;
-
-		en : in std_logic;
-
-		d : in std_logic;
-
-		q : out std_logic );
+	component d_flip_flop is
+		port (D: in std_logic;
+			  clock, clear, enable: in std_logic;
+			  Q: out std_logic;
 	end component;
 
 	component reg is
-	generic (
-		nBit : natural := 8 );
-	port (
-		clk,
-		rst_n : in std_logic;
-
-		en : in std_logic;
-
-		d : in std_logic_vector(nBit-1 downto 0);
-
-		q : out std_logic_vector(nBit-1 downto 0) );
+		generic (N: positive := 8);
+		port (D: in std_logic_vector(N-1 downto 0);
+			  clock, clear, enable: in std_logic;
+			  Q: out std_logic_vector(N-1 downto 0));
 	end component;
 end filter_pkg;
