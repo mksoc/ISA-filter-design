@@ -1,41 +1,39 @@
 library ieee;
 use ieee.std_logic_1164.all;
-use ieee.std_logic_arith.all;
-use ieee.std_logic_unsigned.all;
 
 entity clk_gen is
-  port (
-    END_SIM : in  std_logic;
-    CLK     : out std_logic;
-    RST_n   : out std_logic);
+    port (
+        end_sim   : in std_logic;
+        clock     : out std_logic;
+        reset_n   : out std_logic);
 end clk_gen;
 
-architecture beh of clk_gen is
+architecture behavior of clk_gen is
 
-  constant Ts : time := 10 ns;
-  
-  signal CLK_i : std_logic;
-  
-begin  -- beh
+    constant Ts: time := 10 ns;
 
-  process
-  begin  -- process
-    if (CLK_i = 'U') then
-      CLK_i <= '0';
-    else
-      CLK_i <= not(CLK_i);
-    end if;
-    wait for Ts/2;
-  end process;
+    signal clock_i: std_logic;
 
-  CLK <= CLK_i and not(END_SIM);
+begin -- behavior
 
-  process
-  begin  -- process
-    RST_n <= '0';
-    wait for 3*Ts/2;
-    RST_n <= '1';
-    wait;
-  end process;
+    clock_generation: process
+    begin -- process
+        if (clock_i = 'U') then
+            clock_i <= '0';
+        else
+            clock_i <= not(clock_i);
+        end if;
+        wait for Ts/2;
+    end process;
 
-end beh;
+    clock <= clock_i and not(end_sim);
+
+    reset_generation: process
+    begin -- process
+        reset_n <= '0';
+        wait for 3 * Ts/2;
+        reset_n <= '1';
+        wait;
+    end process;
+
+end behavior;
