@@ -63,30 +63,30 @@ begin
 		);
 
 	-- signal assignments 
-	fb_gen: for i in fb_array'range generate 		-- CHECK PARALLELISM	
-		fb_array(i) <= a(i) * sw(i);
+	fb_gen: for i in fb_array'range generate 	
+		fb_array(i) <= multiplyAndRound(a(i) * sw(i));
 	end generate;
 
 	ff_gen: for i in ff_array'range generate
-		ff_array(i) <= b(i) * sw(i);
+		ff_array(i) <= multiplyAndRound(b(i) * sw(i));
 	end generate;
 
 	fb_process: process(fb_array)
-		variable sum: signed(fb'left + 1 downto 0) := (others => '0');
+		variable sum: signed(fb'high + 1 downto 0) := (others => '0');
 	begin
 		for i in fb_array'range loop
 			sum := sum + fb_array(i);
 		end loop;	
-		fb <= sum;
+		fb <= sum((sum'high - 1) downto 0);
 	end process;
 
 	ff_process: process(ff_array)
-		variable sum: signed(ff'left + 1 downto 0) := (others => '0');
+		variable sum: signed(ff'high + 1 downto 0) := (others => '0');
 	begin
-		for i in (ff_array'left + 1 to ff_array'right) loop
+		for i in (ff_array'low + 1 to ff_array'high) loop
 			sum := sum + ff_array(i);
 		end loop;	
-		ff <= sum;
+		ff <= sum((sum'high - 1) downto 0);
 	end process;
 
 	sw(0) <= x + fb;
