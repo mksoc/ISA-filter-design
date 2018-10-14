@@ -16,8 +16,9 @@ end entity;
 
 architecture behaviour of iir_filterDP is
 	-- signal declarations (refer to scheme for the naming used)
-	signal x, fb1, fb2, fb, w, ff0, ff1, ff2, ff, y: signed(NB-1 downto 0);
-	signal sw: aCoeffType;
+	signal x, fb, ff, y: signed(NB-1 downto 0);
+	signal fb_array: aCoeffType;
+	signal ff_array, sw: bCoeffType;
 
 begin
 	-- component instantiations
@@ -61,124 +62,35 @@ begin
 			signed(Q) => dOut
 		);
 
-	-- signal assignments
-	
+	-- signal assignments 
+	fb_gen: for i in fb_array'range generate 		-- CHECK PARALLELISM	
+		fb_array(i) <= a(i) * sw(i);
+	end generate;
 
+	ff_gen: for i in ff_array'range generate
+		ff_array(i) <= b(i) * sw(i);
+	end generate;
 
--- GO ON FROM HERE!
+	fb_process: process(fb_array)
+		variable sum: signed(fb'left + 1 downto 0) := (others => '0');
+	begin
+		for i in fb_array'range loop
+			sum := sum + fb_array(i);
+		end loop;	
+		fb <= sum;
+	end process;
 
+	ff_process: process(ff_array)
+		variable sum: signed(ff'left + 1 downto 0) := (others => '0');
+	begin
+		for i in (ff_array'left + 1 to ff_array'right) loop
+			sum := sum + ff_array(i);
+		end loop;	
+		ff <= sum;
+	end process;
 
+	sw(0) <= x + fb;
+	y <= ff_array(0) + ff;
 
--- multipliers
-
-b0_mult : 
-process (w, b(0))
-	variable in0 : signed(NB-1 downto 0) := signed(w);
-	variable in1 : signed(NB-1 downto 0) := signed(b(0));
-	variable out0 : signed(2*NB-1 downto 0) := in0 * in1;
-begin
-	in0 := signed(w);
-	in1 := signed(b(0));
-	out0 := in0 * in1;
-	w_b0 <= std_logic_vector(out0(NB-1 downto 0));
-end process;
-
-b1_mult : 
-process (sw0, b(1))
-	variable in0 : signed(NB-1 downto 0) := signed(sw0);
-	variable in1 : signed(NB-1 downto 0) := signed(b(1));
-	variable out0 : signed(2*NB-1 downto 0) := in0 * in1;
-begin
-	in0 := signed(sw0);
-	in1 := signed(b(1));
-	out0 := in0 * in1;
-	sw0_b1 <= std_logic_vector(out0(NB-1 downto 0));
-end process;
-
-b2_mult : 
-process (sw1, b(2))
-	variable in0 : signed(NB-1 downto 0) := signed(sw1);
-	variable in1 : signed(NB-1 downto 0) := signed(b(2));
-	variable out0 : signed(2*NB-1 downto 0) := in0 * in1;
-begin
-	in0 := signed(sw1);
-	in1 := signed(b(2));
-	out0 := in0 * in1;
-	sw1_b2 <= std_logic_vector(out0(NB-1 downto 0));
-end process;
-
-a0_mult :
-process (sw0, a(1))
-	variable in0 : signed(NB-1 downto 0) := signed(sw0);
-	variable in1 : signed(NB-1 downto 0) := signed(a(1));
-	variable out0 : signed(2*NB-1 downto 0) := in0 * in1;
-begin
-	in0 := signed(sw0);
-	in1 := signed(a(1));
-	out0 := in0 * in1;
-	sw0_a1 <= std_logic_vector(out0(NB-1 downto 0));
-end process;
-
-a1_mult :
-process (sw1, a(2))
-	variable in0 : signed(NB-1 downto 0) := signed(sw1);
-	variable in1 : signed(NB-1 downto 0) := signed(a(2));
-	variable out0 : signed(2*NB-1 downto 0) := in0 * in1;
-begin
-	in0 := signed(sw1);
-	in1 := signed(a(2));
-	out0 := in0 * in1;
-	sw1_a2 <= std_logic_vector(out0(NB-1 downto 0));
-end process;
-
--- adders
-
-w_add :
-process (x_k, fb)
-	variable in0 : signed(NB-1 downto 0) := signed(x_k);
-	variable in1 : signed(NB-1 downto 0) := signed(fb);
-	variable out0 : signed(NB-1 downto 0) := in0 + in1;
-begin
-	in0 := signed(x_k);
-	in1 := signed(fb);
-	out0 := in0 + in1;
-	w <= std_logic_vector(out0);
-end process;
-
-fb_add :
-process (sw0_a1, sw1_a2)
-	variable in0 : signed(NB-1 downto 0) := signed(sw0_a1);
-	variable in1 : signed(NB-1 downto 0) := signed(sw1_a2);
-	variable out0 : signed(NB-1 downto 0) := in0 + in1;
-begin
-	in0 := signed(sw0_a1);
-	in1 := signed(sw1_a2);
-	out0 := in0 + in1;
-	fb <= std_logic_vector(out0);
-end process;
-
-ff_add :
-process (sw0_b1, sw1_b2)
-	variable in0 : signed(NB-1 downto 0) := signed(sw0_b1);
-	variable in1 : signed(NB-1 downto 0) := signed(sw1_b2);
-	variable out0 : signed(NB-1 downto 0) := in0 + in1;
-begin
-	in0 := signed(sw0_b1);
-	in1 := signed(sw1_b2);
-	out0 := in0 + in1;
-	ff <= std_logic_vector(out0);
-end process;
-
-y_k_add :
-process (w_b0, ff)
-	variable in0 : signed(NB-1 downto 0) := signed(w_b0);
-	variable in1 : signed(NB-1 downto 0) := signed(ff);
-	variable out0 : signed(NB-1 downto 0) := in0 + in1;
-begin
-	in0 := signed(w_b0);
-	in1 := signed(ff);
-	out0 := in0 + in1;
-	y_k <= std_logic_vector(out0);
-end process;
 
 end architecture;
