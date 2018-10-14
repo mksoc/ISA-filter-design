@@ -59,7 +59,7 @@ architecture structure of iir_filter is
             a: in aCoeffType;
             dOut: out dataType;
             -- controls from CU
-            regs_clr, inReg_en, reg_sw1_en, reg_sw2_en, outReg_en: in std_logic
+            regs_clr, inReg_en, reg_sw0_en, reg_sw1_en, outReg_en: in std_logic
         );
     end component;
 
@@ -69,14 +69,14 @@ architecture structure of iir_filter is
             clk, rst_n: in std_logic;
             vIn: in std_logic;
             -- controls to DP
-            regs_clr, inReg_en, reg_sw1_en, reg_sw1_en, outReg_en: in std_logic;
+            regs_clr, inReg_en, reg_sw0_en, reg_sw1_en, outReg_en: in std_logic;
             -- to external world
             vOut : out std_logic 
         );
     end component;
 
     -- signal declarations
-    regs_clr_int, inReg_en_int, reg_sw1_en_int, reg_sw2_en_int, outReg_en_int: in std_logic;
+    regs_clr_int, inReg_en_int, reg_sw0_en_int, reg_sw1_en_int, outReg_en_int: in std_logic;
 
 begin
     -- components instantiations
@@ -89,8 +89,8 @@ begin
             dOut => dOut,
             regs_clr => regs_clr_int,
             inReg_en => inReg_en_int,
+            reg_sw0_en => reg_sw0_en_int,
             reg_sw1_en => reg_sw1_en_int,
-            reg_sw2_en => reg_sw2_en_int,
             outReg_en => outReg_en_int
            );
 
@@ -101,8 +101,8 @@ begin
             vIn => vIn,
             regs_clr => regs_clr_int,
             inReg_en => inReg_en_int,
+            reg_sw0_en => reg_sw0_en_int,
             reg_sw1_en => reg_sw1_en_int,
-            reg_sw2_en => reg_sw2_en_int,
             outReg_en => outReg_en_int,
             vOut => vOut
         );

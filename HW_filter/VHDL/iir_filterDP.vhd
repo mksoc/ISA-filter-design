@@ -10,15 +10,15 @@ entity iir_filterDP is
 		a: in aCoeffType;
 		dOut: out dataType;
 		-- controls from CU
-		regs_clr, inReg_en, reg_sw1_en, reg_sw2_en, outReg_en: in std_logic
+		regs_clr, inReg_en, reg_sw0_en, reg_sw1_en, outReg_en: in std_logic
 	);
 end entity;
 
 architecture behavior of iir_filterDP is
 	-- signal declarations (refer to scheme for the naming used)
-	signal x, fb, ff, y: dataType;
-	signal fb_array: aCoeffType;
-	signal ff_array, sw: bCoeffType;
+	signal x, fb1, fb2, ff0, ff1, ff2: dataType;
+	signal fb, ff: signed(dataType'high + 1 downto 0);
+	signal w, sw0, sw1, y: signed(dataType'high + 2 downto 0);
 
 begin
 	-- component instantiations
@@ -32,30 +32,30 @@ begin
 			signed(Q) => x
 		);
 	
-	reg_sw1: reg
-		generic map (N => NB)
+	reg_sw0: reg
+		generic map (N => NB+2)
 		port map (
 			D => std_logic_vector(w),
 			clock => clk,
 			clear => regs_clr,
-			enable => reg_sw1_en,
-			signed(Q) => sw(1)
+			enable => reg_sw0_en,
+			signed(Q) => sw0
 		);
 
-	reg_sw2: reg
-		generic map (N => NB)
+	reg_sw1: reg
+		generic map (N => NB+2)
 		port map (
-			D => std_logic_vector(sw(1)),
+			D => std_logic_vector(sw0),
 			clock => clk,
 			clear => regs_clr,
-			enable => reg_sw2_en,
-			signed(Q) => sw(2)
+			enable => reg_sw1_en,
+			signed(Q) => sw1
 		);
 
 	outReg: reg
 		generic map (N => NB)
 		port map (
-			D => std_logic_vector(y),
+			D => std_logic_vector(y(y'high downto (y'low + 2))),
 			clock => clk,
 			clear => regs_clr,
 			enable => outReg_en,
@@ -63,34 +63,14 @@ begin
 		);
 
 	-- signal assignments 
-	fb_gen: for i in fb_array'range generate 	
-		fb_array(i) <= multiplyAndRound(a(i) * sw(i));
-	end generate;
-
-	ff_gen: for i in ff_array'range generate
-		ff_array(i) <= multiplyAndRound(b(i) * sw(i));
-	end generate;
-
-	fb_process: process(fb_array)
-		variable sum: signed(fb'high + 1 downto 0) := (others => '0');
-	begin
-		for i in fb_array'range loop
-			sum := sum + fb_array(i);
-		end loop;	
-		fb <= sum((sum'high - 1) downto 0);
-	end process;
-
-	ff_process: process(ff_array)
-		variable sum: signed(ff'high + 1 downto 0) := (others => '0');
-	begin
-		for i in (ff_array'low + 1 to ff_array'high) loop
-			sum := sum + ff_array(i);
-		end loop;	
-		ff <= sum((sum'high - 1) downto 0);
-	end process;
-
-	sw(0) <= x + fb;
-	y <= ff_array(0) + ff;
-
-
+	fb1 <= multiplyAndRound(a(1), sw0);
+	fb2 <= multiplyAndRound(a(2), sw1);
+	ff1 <= multiplyAndRound(b(1), sw0);
+	ff2 <= multiplyAndRound(b(2), sw1);
+	fb <= fb1 + fb2;
+	ff <= ff1 + ff2;
+	w <= x + fb;
+	ff0 <= multiplyAndRound(b(0), w);
+	y <= ff0 + ff;
+	
 end architecture behavior;

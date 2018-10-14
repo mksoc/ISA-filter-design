@@ -7,7 +7,7 @@ entity iir_filterCU is
         clk, rst_n: in std_logic;
         vIn: in std_logic;
         -- controls to DP
-        regs_clr, inReg_en, reg_sw1_en, reg_sw1_en, outReg_en: in std_logic;
+        regs_clr, inReg_en, reg_sw0_en, reg_sw0_en, outReg_en: in std_logic;
         -- to external world
         vOut : out std_logic 
     );
@@ -154,8 +154,8 @@ begin
             -- default assignments        
             regs_clr <= '0';
             inReg_en <= vIn; -- vIn directly to input register enable due to timing constraints
+            reg_sw0_en <= '0';
             reg_sw1_en <= '0';
-            reg_sw2_en <= '0';
             outReg_en <= '0';
             vOut <= '0';
 
@@ -164,44 +164,44 @@ begin
                     regs_clr <= '1';
 
                 when STEP1 => 
-                    reg_sw1_en <= '1'; 
+                    reg_sw0_en <= '1'; 
                     
                 when STEP2_A => 
+                    reg_sw0_en <= '1';
                     reg_sw1_en <= '1';
-                    reg_sw2_en <= '1';
 
                 when STEP2_B => 
-                    reg_sw2_en <= '1';
+                    reg_sw1_en <= '1';
 
                 when STEP3_A => 
+                    reg_sw0_en <= '1';
                     reg_sw1_en <= '1';
-                    reg_sw2_en <= '1';
                     outReg_en <= '1';
 
                 when STEP3_B => 
-                    reg_sw2_en <= '1';
+                    reg_sw1_en <= '1';
                     outReg_en <= '1';
 
                 when STEP3_C => 
-                    reg_sw1_en <= '1';
+                    reg_sw0_en <= '1';
                     outReg_en <= '1';
 
                 when STEP3_D => 
                     outReg_en <= '1';
 
                 when STEP4_A => 
+                    reg_sw0_en <= '1';
                     reg_sw1_en <= '1';
-                    reg_sw2_en <= '1';
                     outReg_en <= '1';
                     vOut <= '1';
 
                 when STEP4_B => 
-                    reg_sw2_en <= '1';
+                    reg_sw1_en <= '1';
                     outReg_en <= '1';
                     vOut <= '1';
 
                 when STEP4_C => 
-                    reg_sw1_en <= '1';
+                    reg_sw0_en <= '1';
                     outReg_en <= '1';
                     vOut <= '1';
 
@@ -210,16 +210,16 @@ begin
                     vOut <= '1';
 
                 when STEP4_E => 
+                    reg_sw0_en <= '1';
                     reg_sw1_en <= '1';
-                    reg_sw2_en <= '1';
                     vOut <= '1';
 
                 when STEP4_F => 
-                    reg_sw2_en <= '1';
+                    reg_sw1_en <= '1';
                     vOut <= '1';
 
                 when STEP4_G => 
-                    reg_sw1_en <= '1';
+                    reg_sw0_en <= '1';
                     vOut <= '1';
 
                 when STEP4_H => 
