@@ -2,19 +2,19 @@ library work;
 use work.filter_pkg.all;
 
 entity iir_filterDP is
-port (
-	-- from external world
-	clk : in std_logic;
-	dIn : in dataType;
-	b : in bCoeffType;
-	a : in aCoeffType;
-	dOut : out dataType;
-	-- controls from CU
-	regs_clr, inReg_en, reg_sw0_en, reg_sw1_en, outReg_en: in std_logic
-);
+	port (
+		-- from external world
+		clk: in std_logic;
+		dIn: in dataType;
+		b: in bCoeffType;
+		a: in aCoeffType;
+		dOut: out dataType;
+		-- controls from CU
+		regs_clr, inReg_en, reg_sw1_en, reg_sw2_en, outReg_en: in std_logic
+	);
 end entity;
 
-architecture behaviour of iir_filterDP is
+architecture behavior of iir_filterDP is
 	-- signal declarations (refer to scheme for the naming used)
 	signal x, fb, ff, y: dataType;
 	signal fb_array: aCoeffType;
@@ -32,23 +32,23 @@ begin
 			signed(Q) => x
 		);
 	
-	reg_sw0: reg
+	reg_sw1: reg
 		generic map (N => NB)
 		port map (
 			D => std_logic_vector(w),
 			clock => clk,
 			clear => regs_clr,
-			enable => reg_sw0_en,
+			enable => reg_sw1_en,
 			signed(Q) => sw(1)
 		);
 
-	reg_sw1: reg
+	reg_sw2: reg
 		generic map (N => NB)
 		port map (
 			D => std_logic_vector(sw(1)),
 			clock => clk,
 			clear => regs_clr,
-			enable => reg_sw1_en,
+			enable => reg_sw2_en,
 			signed(Q) => sw(2)
 		);
 
@@ -93,4 +93,4 @@ begin
 	y <= ff_array(0) + ff;
 
 
-end architecture;
+end architecture behavior;
