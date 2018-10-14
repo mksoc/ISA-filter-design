@@ -3,62 +3,71 @@ use work.filter_pkg.all;
 
 entity iir_filterDP is
 port (
+	-- from external world
 	clk : in std_logic;
 	dIn : in signed(NB-1 downto 0);
 	b : in bCoeffType;
 	a : in aCoeffType;
-	dOut : out signed(NB-1 downto 0) );
+	dOut : out signed(NB-1 downto 0);
+	-- controls from CU
+	regs_clr, inReg_en, reg_sw0_en, reg_sw1_en, outReg_en: in std_logic
+);
 end entity;
 
 architecture behaviour of iir_filterDP is
 	-- signal declarations (refer to scheme for the naming used)
-	signal x_k,	fb,	ff,	w, w_b0, sw0, sw1, sw0_a1, sw0_b1, sw1_a2, sw1_b2, y_k: signed(NB-1 downto 0);
+	signal x, fb1, fb2, fb, w, ff0, ff1, ff2, ff, y: signed(NB-1 downto 0);
+	signal sw: aCoeffType;
 
 begin
+	-- component instantiations
+	inReg: reg
+		generic map (N => NB)
+		port map (
+			D => std_logic_vector(dIn),
+			clock => clk,
+			clear => regs_clr,
+			enable => inReg_en,
+			signed(Q) => x
+		);
+	
+	reg_sw0: reg
+		generic map (N => NB)
+		port map (
+			D => std_logic_vector(w),
+			clock => clk,
+			clear => regs_clr,
+			enable => reg_sw0_en,
+			signed(Q) => sw(1)
+		);
+
+	reg_sw1: reg
+		generic map (N => NB)
+		port map (
+			D => std_logic_vector(sw(1)),
+			clock => clk,
+			clear => regs_clr,
+			enable => reg_sw1_en,
+			signed(Q) => sw(2)
+		);
+
+	outReg: reg
+		generic map (N => NB)
+		port map (
+			D => std_logic_vector(y),
+			clock => clk,
+			clear => regs_clr,
+			enable => outReg_en,
+			signed(Q) => dOut
+		);
+
+	-- signal assignments
+	
+
 
 -- GO ON FROM HERE!
 
--- registers
 
-reg_in : reg 
-generic map (
-	NB => NB )
-port map (
-	clk => clk,
-	rst_n => reg_rst_n,
-	en => reg_en,
-	d => dIn,
-	q => x_k );
-
-reg_sw0 : reg 
-generic map (
-	NB => NB )
-port map (
-	clk => clk,
-	rst_n => reg_rst_n,
-	en => reg_en,
-	d => w,
-	q => sw0 );
-
-reg_sw1 : reg 
-generic map (
-	NB => NB )
-port map (
-	clk => clk,
-	rst_n => reg_rst_n,
-	en => reg_en,
-	d => sw0,
-	q => sw1 );
-
-reg_out : reg 
-generic map (
-	NB => NB )
-port map (
-	clk => clk,
-	rst_n => reg_rst_n,
-	en => reg_out_en,
-	d => y_k,
-	q => dOut );
 
 -- multipliers
 

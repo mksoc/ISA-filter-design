@@ -14,7 +14,7 @@ architecture behavior of reg is
 begin
     process (clock, clear)
     begin
-		if (clear = '0') then
+		if (clear = '1') then
 			Q <= (others => '0');
 		else
 			if (clock'event and clock = '1') then
