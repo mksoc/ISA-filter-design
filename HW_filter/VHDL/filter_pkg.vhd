@@ -8,8 +8,9 @@ package filter_pkg is
 	constant N : positive := 3; -- filter order
 
 	-- types declarations
-	type bCoeffType is array (0 to N-1) of signed(NB-1 downto 0);
-	type aCoeffType is array (1 to N-1) of signed(NB-1 downto 0);
+	subtype dataType is signed(NB-1 downto 0);
+	type bCoeffType is array (0 to N-1) of dataType;
+	type aCoeffType is array (1 to N-1) of dataType;
 
 	-- components declarations
 	component reg is
@@ -18,4 +19,15 @@ package filter_pkg is
 			  clock, clear, enable: in std_logic;
 			  Q: out std_logic_vector(N-1 downto 0));
 	end component;
-end filter_pkg;
+
+	-- functions declarations
+	function multiplyAndRound (coeff: dataType, sample: dataType) return dataType;
+end package filter_pkg;
+
+package body filter_pkg is
+	function multiplyAndRound (coeff: dataType, sample: dataType) return dataType is
+		variable temp: signed((2*dataType'length - 1) downto 0) := coeff * sample;
+	begin
+		return temp(temp'high downto (temp'high - dataType'high));
+	end function;
+end package body filter_pkg;

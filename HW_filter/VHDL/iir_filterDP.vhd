@@ -5,10 +5,10 @@ entity iir_filterDP is
 port (
 	-- from external world
 	clk : in std_logic;
-	dIn : in signed(NB-1 downto 0);
+	dIn : in dataType;
 	b : in bCoeffType;
 	a : in aCoeffType;
-	dOut : out signed(NB-1 downto 0);
+	dOut : out dataType;
 	-- controls from CU
 	regs_clr, inReg_en, reg_sw0_en, reg_sw1_en, outReg_en: in std_logic
 );
@@ -16,7 +16,7 @@ end entity;
 
 architecture behaviour of iir_filterDP is
 	-- signal declarations (refer to scheme for the naming used)
-	signal x, fb, ff, y: signed(NB-1 downto 0);
+	signal x, fb, ff, y: dataType;
 	signal fb_array: aCoeffType;
 	signal ff_array, sw: bCoeffType;
 
