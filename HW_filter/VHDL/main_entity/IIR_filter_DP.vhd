@@ -91,7 +91,7 @@ begin
 	in0 := signed(w);
 	in1 := signed(b(0));
 	out0 := in0 * in1;
-	w_b0 <= std_logic_vector(out0(nBit-1 downto 0));
+	w_b0 <= std_logic_vector(out0(2*nBit-1 downto nBit));
 end process;
 
 b1_mult : 
@@ -103,7 +103,7 @@ begin
 	in0 := signed(sw0);
 	in1 := signed(b(1));
 	out0 := in0 * in1;
-	sw0_b1 <= std_logic_vector(out0(nBit-1 downto 0));
+	sw0_b1 <= std_logic_vector(out0(2*nBit-1 downto nBit));
 end process;
 
 b2_mult : 
@@ -115,7 +115,7 @@ begin
 	in0 := signed(sw1);
 	in1 := signed(b(2));
 	out0 := in0 * in1;
-	sw1_b2 <= std_logic_vector(out0(nBit-1 downto 0));
+	sw1_b2 <= std_logic_vector(out0(2*nBit-1 downto nBit));
 end process;
 
 a0_mult :
@@ -127,7 +127,7 @@ begin
 	in0 := signed(sw0);
 	in1 := signed(a(1));
 	out0 := in0 * in1;
-	sw0_a1 <= std_logic_vector(out0(nBit-1 downto 0));
+	sw0_a1 <= std_logic_vector(out0(2*nBit-1 downto nBit));
 end process;
 
 a1_mult :
@@ -139,7 +139,7 @@ begin
 	in0 := signed(sw1);
 	in1 := signed(a(2));
 	out0 := in0 * in1;
-	sw1_a2 <= std_logic_vector(out0(nBit-1 downto 0));
+	sw1_a2 <= std_logic_vector(out0(2*nBit-1 downto nBit));
 end process;
 
 -- adders
