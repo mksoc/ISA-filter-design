@@ -11,10 +11,10 @@ use work.filter_pkg.all;
 
 entity data_sink is
     port (
-    clock   : in std_logic;
-    reset_n : in std_logic;
-    vIn     : in std_logic;
-    dIn     : in dataType;
+        clock   : in std_logic;
+        reset_n : in std_logic;
+        vIn     : in std_logic;
+        dIn     : in dataType;
 end data_sink;
 
 architecture behavior of data_sink is
