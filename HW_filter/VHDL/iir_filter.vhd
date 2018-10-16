@@ -114,7 +114,7 @@ begin
     );
 
     -- signal assignments
-    b_int <= (signed(b((3*NB - 1) downto 2*NB), signed(b((2*NB - 1) downto NB), signed(b((NB - 1) downto 0)));
-    a_int <= (signed(a((2*NB - 1) downto NB), signed(b((NB - 1) downto 0)));
+    b_int <= (signed(b((3*NB - 1) downto 2*NB)), signed(b((2*NB - 1) downto NB)), signed(b((NB - 1) downto 0)));
+    a_int <= (signed(a((2*NB - 1) downto NB)), signed(b((NB - 1) downto 0)));
 
 end architecture structure;
