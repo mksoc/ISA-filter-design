@@ -5,11 +5,11 @@ module iir_filterTB ();
 
 	wire clk_i;
    	wire rst_n_i;
-   	wire [NB:0] dIn_i;
+   	wire [NB-1:0] dIn_i;
    	wire vIn_i;
    	wire [3*NB:0] b_i;
 	wire [2*NB:0] a_i;
-   	wire [NB:0] dOut_i;
+   	wire [NB-1:0] dOut_i;
    	wire vOut_i;
    	wire end_sim_i;
 
@@ -24,8 +24,8 @@ module iir_filterTB ();
         .reset_n(rst_n_i),
         .vOut(vIn_i),
         .dOut(dIn_i),  
-        .b(a_i),
-        .a(b_i),
+        .b(b_i),
+        .a(a_i),
         .end_sim(end_sim_i)
 	);
 
@@ -34,8 +34,8 @@ module iir_filterTB ();
         .rst_n(rst_n_i),
         .vIn(vIn_i),
         .dIn(dIn_i),   
-        .b(a_i),
-        .a(b_i),
+        .b(b_i),
+        .a(a_i),
         .dOut(dOut_i),
         .vOut(vOut_i)
 	);
