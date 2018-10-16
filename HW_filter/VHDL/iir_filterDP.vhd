@@ -36,7 +36,7 @@ begin
 		);
 	
 	reg_sw0: reg
-		generic map (N => NB+2)
+		generic map (N => NB)
 		port map (
 			D => std_logic_vector(w),
 			clock => clk,
@@ -46,7 +46,7 @@ begin
 		);
 
 	reg_sw1: reg
-		generic map (N => NB+2)
+		generic map (N => NB)
 		port map (
 			D => std_logic_vector(sw0),
 			clock => clk,
