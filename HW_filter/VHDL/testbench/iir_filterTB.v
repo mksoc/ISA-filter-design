@@ -1,6 +1,6 @@
 //`timescale 1ns
 
-module tb_fir ();
+module iir_filterTB ();
 	localparam NB = 12;
 
 	wire clk_i;
