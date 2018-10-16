@@ -23,8 +23,8 @@ end data_maker;
 
 architecture behavior of data_maker is
     -- signal declarations
-    b_int: bCoeffType;
-    a_int: aCoeffType;
+    signal b_int: bCoeffType;
+    signal a_int: aCoeffType;
 
     constant tco       : time := 1 ns;
 
