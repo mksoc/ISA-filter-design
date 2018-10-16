@@ -32,6 +32,10 @@
 -------------------
 -- dOut : output sample line. dOut represent a single output of a signal, coded on NB bits in 2's complement
 
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
 library work;
 use work.filter_pkg.all;
 
