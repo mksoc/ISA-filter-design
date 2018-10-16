@@ -26,8 +26,8 @@ end package filter_pkg;
 
 package body filter_pkg is
 	function multiplyAndRound(coeff: dataType; sample: signed) return dataType is
-		variable temp: signed((2*coeff'length - 1) downto 0) := coeff * sample;
+		variable temp: signed((2*dataType'length - 1) downto 0) := coeff * sample;
 	begin
-		return temp(temp'high downto (temp'high - coeff'high));
+		return temp((temp'high - 1) downto (temp'high - dataType'length));
 	end function;
 end package body filter_pkg;
