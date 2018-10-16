@@ -7,7 +7,7 @@ entity iir_filterCU is
         clk, rst_n: in std_logic;
         vIn: in std_logic;
         -- controls to DP
-        regs_clr, inReg_en, reg_sw0_en, reg_sw0_en, outReg_en: in std_logic;
+        regs_clr, inReg_en, reg_sw0_en, reg_sw1_en, outReg_en: in std_logic;
         -- to external world
         vOut : out std_logic 
     );
