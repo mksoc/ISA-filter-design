@@ -16,7 +16,7 @@ end entity;
 
 architecture behavior of iir_filterDP is
 	-- signal declarations (refer to scheme for the naming used)
-	signal x, fb1, fb2, ff0, ff1, ff2, y: dataType;
+	signal x, sw0_a1, sw1_a2, w_b0, sw0_b1, sw1_b2, y: dataType;
 	signal fb, ff: signed(dataType'high + 1 downto 0);
 	signal w, sw0, sw1: signed(dataType'high + 2 downto 0);
 
@@ -63,14 +63,14 @@ begin
 		);
 
 	-- signal assignments 
-	fb1 <= multiplyAndRound(a(1), sw0);
-	fb2 <= multiplyAndRound(a(2), sw1);
-	ff1 <= multiplyAndRound(b(1), sw0);
-	ff2 <= multiplyAndRound(b(2), sw1);
-	fb <= fb1 + fb2;
-	ff <= ff1 + ff2;
+	sw0_a1 <= multiplyAndRound(a(1), sw0);
+	sw1_a2 <= multiplyAndRound(a(2), sw1);
+	sw0_b1 <= multiplyAndRound(b(1), sw0);
+	sw1_b2 <= multiplyAndRound(b(2), sw1);
+	fb <= sw0_a1 + sw1_a2;
+	ff <= sw0_b1 + sw1_b2;
 	w <= x + fb;
-	ff0 <= multiplyAndRound(b(0), w);
-	y <= ff0 + ff;
+	w_b0 <= multiplyAndRound(b(0), w);
+	y <= w_b0 + ff;
 	
 end architecture behavior;
