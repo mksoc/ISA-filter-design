@@ -16,9 +16,9 @@ end entity;
 
 architecture behavior of iir_filterDP is
 	-- signal declarations (refer to scheme for the naming used)
-	signal x, fb1, fb2, ff0, ff1, ff2: dataType;
+	signal x, fb1, fb2, ff0, ff1, ff2, y: dataType;
 	signal fb, ff: signed(dataType'high + 1 downto 0);
-	signal w, sw0, sw1, y: signed(dataType'high + 2 downto 0);
+	signal w, sw0, sw1: signed(dataType'high + 2 downto 0);
 
 begin
 	-- component instantiations
@@ -55,7 +55,7 @@ begin
 	outReg: reg
 		generic map (N => NB)
 		port map (
-			D => std_logic_vector(y(y'high downto (y'low + 2))),
+			D => std_logic_vector(y),
 			clock => clk,
 			clear => regs_clr,
 			enable => outReg_en,
