@@ -7,7 +7,8 @@ module tb_fir ();
    	wire rst_n_i;
    	wire [NB:0] dIn_i;
    	wire vIn_i;
-   	// CRITICAL: insert a and b coeffs arrays
+   	wire [3*NB:0] b_i;
+	wire [2*NB:0] a_i;
    	wire [NB:0] dOut_i;
    	wire vOut_i;
    	wire end_sim_i;
@@ -23,8 +24,8 @@ module tb_fir ();
         .reset_n(rst_n_i)
         .vOut(vIn_i)
         .dOut(dIn_i)  
-        .b //???
-        .a //???
+        .b(a_i)
+        .a(b_i)
         .end_sim(end_sim_i)
 	);
 
@@ -33,8 +34,8 @@ module tb_fir ();
         .rst_n(rst_n_i)
         .vIn(vIn_i)
         .dIn(dIn_i)   
-        .b //???     
-        .a //???
+        .b(a_i)
+        .a(b_i)
         .dOut(dOut_i)
         .vOut(vOut_i)
 	);
