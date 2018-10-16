@@ -20,8 +20,7 @@ end entity;
 
 architecture behavior of iir_filterDP is
 	-- signal declarations (refer to scheme for the naming used)
-	signal x, sw0_a1, sw1_a2, w_b0, sw0_b1, sw1_b2, fb, ff, w, y: dataType;
-	signal sw0, sw1: signed(dataType'high + 2 downto 0);
+	signal x, sw0_a1, sw1_a2, w_b0, sw0_b1, sw1_b2, fb, ff, w, sw0, sw1, y: dataType;
 
 begin
 	-- component instantiations
