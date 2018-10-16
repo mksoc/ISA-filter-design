@@ -23,7 +23,7 @@ architecture behavior of data_sink is
 begin -- behavior
 
     process (clock, reset_n)
-        file res_fp       : text open WRITE_MODE is "../../common/results-hw.txt";
+        file res_fp       : text open WRITE_MODE is "../common/results-hw.txt";
         variable line_out : line;
     begin -- process
         if reset_n = '0' then -- asynchronous reset (active low)

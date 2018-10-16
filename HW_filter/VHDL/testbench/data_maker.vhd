@@ -39,7 +39,7 @@ begin -- behavior
     a <= std_logic_vector(a_int(1)) & std_logic_vector(a_int(2));
 
     read_file: process (clock, reset_n)
-        file fp_in       : text open READ_MODE is "../../common/samples.txt";
+        file fp_in       : text open READ_MODE is "../common/samples.txt";
         variable line_in : line;
         variable x       : integer;
     begin -- process
