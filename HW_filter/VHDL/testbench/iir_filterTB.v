@@ -14,36 +14,36 @@ module tb_fir ();
    	wire end_sim_i;
 
 	clk_gen CG (
-		.end_sim(end_sim_i)
-        .clock(clk_i)  
+		.end_sim(end_sim_i),
+        .clock(clk_i),  
         .reset_n(rst_n_i)
 	);
 
 	data_maker DM (
-		.clock(clk_i)
-        .reset_n(rst_n_i)
-        .vOut(vIn_i)
-        .dOut(dIn_i)  
-        .b(a_i)
-        .a(b_i)
+		.clock(clk_i),
+        .reset_n(rst_n_i),
+        .vOut(vIn_i),
+        .dOut(dIn_i),  
+        .b(a_i),
+        .a(b_i),
         .end_sim(end_sim_i)
 	);
 
 	iir_filter UUT (
-		.clk(clk_i)
-        .rst_n(rst_n_i)
-        .vIn(vIn_i)
-        .dIn(dIn_i)   
-        .b(a_i)
-        .a(b_i)
-        .dOut(dOut_i)
+		.clk(clk_i),
+        .rst_n(rst_n_i),
+        .vIn(vIn_i),
+        .dIn(dIn_i),   
+        .b(a_i),
+        .a(b_i),
+        .dOut(dOut_i),
         .vOut(vOut_i)
 	);
 
 	data_sink DS (
-		.clock(clk_i)
-        .reset_n(rst_n_i) 
-        .vIn(vOut_i)     
+		.clock(clk_i),
+        .reset_n(rst_n_i), 
+        .vIn(vOut_i),     
         .dIn(dOut_i)     	
 	);
 
