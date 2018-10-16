@@ -21,11 +21,11 @@ package filter_pkg is
 	end component;
 
 	-- functions declarations
-	function multiplyAndRound(coeff: dataType, sample: signed) return dataType;
+	function multiplyAndRound(coeff: dataType; sample: signed) return dataType;
 end package filter_pkg;
 
 package body filter_pkg is
-	function multiplyAndRound(coeff: dataType, sample: signed) return dataType is
+	function multiplyAndRound(coeff: dataType; sample: signed) return dataType is
 		variable temp: signed((2*coeff'length - 1) downto 0) := coeff * sample;
 	begin
 		return temp(temp'high downto (temp'high - coeff'high));
