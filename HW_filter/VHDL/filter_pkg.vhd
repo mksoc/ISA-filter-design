@@ -30,6 +30,6 @@ package body filter_pkg is
 		variable result: dataType;
 	begin
 		result := temp((temp'high - 1) downto (temp'high - dataType'length));
-		return result
+		return result;
 	end function;
 end package body filter_pkg;
