@@ -14,7 +14,8 @@ entity data_sink is
         clock   : in std_logic;
         reset_n : in std_logic;
         vIn     : in std_logic;
-        dIn     : in dataType;
+        dIn     : in dataType
+    );
 end data_sink;
 
 architecture behavior of data_sink is
