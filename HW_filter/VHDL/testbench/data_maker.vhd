@@ -15,13 +15,16 @@ entity data_maker is
         reset_n : in std_logic;
         vOut    : out std_logic;    -- these are vIn and 
         dOut    : out dataType;     -- dIn of the UUT
-        b       : out bCoeffType;
-        a       : out aCoeffType;
+        b       : out std_logic_vector((3*NB - 1) downto 0);
+        a       : out std_logic_vector((2*NB - 1) downto 0);
         end_sim : out std_logic
     );
 end data_maker;
 
 architecture behavior of data_maker is
+    -- signal declarations
+    b_int: bCoeffType;
+    a_int: aCoeffType;
 
     constant tco       : time := 1 ns;
 
@@ -30,8 +33,10 @@ architecture behavior of data_maker is
 
 begin -- behavior
     -- assign coefficients
-    b <= (to_signed(423, dataType'length), to_signed(846, dataType'length), to_signed(423, dataType'length));
-    a <= (to_signed(-757, dataType'length), to_signed(401, dataType'length));
+    b_int <= (to_signed(423, dataType'length), to_signed(846, dataType'length), to_signed(423, dataType'length));
+    a_int <= (to_signed(-757, dataType'length), to_signed(401, dataType'length));
+    b <= b_int(0) & b_int (2) & b_int(3);
+    a <= a_int(1) & a_int(2);
 
     read_file: process (clock, reset_n)
         file fp_in       : text open READ_MODE is "../../common/samples.txt";
