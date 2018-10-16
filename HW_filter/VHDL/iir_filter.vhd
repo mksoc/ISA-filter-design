@@ -41,8 +41,8 @@ entity iir_filter is
         rst_n : in std_logic;
         vIn   : in std_logic;
         dIn   : in dataType;
-        b     : in bCoeffType;
-        a     : in aCoeffType;
+        b     : in std_logic_vector((3*NB - 1) downto 0);
+        a     : in std_logic_vector((2*NB - 1) downto 0);
         dOut  : out dataType;
         vOut  : out std_logic
     );
@@ -76,7 +76,9 @@ architecture structure of iir_filter is
     end component;
 
     -- signal declarations
-    regs_clr_int, inReg_en_int, reg_sw0_en_int, reg_sw1_en_int, outReg_en_int : in std_logic;
+    regs_clr_int, inReg_en_int, reg_sw0_en_int, reg_sw1_en_int, outReg_en_int: std_logic;
+    b_int: bCoeffType;
+    a_int: aCoeffType;
 
 begin
     -- components instantiations
@@ -84,8 +86,8 @@ begin
     port map(
         clk        => clk,
         dIn        => dIn,
-        b          => b,
-        a          => a,
+        b          => b_int,
+        a          => a_int,
         dOut       => dOut,
         regs_clr   => regs_clr_int,
         inReg_en   => inReg_en_int,
@@ -106,4 +108,9 @@ begin
         outReg_en  => outReg_en_int,
         vOut       => vOut
     );
+
+    -- signal assignments
+    b_int <= (signed(b((3*NB - 1) downto 2*NB), signed(b((2*NB - 1) downto NB), signed(b((NB - 1) downto 0));
+    a_int <= (signed(a((2*NB - 1) downto NB), signed(b((NB - 1) downto 0));
+
 end architecture structure;
