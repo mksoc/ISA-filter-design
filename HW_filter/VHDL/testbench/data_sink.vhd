@@ -1,36 +1,39 @@
 library ieee;
 use ieee.std_logic_1164.all;
-use ieee.std_logic_arith.all;
-use ieee.std_logic_unsigned.all;
+use ieee.numeric_std.all;
 use ieee.std_logic_textio.all;
 
 library std;
 use std.textio.all;
 
+library work;
+use work.filter_pkg.all;
+
 entity data_sink is
-  port (
-    CLK   : in std_logic;
-    RST_n : in std_logic;
-    VIN   : in std_logic;
-    DIN   : in std_logic_vector(15 downto 0));
+    port (
+        clock   : in std_logic;
+        reset_n : in std_logic;
+        vIn     : in std_logic;
+        dIn     : in dataType
+    );
 end data_sink;
 
-architecture beh of data_sink is
+architecture behavior of data_sink is
 
-begin  -- beh
+begin -- behavior
 
-  process (CLK, RST_n)
-    file res_fp : text open WRITE_MODE is "./results.txt";
-    variable line_out : line;    
-  begin  -- process
-    if RST_n = '0' then                 -- asynchronous reset (active low)
-      null;
-    elsif CLK'event and CLK = '1' then  -- rising clock edge
-      if (VIN = '1') then
-        write(line_out, conv_integer(signed(DIN)));
-        writeline(res_fp, line_out);
-      end if;
-    end if;
-  end process;
+    process (clock, reset_n)
+        file res_fp       : text open WRITE_MODE is "../common/results-hw.txt";
+        variable line_out : line;
+    begin -- process
+        if reset_n = '0' then -- asynchronous reset (active low)
+            null;
+        elsif clock'event and clock = '1' then -- rising clock edge
+            if (vIn = '1') then
+                write(line_out, to_integer(dIn));
+                writeline(res_fp, line_out);
+            end if;
+        end if;
+    end process;
 
-end beh;
+end behavior;
