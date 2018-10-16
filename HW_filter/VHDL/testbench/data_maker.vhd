@@ -35,8 +35,8 @@ begin -- behavior
     -- assign coefficients
     b_int <= (to_signed(423, dataType'length), to_signed(846, dataType'length), to_signed(423, dataType'length));
     a_int <= (to_signed(-757, dataType'length), to_signed(401, dataType'length));
-    b <= b_int(0) & b_int (2) & b_int(3);
-    a <= a_int(1) & a_int(2);
+    b <= std_logic_vector(b_int(0)) & std_logic_vector(b_int(1)) & std_logic_vector(b_int(2));
+    a <= std_logic_vector(a_int(1)) & std_logic_vector(a_int(2));
 
     read_file: process (clock, reset_n)
         file fp_in       : text open READ_MODE is "../../common/samples.txt";
