@@ -7,7 +7,7 @@ entity iir_filterCU is
         clk, rst_n: in std_logic;
         vIn: in std_logic;
         -- controls to DP
-        regs_clr, inReg_en, reg_sw0_en, reg_sw1_en, outReg_en: out std_logic;
+        regs_clr, reg_in_en, reg_sw0_en, reg_sw1_en, reg_out_en: out std_logic;
         -- to external world
         vOut : out std_logic 
     );
@@ -153,10 +153,10 @@ begin
         begin
             -- default assignments        
             regs_clr <= '0';
-            inReg_en <= vIn; -- vIn directly to input register enable due to timing constraints
+            reg_in_en <= vIn; -- vIn directly to input register enable due to timing constraints
             reg_sw0_en <= '0';
             reg_sw1_en <= '0';
-            outReg_en <= '0';
+            reg_out_en <= '0';
             vOut <= '0';
 
             case presentState is
@@ -176,37 +176,37 @@ begin
                 when STEP3_A => 
                     reg_sw0_en <= '1';
                     reg_sw1_en <= '1';
-                    outReg_en <= '1';
+                    reg_out_en <= '1';
 
                 when STEP3_B => 
                     reg_sw1_en <= '1';
-                    outReg_en <= '1';
+                    reg_out_en <= '1';
 
                 when STEP3_C => 
                     reg_sw0_en <= '1';
-                    outReg_en <= '1';
+                    reg_out_en <= '1';
 
                 when STEP3_D => 
-                    outReg_en <= '1';
+                    reg_out_en <= '1';
 
                 when STEP4_A => 
                     reg_sw0_en <= '1';
                     reg_sw1_en <= '1';
-                    outReg_en <= '1';
+                    reg_out_en <= '1';
                     vOut <= '1';
 
                 when STEP4_B => 
                     reg_sw1_en <= '1';
-                    outReg_en <= '1';
+                    reg_out_en <= '1';
                     vOut <= '1';
 
                 when STEP4_C => 
                     reg_sw0_en <= '1';
-                    outReg_en <= '1';
+                    reg_out_en <= '1';
                     vOut <= '1';
 
                 when STEP4_D => 
-                    outReg_en <= '1';
+                    reg_out_en <= '1';
                     vOut <= '1';
 
                 when STEP4_E => 
