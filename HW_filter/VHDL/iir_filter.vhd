@@ -80,7 +80,7 @@ architecture structure of iir_filter is
     end component;
 
     -- signal declarations
-    signal regs_clr_int, reg_in_en_int, reg_sw0_en_int, reg_sw1_en_int, reg_out_en_int: std_logic;
+    signal regs_clr_int, reg_in_en_int, reg_coeff_en_int, reg_sw0_en_int, reg_sw1_en_int, reg_out_en_int: std_logic;
     signal b_int: bCoeffType;
     signal a_int: aCoeffType;
 
@@ -95,6 +95,7 @@ begin
         dOut       => dOut,
         regs_clr   => regs_clr_int,
         reg_in_en   => reg_in_en_int,
+        reg_coeff_en => reg_coeff_en_int,
         reg_sw0_en => reg_sw0_en_int,
         reg_sw1_en => reg_sw1_en_int,
         reg_out_en  => reg_out_en_int
@@ -107,6 +108,7 @@ begin
         vIn        => vIn,
         regs_clr   => regs_clr_int,
         reg_in_en   => reg_in_en_int,
+        reg_coeff_en => reg_coeff_en_int,
         reg_sw0_en => reg_sw0_en_int,
         reg_sw1_en => reg_sw1_en_int,
         reg_out_en  => reg_out_en_int,
