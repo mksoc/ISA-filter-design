@@ -63,7 +63,7 @@ architecture structure of iir_filter is
             b                                                     : in bCoeffType;
             dOut                                                  : out dataType;
             -- controls from CU
-            regs_clr, reg_in_en, reg_sw0_en, reg_sw1_en, reg_out_en : in std_logic
+            regs_clr, reg_in_en, reg_coeff_en, reg_sw0_en, reg_sw1_en, reg_out_en : in std_logic
         );
     end component;
 
@@ -73,7 +73,7 @@ architecture structure of iir_filter is
             clk, rst_n                                            : in std_logic;
             vIn                                                   : in std_logic;
             -- controls to DP
-            regs_clr, reg_in_en, reg_sw0_en, reg_sw1_en, reg_out_en : out std_logic;
+            regs_clr, reg_in_en, reg_coeff_en, reg_sw0_en, reg_sw1_en, reg_out_en : out std_logic;
             -- to external world
             vOut                                                  : out std_logic
         );

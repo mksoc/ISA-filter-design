@@ -7,7 +7,7 @@ entity iir_filterCU is
         clk, rst_n: in std_logic;
         vIn: in std_logic;
         -- controls to DP
-        regs_clr, reg_in_en, reg_sw0_en, reg_sw1_en, reg_out_en: out std_logic;
+        regs_clr, reg_in_en, reg_coeff_en, reg_sw0_en, reg_sw1_en, reg_out_en: out std_logic;
         -- to external world
         vOut : out std_logic 
     );
@@ -151,9 +151,13 @@ begin
 
     out_process: process(presentState)
         begin
+            -- vIn directly to input register and coefficient register enable due to timing constraints,
+            -- this avoids the need to delay of another clock cycle input data
+            reg_in_en <= vIn; 
+            reg_coeff_en <= vIn;
+            
             -- default assignments        
             regs_clr <= '0';
-            reg_in_en <= vIn; -- vIn directly to input register enable due to timing constraints
             reg_sw0_en <= '0';
             reg_sw1_en <= '0';
             reg_out_en <= '0';
