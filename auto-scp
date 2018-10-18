@@ -18,31 +18,44 @@ REMOTE_ROOT="/home/isa22/lab1"
 ssh -M -f -N -o ControlPath="$SSH_SOCKET" -p $PORT "$USER_HOST"
 
 # offer selection between different actions
-PS3="Type the selected number and press enter (defalut = 1):"
-options=("Copy all bidirectional" "Copy source files to server" "Copy testbench files to server" "Copy results from server")
-select opt in "${options[@]}"
-do 
-    case $opt in 
-        "Copy source files to server")
-            echo "scp -o ControlPath="$SSH_SOCKET" -P $PORT HW_filter/VHDL/*.vhd "$USER_HOST":"$REMOTE_ROOT"/src"
-            break;;
-        "Copy testbench files to server")
-            echo "scp -o ControlPath="$SSH_SOCKET" -P $PORT HW_filter/VHDL/testbench/* "$USER_HOST":"$REMOTE_ROOT"/tb"
-            break
-            ;;
-        "Copy results from server")
-            echo "scp -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/common/results-hw.txt common/"
-            break
-            ;;
-        *)
-            echo "scp -o ControlPath="$SSH_SOCKET" -P $PORT HW_filter/VHDL/*.vhd "$USER_HOST":"$REMOTE_ROOT"/src"
-            echo "scp -o ControlPath="$SSH_SOCKET" -P $PORT HW_filter/VHDL/testbench/* "$USER_HOST":"$REMOTE_ROOT"/tb"
-            echo "scp -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/common/results-hw.txt common/"
-            break
-            ;;
-        
-    esac
-done
+echo 
+echo "1) Copy all bidirectional" 
+echo "2) Copy source files to server" 
+echo "3) Copy testbench files to server" 
+echo "4) Copy results from server"
+echo -n "Type the selected number and press enter (defalut = 1): "
+read opt
+case $opt in 
+    1 | "Copy all bidirectional" | "")
+        echo "Copying files..."
+        scp -o ControlPath="$SSH_SOCKET" -P $PORT HW_filter/VHDL/*.vhd "$USER_HOST":"$REMOTE_ROOT"/src
+        scp -o ControlPath="$SSH_SOCKET" -P $PORT HW_filter/VHDL/testbench/* "$USER_HOST":"$REMOTE_ROOT"/tb
+        scp -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/common/results-hw.txt common/
+        echo "Done."
+        echo
+        ;;    
+    2 | "Copy source files to server")
+        echo "Copying files..."
+        scp -o ControlPath="$SSH_SOCKET" -P $PORT HW_filter/VHDL/*.vhd "$USER_HOST":"$REMOTE_ROOT"/src
+        echo "Done."
+        echo
+        ;;
+    3 | "Copy testbench files to server")
+        echo "Copying files..."
+        scp -o ControlPath="$SSH_SOCKET" -P $PORT HW_filter/VHDL/testbench/* "$USER_HOST":"$REMOTE_ROOT"/tb
+        echo "Done."
+        echo
+        ;;
+    4 | "Copy results from server")
+        echo "Copying files..."
+        scp -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/common/results-hw.txt common/
+        echo "Done."
+        echo
+        ;;
+    *)
+        echo "Error: invalid option."
+        ;;    
+esac
 
 # close master connection
 ssh -S "$SSH_SOCKET" -O exit "$USER_HOST"
