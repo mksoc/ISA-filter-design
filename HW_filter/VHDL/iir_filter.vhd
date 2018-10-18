@@ -18,7 +18,7 @@
 ------------------
 --- INPUT DATA ---
 ------------------
--- dIn : input sample line. dIn represent a single sample of a signal, coded on NB bits in 2's complement
+-- dIn : input sample line. dIn represents a single sample of a signal, coded on NB bits in 2's complement
 
 --++++++++++--
 --+ OUTPUT +--
@@ -117,6 +117,6 @@ begin
 
     -- signal assignments
     b_int <= (signed(b((3*NB - 1) downto 2*NB)), signed(b((2*NB - 1) downto NB)), signed(b((NB - 1) downto 0)));
-    a_int <= (signed(a((2*NB - 1) downto NB)), signed(b((NB - 1) downto 0)));
+    a_int <= (signed(a((2*NB - 1) downto NB)), signed(a((NB - 1) downto 0)));
 
 end architecture structure;
