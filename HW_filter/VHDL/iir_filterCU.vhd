@@ -14,7 +14,7 @@ entity iir_filterCU is
 end entity;
 
 architecture behavior of iir_filterCU is
-	type stateType is (RESET, STEP1, STEP2_A, STEP2_B, STEP3_A, STEP3_B, STEP3_C, STEP3_D, STEP4_A, STEP4_B, STEP4_C, STEP4_D, STEP4_E, STEP4_F, STEP4_G, STEP4_H);
+	type stateType is (RESET, IDLE, STEP1, STEP2_A, STEP2_B, STEP3_A, STEP3_B, STEP3_C, STEP3_D, STEP4_A, STEP4_B, STEP4_C, STEP4_D, STEP4_E, STEP4_F, STEP4_G, STEP4_H);
 	signal presentState, nextState: stateType;
 
 begin
@@ -33,12 +33,15 @@ begin
         begin
             case presentState is
                 when RESET =>
+                    nextState <= IDLE;
+
+                when IDLE =>
                     if (vIn = '1') then
                         nextState <= STEP1;
                     else
-                        nextState <= RESET;
+                        nextState <= IDLE;
                     end if;
-
+                    
                 when STEP1 => 
                     if (vIn = '1') then
                         nextState <= STEP2_A;
@@ -167,12 +170,18 @@ begin
                 when RESET => 
                     regs_clr <= '1';
 
+                when IDLE =>
+                    regs_clr <= '0';
+
                 when STEP1 => 
-                    reg_sw0_en <= '1'; 
+                    reg_sw0_en <= '1';
+                    reg_out_en <= '1';
                     
                 when STEP2_A => 
                     reg_sw0_en <= '1';
                     reg_sw1_en <= '1';
+                    reg_out_en <= '1';
+                    vOut <= '1';
 
                 when STEP2_B => 
                     reg_sw1_en <= '1';
@@ -181,6 +190,7 @@ begin
                     reg_sw0_en <= '1';
                     reg_sw1_en <= '1';
                     reg_out_en <= '1';
+                    vOut <= '1';
 
                 when STEP3_B => 
                     reg_sw1_en <= '1';
@@ -189,6 +199,7 @@ begin
                 when STEP3_C => 
                     reg_sw0_en <= '1';
                     reg_out_en <= '1';
+                    vOut <= '1';
 
                 when STEP3_D => 
                     reg_out_en <= '1';
