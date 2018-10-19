@@ -14,6 +14,14 @@ PORT="10020"
 SSH_SOCKET=~/".ssh/$USER_HOST"
 REMOTE_ROOT="/home/isa22/lab1"
 
+# print welcome message
+echo "This script provides automatic copy in three different ways:"
+echo "          LOCAL                           SERVER"
+echo "../VHDL/*.vhd            ->      ../lab1/src/"
+echo "../VHDL/testbench/*      ->      ../lab1/tb/"
+echo "../common/               <-      ../lab1/common/results-hw.txt"
+echo
+
 # create master SSH connection
 ssh -M -f -N -o ControlPath="$SSH_SOCKET" -p $PORT "$USER_HOST"
 
