@@ -31,7 +31,7 @@ echo "1) Copy all bidirectional"
 echo "2) Copy source files to server" 
 echo "3) Copy testbench files to server" 
 echo "4) Copy results from server"
-echo -n "Type the selected number and press enter (defalut = 1): "
+echo -n "Type the selected number and press enter (default = 1): "
 read opt
 case $opt in 
     1 | "Copy all bidirectional" | "")
