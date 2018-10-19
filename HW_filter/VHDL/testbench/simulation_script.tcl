@@ -11,10 +11,13 @@ vsim work.iir_filterTB
 restart -force
 
 # load waves (black box signals, internal lines)
-do ./waves_setup_blackBox_and_intSignals.do
+do ./wave.do
 
 # run simulation
 run 2200 ns
 
-# print result
-echo "Simulation ended"
+# stop simulation when end_sim is asserted
+when {/end_sim == 1} {
+    echo "At Time $now Ending the simulation"
+    quit -f
+}
