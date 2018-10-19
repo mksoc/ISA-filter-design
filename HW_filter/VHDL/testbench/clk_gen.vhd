@@ -19,7 +19,7 @@ begin -- behavior
     clock_generation: process
     begin -- process
         if (clock_i = 'U') then
-            clock_i <= '0';
+            clock_i <= '1';
         else
             clock_i <= not(clock_i);
         end if;
