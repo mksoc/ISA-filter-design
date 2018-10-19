@@ -17,7 +17,7 @@ do ./wave.do
 run 2200 ns
 
 # stop simulation when end_sim is asserted
-when {/end_sim == 1} {
-    echo "At Time $now Ending the simulation"
-    quit -f
+quietly set stop_signal /iir_filterTB/DM/end_sim
+when {$now = @2000 ns} {
+    stop
 }
