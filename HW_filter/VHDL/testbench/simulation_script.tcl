@@ -11,6 +11,9 @@ vlog -work ./work ../tb/iir_filterTB.v
 # load design
 vsim work.iir_filterTB
 
+# restart simulation
+restart -force
+
 # load waves (black box signals, internal lines)
 do ./waves_setup_blackBox_and_intSignals.do
 
