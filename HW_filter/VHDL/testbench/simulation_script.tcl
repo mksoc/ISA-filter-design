@@ -1,25 +1,18 @@
-# Script to setup simulation after compile
 # to be run inside /home/ida22/lab1/sim
-
 # compile the needed project files 
 vcom -93 -work ./work ../src/*.vhd
 
-# compile the tb
+# compile the tb (VHDL)
 vcom -93 -work ./work ../tb/*.vhd
+
+# compile testbench top entity (Verilog)
+vlog -work ./work ../tb/iir_filterTB.v
 
 # load design
 vsim work.iir_filterTB
 
-# add black box signals
-add wave sim:/iir_filterTB/clk_i
-add wave sim:/iir_filterTB/rst_n_i
-add wave sim:/iir_filterTB/dIn_i
-add wave sim:/iir_filterTB/vIn_i
-add wave sim:/iir_filterTB/b_i
-add wave sim:/iir_filterTB/a_i
-add wave sim:/iir_filterTB/dOut_i
-add wave sim:/iir_filterTB/vOut_i
-add wave sim:/iir_filterTB/end_sim_i
+# load waves (black box signals, internal lines)
+do ./waves_setup_blackBox_and_intSignals.do
 
 # run simulation
 run 10 us
