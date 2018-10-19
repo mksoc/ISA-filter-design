@@ -14,7 +14,7 @@ entity iir_filterCU is
 end entity;
 
 architecture behavior of iir_filterCU is
-	type stateType is (RESET, IDLE, STEP1, STEP2_A, STEP2_B, STEP3_A, STEP3_B, STEP3_C, STEP3_D, STEP4_A, STEP4_B, STEP4_C, STEP4_D, STEP4_E, STEP4_F, STEP4_G, STEP4_H);
+	type stateType is (RESET, IDLE, STEP_1, STEP_2A, STEP_2B);
 	signal presentState, nextState: stateType;
 
 begin
@@ -37,114 +37,30 @@ begin
 
                 when IDLE =>
                     if (vIn = '1') then
-                        nextState <= STEP1;
+                        nextState <= STEP_1;
                     else
                         nextState <= IDLE;
                     end if;
                     
-                when STEP1 => 
+                when STEP_1 => 
                     if (vIn = '1') then
-                        nextState <= STEP2_A;
+                        nextState <= STEP_2A;
                     else
-                        nextState <= STEP2_B;
+                        nextState <= STEP_2B;
                     end if;       
                     
-                when STEP2_A => 
+                when STEP_2A =>
                     if (vIn = '1') then
-                        nextState <= STEP3_A;
+                        nextState <= STEP_2A;
                     else
-                        nextState <= STEP3_B;
+                        nextState <= STEP_2B;
                     end if;  
 
-                when STEP2_B => 
+                when STEP_2B =>
                     if (vIn = '1') then
-                        nextState <= STEP3_C;
+                        nextState <= STEP_1;
                     else
-                        nextState <= STEP3_D;
-                    end if;  
-
-                when STEP3_A => 
-                    if (vIn = '1') then
-                        nextState <= STEP4_A;
-                    else
-                        nextState <= STEP4_B;
-                    end if;  
-
-                when STEP3_B => 
-                    if (vIn = '1') then
-                        nextState <= STEP4_C;
-                    else
-                        nextState <= STEP4_D;
-                    end if;  
-
-                when STEP3_C => 
-                    if (vIn = '1') then
-                        nextState <= STEP4_E;
-                    else
-                        nextState <= STEP4_F;
-                    end if;  
-
-                when STEP3_D => 
-                    if (vIn = '1') then
-                        nextState <= STEP4_G;
-                    else
-                        nextState <= STEP4_H;
-                    end if;  
-
-                when STEP4_A => 
-                    if (vIn = '1') then
-                        nextState <= STEP4_A;
-                    else
-                        nextState <= STEP4_B;
-                    end if;  
-
-                when STEP4_B => 
-                    if (vIn = '1') then
-                        nextState <= STEP4_C;
-                    else
-                        nextState <= STEP4_D;
-                    end if;  
-
-                when STEP4_C => 
-                    if (vIn = '1') then
-                        nextState <= STEP4_E;
-                    else
-                        nextState <= STEP4_F;
-                    end if;  
-
-                when STEP4_D => 
-                    if (vIn = '1') then
-                        nextState <= STEP4_G;
-                    else
-                        nextState <= STEP4_H;
-                    end if;  
-
-                when STEP4_E => 
-                    if (vIn = '1') then
-                        nextState <= STEP3_A;
-                    else
-                        nextState <= STEP3_B;
-                    end if;  
-
-                when STEP4_F => 
-                    if (vIn = '1') then
-                        nextState <= STEP3_C;
-                    else
-                        nextState <= STEP3_D;
-                    end if;  
-
-                when STEP4_G => 
-                    if (vIn = '1') then
-                        nextState <= STEP2_A;
-                    else
-                        nextState <= STEP2_B;
-                    end if;  
-
-                when STEP4_H => 
-                    if (vIn = '1') then
-                        nextState <= STEP1;
-                    else
-                        nextState <= RESET;
+                        nextState <= IDLE;
                     end if;  
 
                 when others => 
@@ -171,74 +87,21 @@ begin
                     regs_clr <= '1';
 
                 when IDLE =>
-                    regs_clr <= '0';
 
-                when STEP1 => 
+                when STEP_1 => 
                     reg_sw0_en <= '1';
                     reg_out_en <= '1';
                     
-                when STEP2_A => 
+                when STEP_2A => 
                     reg_sw0_en <= '1';
                     reg_sw1_en <= '1';
                     reg_out_en <= '1';
                     vOut <= '1';
 
-                when STEP2_B => 
-                    reg_sw1_en <= '1';
-
-                when STEP3_A => 
-                    reg_sw0_en <= '1';
-                    reg_sw1_en <= '1';
-                    reg_out_en <= '1';
-                    vOut <= '1';
-
-                when STEP3_B => 
-                    reg_sw1_en <= '1';
-                    reg_out_en <= '1';
-
-                when STEP3_C => 
-                    reg_sw0_en <= '1';
-                    reg_out_en <= '1';
-                    vOut <= '1';
-
-                when STEP3_D => 
-                    reg_out_en <= '1';
-
-                when STEP4_A => 
-                    reg_sw0_en <= '1';
-                    reg_sw1_en <= '1';
-                    reg_out_en <= '1';
-                    vOut <= '1';
-
-                when STEP4_B => 
-                    reg_sw1_en <= '1';
-                    reg_out_en <= '1';
-                    vOut <= '1';
-
-                when STEP4_C => 
-                    reg_sw0_en <= '1';
-                    reg_out_en <= '1';
-                    vOut <= '1';
-
-                when STEP4_D => 
-                    reg_out_en <= '1';
-                    vOut <= '1';
-
-                when STEP4_E => 
-                    reg_sw0_en <= '1';
+                when STEP_2B => 
                     reg_sw1_en <= '1';
                     vOut <= '1';
 
-                when STEP4_F => 
-                    reg_sw1_en <= '1';
-                    vOut <= '1';
-
-                when STEP4_G => 
-                    reg_sw0_en <= '1';
-                    vOut <= '1';
-
-                when STEP4_H => 
-                    vOut <= '1';
             end case;
         end process;
 
