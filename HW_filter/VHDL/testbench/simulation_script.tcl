@@ -18,7 +18,7 @@ restart -force
 do ./waves_setup_blackBox_and_intSignals.do
 
 # run simulation
-run -all
+run 10 us
 
 # print result
 echo "Simulation ended"
