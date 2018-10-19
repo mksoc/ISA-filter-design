@@ -37,7 +37,9 @@ case $opt in
     1 | "Copy all bidirectional" | "")
         echo "Copying files..."
         scp -o ControlPath="$SSH_SOCKET" -P $PORT HW_filter/VHDL/*.vhd "$USER_HOST":"$REMOTE_ROOT"/src
-        scp -o ControlPath="$SSH_SOCKET" -P $PORT HW_filter/VHDL/testbench/* "$USER_HOST":"$REMOTE_ROOT"/tb
+        scp -o ControlPath="$SSH_SOCKET" -P $PORT HW_filter/VHDL/testbench/*.vhd "$USER_HOST":"$REMOTE_ROOT"/tb
+        scp -o ControlPath="$SSH_SOCKET" -P $PORT HW_filter/VHDL/testbench/*.v "$USER_HOST":"$REMOTE_ROOT"/tb
+        scp -o ControlPath="$SSH_SOCKET" -P $PORT HW_filter/VHDL/testbench/*.tcl "$USER_HOST":"$REMOTE_ROOT"/sim
         scp -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/common/results-hw.txt common/
         echo "Done."
         echo
@@ -50,7 +52,9 @@ case $opt in
         ;;
     3 | "Copy testbench files to server")
         echo "Copying files..."
-        scp -o ControlPath="$SSH_SOCKET" -P $PORT HW_filter/VHDL/testbench/* "$USER_HOST":"$REMOTE_ROOT"/tb
+        scp -o ControlPath="$SSH_SOCKET" -P $PORT HW_filter/VHDL/testbench/*.vhd "$USER_HOST":"$REMOTE_ROOT"/tb
+        scp -o ControlPath="$SSH_SOCKET" -P $PORT HW_filter/VHDL/testbench/*.v "$USER_HOST":"$REMOTE_ROOT"/tb
+        scp -o ControlPath="$SSH_SOCKET" -P $PORT HW_filter/VHDL/testbench/*.tcl "$USER_HOST":"$REMOTE_ROOT"/sim
         echo "Done."
         echo
         ;;
