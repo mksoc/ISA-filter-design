@@ -97,7 +97,7 @@ begin
 	sw1_b2 <= multiplyAndRound(b_int(2), sw1);
 	fb <= sw0_a1 + sw1_a2;
 	ff <= sw0_b1 + sw1_b2;
-	w <= x + fb;
+	w <= x - fb;
 	w_b0 <= multiplyAndRound(b_int(0), w);
 	y <= w_b0 + ff;
 	
