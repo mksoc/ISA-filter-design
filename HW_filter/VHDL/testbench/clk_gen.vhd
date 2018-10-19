@@ -31,7 +31,7 @@ begin -- behavior
     reset_generation: process
     begin -- process
         reset_n <= '0';
-        wait for 3 * Ts/2;
+        wait for 1 * Ts/2;
         reset_n <= '1';
         wait;
     end process;
