@@ -18,7 +18,7 @@
 ------------------
 --- INPUT DATA ---
 ------------------
--- dIn : input sample line. dIn represents a single sample of a signal, coded on NB bits in 2's complement
+-- dIn : input sample line. dIn represent a single sample of a signal, coded on NB bits in 2's complement
 
 --++++++++++--
 --+ OUTPUT +--
