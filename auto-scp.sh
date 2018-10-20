@@ -42,6 +42,7 @@ case $opt in
         scp -o ControlPath="$SSH_SOCKET" -P $PORT HW_filter/VHDL/testbench/*.vhd "$USER_HOST":"$REMOTE_ROOT"/tb
         scp -o ControlPath="$SSH_SOCKET" -P $PORT HW_filter/VHDL/testbench/*.v "$USER_HOST":"$REMOTE_ROOT"/tb
         scp -o ControlPath="$SSH_SOCKET" -P $PORT HW_filter/VHDL/testbench/*.tcl "$USER_HOST":"$REMOTE_ROOT"/sim
+        scp -o ControlPath="$SSH_SOCKET" -P $PORT common/samples.txt "$USER_HOST":"$REMOTE_ROOT"/common
         scp -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/common/results-hw.txt common/
         echo "Done."
         echo
