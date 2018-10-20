@@ -18,7 +18,7 @@ else:
         exit(1)
 
 # prompt user for number of samples
-samples = input("\nType number of samples (default is 201): ")
+samples = input("Type number of samples (default is 201): ")
 if not samples:
     samples = 201
 else:
