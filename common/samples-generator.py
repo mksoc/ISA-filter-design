@@ -1,37 +1,36 @@
-import sys
+from sys import exit
 import random
 
-# read parameters and check correctness
-usageMsg = "Usage: samples-generator.py random|special [number_of_samples]"
-mode = []
+# define possible modes
+modes = {1:"Random", 2:"Special (only 0 and extremes)"}
+for key, value in modes.items():
+    print("{} - {}".format(key, value))
 
-if len(sys.argv) < 2:
-    print("Error. Not enough input arguments")
-    print(usageMsg)
-    sys.exit(1)
-elif 2 <= len(sys.argv) <= 3:
-    if sys.argv[1] == "random":
-        mode = "random"
-    elif sys.argv[1] == "special":
-        mode = "special"
-    else:
-        print("Error. Invalid option.")
-        print(usageMsg)
-        sys.exit(1)
-
-    if len(sys.argv) == 3:
-        try:
-            samples = int(sys.argv[2])
-        except ValueError:
-            print("Error. Invalid option.")
-            print(usageMsg)
-            sys.exit(1)
-    else:
-        samples = 201 # same number as Matlab samples
+# prompt user for mode selection
+try:
+    mode = int(input("Select the generator mode: "))
+except ValueError:
+    print("Error. Invalid option.")
+    exit(1)
 else:
-    print("Error. Invalid options.")
-    print(usageMsg)
-    sys.exit(1)
+    if not (1 <= mode <= 2):
+        print("Error. Invalid option.")
+        exit(1)
+
+# prompt user for number of samples
+samples = input("\nType number of samples (default is 201): ")
+if not samples:
+    samples = 201
+else:
+    try:
+        samples = int(samples)
+    except ValueError:
+        print("Error. Invalid option.")
+        exit(1)
+    else:
+        if samples < 0:
+            print("Error. Invalid option.")
+            exit(1)
 
 # generate samples
 NB = 12
@@ -39,11 +38,11 @@ print("Generating samples...")
 
 with open('py-samples.txt', 'w') as outFile:
     for i in range(samples):
-        if mode == "random":
+        if mode == 1:
             outFile.write('{}\n'.format(random.randint(-2**(NB-1) + 1, 2**(NB-1) - 1)))
-        elif mode == "special":
+        elif mode == 2:
             outFile.write('{}\n'.format(random.choice([0, -2**(NB-1) + 1, 2**(NB-1) - 1])))
         else:
             print("Error. Unknown error. Exiting.")
-            sys.exit(1)
+            exit(1)
 print("Done.")
