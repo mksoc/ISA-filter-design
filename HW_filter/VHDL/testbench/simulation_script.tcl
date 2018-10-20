@@ -11,13 +11,13 @@ vsim work.iir_filterTB
 restart -force
 
 # load waves (black box signals, internal lines)
-do ./wave.do
+# do ./wave.do
 
 # run simulation
 run 2200 ns
 
 # stop simulation when end_sim is asserted
 quietly set stop_signal /iir_filterTB/DM/end_sim
-when {$now = @2000 ns} {
-    stop
-}
+# ...
+
+quit

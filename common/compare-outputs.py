@@ -37,10 +37,10 @@ for i in range(length):
 # print stats
 print('=============================================')
 print('Comparison completed.')
-print('Total matches: {}/{} ({}%)'.format(matchCounter,
+print('Total matches: {:.0f}/{:.0f} ({:.1f}%)'.format(matchCounter,
                                           length, 100*matchCounter/length))
 if matchCounter == length:
     print('Yeeeeee!!!')
 else:
-    print('Off-by-one errors: {}/{} ({}% of errors)'.format(offByOneCounter,
+    print('Off-by-one errors: {:.0f}/{:.0f} ({:.1f}% of errors)'.format(offByOneCounter,
                                                             length, 100*offByOneCounter/(length - matchCounter)))
