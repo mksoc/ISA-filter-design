@@ -53,9 +53,9 @@ int iir_filter(int x)
     {
         y = pow(2, NB-1) - 1;
     }
-    else if (y < - (pow(2, NB-1) - 1))
+    else if (y < - pow(2, NB-1))
     {
-        y = - (pow(2, NB-1) - 1);
+        y = - pow(2, NB-1);
     }
 
     return y;

@@ -21,10 +21,10 @@ end entity;
 architecture behavior of iir_filterDP is
 	-- signal declarations (refer to scheme for the naming used)
 	signal x, sw0_a1, sw1_a2, w_b0, sw0_b1, sw1_b2, y_out: dataType;
-	signal fb, ff: signed(dataType'high + 1 downto 0);
-	signal w, sw0, sw1, y: signed(dataType'high + 2 downto 0);
+	signal fb, ff, w, sw0, sw1, y: signed(dataType'high + 1 downto 0);
 	signal a_int: aCoeffType;
 	signal b_int: bCoeffType;
+	signal overflow, underflow: std_logic;
 
 begin
 	-- component instantiations
@@ -63,7 +63,7 @@ begin
 	end generate;
 	
 	reg_sw0: reg
-		generic map (N => NB + 2)
+		generic map (N => NB + 1)
 		port map (
 			D => std_logic_vector(w),
 			clock => clk,
@@ -73,7 +73,7 @@ begin
 		);
 
 	reg_sw1: reg
-		generic map (N => NB + 2)
+		generic map (N => NB + 1)
 		port map (
 			D => std_logic_vector(sw0),
 			clock => clk,
@@ -97,12 +97,22 @@ begin
 	sw1_a2 <= multiplyAndRound(a_int(2), sw1);
 	sw0_b1 <= multiplyAndRound(b_int(1), sw0);
 	sw1_b2 <= multiplyAndRound(b_int(2), sw1);
+
 	fb <= resize(sw0_a1, fb'length) + resize(sw1_a2, fb'length);
 	ff <= resize(sw0_b1, ff'length) + resize(sw1_b2, ff'length);
+
 	w <= resize(x, w'length) - resize(fb, w'length);
 	w_b0 <= multiplyAndRound(b_int(0), w);
+
 	y <= resize(w_b0, y'length) + resize(ff, y'length);
-	y_out <= to_signed(2**NB - 1, NB) when to_integer(y) > 2**NB - 1 else
-			 to_signed(-(2**NB - 1), NB) when to_integer(y) < -(2**NB - 1) else
-			 resize(y, NB); 
+	sat_process: process(y)
+	begin
+		if not(y(y'high)) and y(y'high-1) then
+			y_out <= to_signed(2**(NB - 1) - 1, NB);
+		elsif y(y'high) and not(y(y'high-1)) then
+			y_out <= to_signed(-2**(NB - 1), NB);
+		else
+			y_out <= resize(y, NB);
+		end if;
+	end process ; -- sat_process
 end architecture behavior;
