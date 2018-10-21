@@ -49,6 +49,12 @@ module iir_filterTB ();
         .dIn(dOut_i)     	
 	);
 
+	always @(end_sim_i) begin
+		if (end_sim_i == 1) begin
+			$finish;
+		end
+	end
+
 endmodule
 
 		   
