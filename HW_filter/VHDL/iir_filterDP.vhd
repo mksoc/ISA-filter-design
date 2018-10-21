@@ -102,5 +102,5 @@ begin
 	w <= resize(x, w'length) - resize(fb, w'length);
 	w_b0 <= multiplyAndRound(b_int(0), w);
 	y <= resize(w_b0, y'length) + resize(ff, y'length);
-	y_out <= resize(y, NB);
+	y_out <= resize(shift_right(y, 2), NB);
 end architecture behavior;
