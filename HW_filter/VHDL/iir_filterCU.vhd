@@ -70,11 +70,6 @@ begin
 
     out_process: process(presentState)
         begin
-            -- vIn directly to input register and coefficient register enable due to timing constraints,
-            -- this avoids the need to delay of another clock cycle input data
-            reg_in_en <= vIn; 
-            reg_coeff_en <= vIn;
-            
             -- default assignments        
             regs_clr <= '0';
             reg_sw0_en <= '0';
@@ -104,5 +99,11 @@ begin
 
             end case;
         end process;
+
+    -- "mealy" signal assignments
+    -- vIn directly to input register and coefficient register enable due to timing constraints,
+    -- this avoids the need to delay of another clock cycle input data
+    reg_in_en <= vIn; 
+    reg_coeff_en <= vIn;
 
 end architecture behavior;
