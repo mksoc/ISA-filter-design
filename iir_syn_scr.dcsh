@@ -14,7 +14,7 @@ elaborate iir_filter -arch structure -lib WORK
 #define clk 
 #if we set clk period to 0 synthesizer will automatically provide f_max as a negative slack time
 
-create_clock "clk" -name "MY_CLOCK" -period 0 
+create_clock "clk" -name "MY_CLOCK" -period 25
 set_dont_touch_network MY_CLOCK 
 
 # setting clk jitter + in/out delays
@@ -31,3 +31,14 @@ compile
 report_timing > ./timing_report.txt
 report_area > ./area_report.txt
 
+#power
+
+
+ungroup -all -flatten
+change_names -hierarchy -rules verilog
+
+#.sdf->delays .v->netlist .sdc->constraints_to_in_out
+
+write_sdf ../netlist/iir_filter.sdf
+write -f verilog -hierarchy -output ../netlist/iir_filter.v
+write_sdc ../netlist/iir_filter.sdc
