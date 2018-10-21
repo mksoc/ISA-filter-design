@@ -12,4 +12,3 @@ restart -force
 
 # run simulation
 run -all
-quit
