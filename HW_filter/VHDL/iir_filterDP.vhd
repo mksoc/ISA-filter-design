@@ -20,7 +20,8 @@ end entity;
 
 architecture behavior of iir_filterDP is
 	-- signal declarations (refer to scheme for the naming used)
-	signal x, sw0_a1, sw1_a2, w_b0, sw0_b1, sw1_b2, fb, ff, w, sw0, sw1, y: dataType;
+	signal x, sw0_a1, sw1_a2, w_b0, sw0_b1, sw1_b2, fb, ff, sw0, sw1, y: dataType;
+	signal w: signed(dataType'high + 1 downto 0);
 	signal a_int: aCoeffType;
 	signal b_int: bCoeffType;
 
@@ -63,7 +64,7 @@ begin
 	reg_sw0: reg
 		generic map (N => NB)
 		port map (
-			D => std_logic_vector(w),
+			D => std_logic_vector(resize(w, NB)),
 			clock => clk,
 			clear => regs_clr,
 			enable => reg_sw0_en,
@@ -97,7 +98,7 @@ begin
 	sw1_b2 <= multiplyAndRound(b_int(2), sw1);
 	fb <= sw0_a1 + sw1_a2;
 	ff <= sw0_b1 + sw1_b2;
-	w <= x - fb;
+	w <= resize(x, w'length) - resize(fb, w'length);
 	w_b0 <= multiplyAndRound(b_int(0), w);
 	y <= w_b0 + ff;
 	
