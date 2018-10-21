@@ -5,8 +5,6 @@ use ieee.numeric_std.all;
 library work;
 use work.filter_pkg.all;
 
-c
-
 entity iir_filterDP is
 	port (
 		-- from external world

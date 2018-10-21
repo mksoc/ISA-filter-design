@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 #define N 2   // order of the filter
 #define NB 12 // number of bits
@@ -46,6 +47,16 @@ int iir_filter(int x)
     for (i = N - 1; i > 0; i--)
         sw[i] = sw[i - 1];
     sw[0] = w;
+
+    // saturate in case of overflow
+    if (y > pow(2, NB-1) - 1)
+    {
+        y = pow(2, NB-1) - 1;
+    }
+    else if (y < - (pow(2, NB-1) - 1))
+    {
+        y = - (pow(2, NB-1) - 1);
+    }
 
     return y;
 }
