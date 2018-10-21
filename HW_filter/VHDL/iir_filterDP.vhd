@@ -107,9 +107,9 @@ begin
 	y <= resize(w_b0, y'length) + resize(ff, y'length);
 	sat_process: process(y)
 	begin
-		if not(y(y'high)) and y(y'high-1) then
+		if (to_integer(y) >  2**(NB - 1) - 1) then
 			y_out <= to_signed(2**(NB - 1) - 1, NB);
-		elsif y(y'high) and not(y(y'high-1)) then
+		elsif (to_integer(y) < 2**(NB - 1)) then
 			y_out <= to_signed(-2**(NB - 1), NB);
 		else
 			y_out <= resize(y, NB);
