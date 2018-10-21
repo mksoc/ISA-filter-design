@@ -102,5 +102,7 @@ begin
 	w <= resize(x, w'length) - resize(fb, w'length);
 	w_b0 <= multiplyAndRound(b_int(0), w);
 	y <= resize(w_b0, y'length) + resize(ff, y'length);
-	y_out <= resize(y, NB);
+	y_out <= to_signed(2**NB - 1, NB) when to_integer(y) > 2**NB - 1 else
+			 to_signed(-(2**NB - 1), NB) when to_integer(y) < -(2**NB - 1) else
+			 resize(y, NB); 
 end architecture behavior;
