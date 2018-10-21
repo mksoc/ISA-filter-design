@@ -109,7 +109,7 @@ begin
 	begin
 		if (to_integer(y) >  2**(NB - 1) - 1) then
 			y_out <= to_signed(2**(NB - 1) - 1, NB);
-		elsif (to_integer(y) < 2**(NB - 1)) then
+		elsif (to_integer(y) < -2**(NB - 1)) then
 			y_out <= to_signed(-2**(NB - 1), NB);
 		else
 			y_out <= resize(y, NB);
