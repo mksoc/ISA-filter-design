@@ -29,7 +29,6 @@ package body filter_pkg is
 		variable temp: signed((2*sample'length - 1) downto 0) := resize(coeff, sample'length) * sample;
 		variable result: dataType;
 	begin
-		-- result := temp((temp'high - 1) downto (temp'high - dataType'length));
 		result := resize(temp, dataType'length);
 		return result;
 	end function;
