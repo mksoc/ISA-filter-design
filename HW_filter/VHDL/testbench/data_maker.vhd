@@ -46,7 +46,7 @@ begin -- behavior
         -- for random pause generator
         variable seed1, seed2: positive;
         variable rand: real;
-        variable rand_range: real := 10;
+        variable rand_range: real := 10.0;
         variable pause: integer;
     begin -- process
         if reset_n = '0' then -- asynchronous reset (active low)
