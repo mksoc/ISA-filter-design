@@ -38,10 +38,11 @@ begin -- behavior
     b <= std_logic_vector(b_int(0)) & std_logic_vector(b_int(1)) & std_logic_vector(b_int(2));
     a <= std_logic_vector(a_int(1)) & std_logic_vector(a_int(2));
 
-    read_file: process (clock, reset_n)
-        file fp_in       : text open READ_MODE is "../common/samples.txt";
-        variable line_in : line;
-        variable x       : integer;
+    read_file: process
+        file fp_in          : text open READ_MODE is "../common/samples.txt";
+        variable line_in    : line;
+        variable line_count : positive := 0;
+        variable x          : integer;
     begin -- process
         if reset_n = '0' then -- asynchronous reset (active low)
             dOut    <= (others => '0') after tco;
@@ -51,6 +52,17 @@ begin -- behavior
             if not endfile(fp_in) then
                 readline(fp_in, line_in);
                 read(line_in, x);
+                line_count := line_count + 1;
+                
+                -- insert pauses
+                if line_count = 13 then
+                    wait_loop: for i in 0 to 3 loop
+                        wait until clock'event and clock = '1';
+                    end loop ; -- wait_loop 
+                elsif line_count = 99 then
+                    wait until clock'event and clock = '1';
+                end if ;
+
                 dOut    <= to_signed(x, dataType'length) after tco;
                 vOut    <= '1' after tco;
                 sEndSim <= '0' after tco;
@@ -59,6 +71,7 @@ begin -- behavior
                 sEndSim <= '1' after tco;
             end if;
         end if;
+        wait on clock, reset_n;
     end process;
 
     end_simulation: process (clock, reset_n)
