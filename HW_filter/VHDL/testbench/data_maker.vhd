@@ -2,6 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use ieee.std_logic_textio.all;
+use ieee.math_real.all;
 
 library std;
 use std.textio.all;
@@ -41,8 +42,12 @@ begin -- behavior
     read_file: process
         file fp_in          : text open READ_MODE is "../common/samples.txt";
         variable line_in    : line;
-        variable line_count : positive := 1;
         variable x          : integer;
+        -- for random pause generator
+        variable seed1, seed2: positive;
+        variable rand: real;
+        variable rand_range: real := 10;
+        variable pause: integer;
     begin -- process
         if reset_n = '0' then -- asynchronous reset (active low)
             dOut    <= (others => '0') after tco;
@@ -54,22 +59,12 @@ begin -- behavior
                 read(line_in, x);
                 
                 -- insert pauses
-                if line_count < 13 then
-                    vOut <= '0';
-                    for i in 1 to line_count loop
-                        wait until clock'event and clock = '1';
-                    end loop;
-                elsif line_count = 27 then
-                    vOut <= '0';
-                    for i in 0 to 3 loop
-                        wait until clock'event and clock = '1';
-                    end loop;
-                elsif line_count = 99 then
+                uniform(seed1, seed2, rand);
+                pause := integer(rand*rand_range);
+                wait_loop : for i in 0 to pause loop
                     vOut <= '0';
                     wait until clock'event and clock = '1';
-                end if;
-
-                line_count := line_count + 1;
+                end loop ; -- wait_loop
 
                 dOut    <= to_signed(x, dataType'length) after tco;
                 vOut    <= '1' after tco;
