@@ -53,16 +53,16 @@ begin -- behavior
                 readline(fp_in, line_in);
                 read(line_in, x);
                 
-                -- insert pauses
-                if line_count = 13 then
-                    vOut <= '0';
-                    wait_loop: for i in 0 to 3 loop
-                        wait until clock'event and clock = '1';
-                    end loop ; -- wait_loop 
-                elsif line_count = 99 then
-                    vOut <= '0';
-                    wait until clock'event and clock = '1';
-                end if ;
+                -- -- insert pauses
+                -- if line_count = 13 then
+                --     vOut <= '0';
+                --     wait_loop: for i in 0 to 3 loop
+                --         wait until clock'event and clock = '1';
+                --     end loop ; -- wait_loop 
+                -- elsif line_count = 99 then
+                --     vOut <= '0';
+                --     wait until clock'event and clock = '1';
+                -- end if ;
 
                 line_count := line_count + 1;
 
