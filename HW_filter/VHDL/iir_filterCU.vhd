@@ -14,7 +14,7 @@ entity iir_filterCU is
 end entity;
 
 architecture behavior of iir_filterCU is
-	type stateType is (RESET, IDLE, SAMPLE, PAUSE);
+	type stateType is (RESET, IDLE, FIRST_SAMPLE, SAMPLE, PAUSE);
 	signal presentState, nextState: stateType;
 
 begin
@@ -37,9 +37,16 @@ begin
 
                 when IDLE =>
                     if (vIn = '1') then
-                        nextState <= SAMPLE;
+                        nextState <= FIRST_SAMPLE;
                     else
                         nextState <= IDLE;
+                    end if;
+
+                when FIRST_SAMPLE =>
+                    if (vIn = '1') then
+                        nextState <= SAMPLE;
+                    else
+                        nextState <= PAUSE;
                     end if;
                     
                 when SAMPLE => 
@@ -75,6 +82,11 @@ begin
                     regs_clr <= '1';
 
                 when IDLE =>
+
+                when FIRST_SAMPLE => 
+                    reg_sw0_en <= '1';
+                    reg_sw1_en <= '1';
+                    reg_out_en <= '1';
                     
                 when SAMPLE => 
                     reg_sw0_en <= '1';
