@@ -14,7 +14,7 @@ entity iir_filterCU is
 end entity;
 
 architecture behavior of iir_filterCU is
-	type stateType is (RESET, IDLE, STEP_1, STEP_2A, STEP_2B);
+	type stateType is (RESET, IDLE, SAMPLE, PAUSE);
 	signal presentState, nextState: stateType;
 
 begin
@@ -37,28 +37,21 @@ begin
 
                 when IDLE =>
                     if (vIn = '1') then
-                        nextState <= STEP_1;
+                        nextState <= SAMPLE;
                     else
                         nextState <= IDLE;
                     end if;
                     
-                when STEP_1 => 
+                when SAMPLE => 
                     if (vIn = '1') then
-                        nextState <= STEP_2A;
+                        nextState <= SAMPLE;
                     else
-                        nextState <= STEP_2B;
+                        nextState <= PAUSE;
                     end if;       
                     
-                when STEP_2A =>
+                when PAUSE =>
                     if (vIn = '1') then
-                        nextState <= STEP_2A;
-                    else
-                        nextState <= STEP_2B;
-                    end if;  
-
-                when STEP_2B =>
-                    if (vIn = '1') then
-                        nextState <= STEP_1;
+                        nextState <= SAMPLE;
                     else
                         nextState <= IDLE;
                     end if;  
@@ -82,19 +75,14 @@ begin
                     regs_clr <= '1';
 
                 when IDLE =>
-
-                when STEP_1 => 
-                    reg_sw0_en <= '1';
-                    reg_out_en <= '1';
                     
-                when STEP_2A => 
+                when SAMPLE => 
                     reg_sw0_en <= '1';
                     reg_sw1_en <= '1';
                     reg_out_en <= '1';
                     vOut <= '1';
 
-                when STEP_2B => 
-                    reg_sw1_en <= '1';
+                when PAUSE => 
                     vOut <= '1';
 
             end case;

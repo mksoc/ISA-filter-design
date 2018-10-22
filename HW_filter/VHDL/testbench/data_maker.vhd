@@ -55,10 +55,12 @@ begin -- behavior
                 
                 -- insert pauses
                 if line_count = 13 then
+                    vOut <= '0';
                     wait_loop: for i in 0 to 3 loop
                         wait until clock'event and clock = '1';
                     end loop ; -- wait_loop 
                 elsif line_count = 99 then
+                    vOut <= '0';
                     wait until clock'event and clock = '1';
                 end if ;
 

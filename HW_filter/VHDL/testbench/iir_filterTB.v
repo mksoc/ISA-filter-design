@@ -51,7 +51,7 @@ module iir_filterTB ();
 
 	always @(end_sim_i) begin
 		if (end_sim_i == 1) begin
-			$stop(2);
+			$finish(2);
 		end
 	end
 
