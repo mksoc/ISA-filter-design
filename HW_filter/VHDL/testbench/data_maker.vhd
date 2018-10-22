@@ -41,7 +41,7 @@ begin -- behavior
     read_file: process
         file fp_in          : text open READ_MODE is "../common/samples.txt";
         variable line_in    : line;
-        variable line_count : positive := 0;
+        variable line_count : positive := 1;
         variable x          : integer;
     begin -- process
         if reset_n = '0' then -- asynchronous reset (active low)
@@ -52,7 +52,6 @@ begin -- behavior
             if not endfile(fp_in) then
                 readline(fp_in, line_in);
                 read(line_in, x);
-                line_count := line_count + 1;
                 
                 -- insert pauses
                 if line_count = 13 then
@@ -62,6 +61,8 @@ begin -- behavior
                 elsif line_count = 99 then
                     wait until clock'event and clock = '1';
                 end if ;
+
+                line_count := line_count + 1;
 
                 dOut    <= to_signed(x, dataType'length) after tco;
                 vOut    <= '1' after tco;
