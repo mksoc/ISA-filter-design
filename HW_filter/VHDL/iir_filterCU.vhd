@@ -58,7 +58,7 @@ begin
                     
                 when PAUSE =>
                     if (vIn = '1') then
-                        nextState <= SAMPLE;
+                        nextState <= FIRST_SAMPLE;
                     else
                         nextState <= IDLE;
                     end if;  
