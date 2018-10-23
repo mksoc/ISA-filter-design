@@ -1,0 +1,40 @@
+ 
+****************************************
+Report : power
+        -analysis_effort low
+Design : iir_filter
+Version: Z-2007.03-SP1
+Date   : Tue Oct 23 11:02:17 2018
+****************************************
+
+
+Library(s) Used:
+
+    NangateOpenCellLibrary (File: /software/dk/nangate45/synopsys/NangateOpenCellLibrary_typical_ecsm_nowlm.db)
+
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+Design        Wire Load Model            Library
+------------------------------------------------
+iir_filter             5K_hvratio_1_1    NangateOpenCellLibrary
+
+
+Global Operating Voltage = 1.1  
+Power-specific unit information :
+    Voltage Units = 1V
+    Capacitance Units = 1.000000ff
+    Time Units = 1ns
+    Dynamic Power Units = 1uW    (derived from V,C,T units)
+    Leakage Power Units = 1nW
+
+
+  Cell Internal Power  = 111.9068 uW   (69%)
+  Net Switching Power  =  50.8791 uW   (31%)
+                         ---------
+Total Dynamic Power    = 162.7859 uW  (100%)
+
+Cell Leakage Power     =  80.7218 uW
+
+1
