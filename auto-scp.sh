@@ -16,15 +16,17 @@ REMOTE_ROOT="/home/isa22/lab1"
 SRC_DIR="HW_filter/code/src"
 TB_DIR="HW_filter/code/tb"
 SIM_DIR="HW_filter/code/sim"
+NET_DIR="HW_filter/code/netlist"
 
 # print welcome message
 echo "This script provides automatic copy in three different ways:"
 echo "          LOCAL                           SERVER"
-echo "../HW_filter/code/src/*  ->      ../lab1/src/"
-echo "../HW_filter/code/tb/*   ->      ../lab1/tb/"
-echo "../HW_filter/code/sim/*  ->      ../lab1/sim/"  
-echo "../common/samples.txt    ->      ../lab1/common/" 
-echo "../common/               <-      ../lab1/common/results-hw.txt"
+echo "../HW_filter/code/src/*     ->      ../lab1/src/"
+echo "../HW_filter/code/tb/*      ->      ../lab1/tb/"
+echo "../HW_filter/code/sim/*     ->      ../lab1/sim/"  
+echo "../common/samples.txt       ->      ../lab1/common/" 
+echo "../common/                  <-      ../lab1/common/results-hw.txt"
+echo "../HW_filter/code/netlist/  <-      ../lab1/netlist/iir_filter.v"
 echo
 
 # create master SSH connection
@@ -38,6 +40,7 @@ echo "3) Copy testbench files to server"
 echo "4) Copy simulation files to server"
 echo "5) Copy samples to server"
 echo "6) Copy results from server"
+echo "7) Copy netlist from server"
 echo -n "Type the selected number and press enter (default = 1): "
 read opt
 case $opt in 
@@ -48,6 +51,7 @@ case $opt in
         scp -o ControlPath="$SSH_SOCKET" -P $PORT $SIM_DIR/*.tcl "$USER_HOST":"$REMOTE_ROOT"/sim
         scp -o ControlPath="$SSH_SOCKET" -P $PORT common/samples.txt "$USER_HOST":"$REMOTE_ROOT"/common
         scp -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/common/results-hw.txt common/
+        scp -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/netlist/*.v $NET_DIR
         echo "Done."
         echo
         ;;    
@@ -80,6 +84,12 @@ case $opt in
     6 | "Copy results from server")
         echo "Copying files..."
         scp -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/common/results-hw.txt common/
+        echo "Done."
+        echo
+        ;;
+    7 | "Copy netlist from server")
+        echo "Copying files..."
+        scp -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/netlist/*.v $NET_DIR
         echo "Done."
         echo
         ;;

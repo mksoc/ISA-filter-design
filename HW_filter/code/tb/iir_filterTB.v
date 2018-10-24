@@ -1,5 +1,3 @@
-// 10 us of simulation are enough
-
 //`timescale 1ns
 
 module iir_filterTB ();
