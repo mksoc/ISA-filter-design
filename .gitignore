@@ -11,6 +11,14 @@
 *.sof
 *.exe
 *.yaml
+*.wlf
+*.o 
+*.log
+*.lock
+*.tmp
+
+# Files
+transcript
 
 # Directories global
 **/db/
