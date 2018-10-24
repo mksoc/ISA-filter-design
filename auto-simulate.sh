@@ -33,7 +33,7 @@ cd ..
 scp -o ControlPath="$SSH_SOCKET" -P $PORT common/samples.txt "$USER_HOST":"$REMOTE_ROOT"/common
 
 echo "> Running simulation..."
-ssh -S "$SSH_SOCKET" -p $PORT "$USER_HOST" "cd lab1/sim && rm -r work && source /software/scripts/init_msim6.2g && vlib work && vsim -c -do sim-script.tcl no-gui"
+ssh -S "$SSH_SOCKET" -p $PORT "$USER_HOST" 'cd lab1/sim && rm -r work && source /software/scripts/init_msim6.2g && vlib work && export SIM_MODE="no-gui" && vsim -c -do sim-script.tcl'
 
 echo "> Copying results from server..."
 scp -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/common/results-hw.txt common/
