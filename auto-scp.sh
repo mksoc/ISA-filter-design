@@ -15,6 +15,7 @@ SSH_SOCKET=~/".ssh/$USER_HOST"
 REMOTE_ROOT="/home/isa22/lab1"
 SRC_DIR="HW_filter/code/src"
 TB_DIR="HW_filter/code/tb"
+SIM_DIR="HW_filter/code/sim"
 
 # print welcome message
 echo "This script provides automatic copy in three different ways:"
@@ -41,9 +42,8 @@ case $opt in
     1 | "Copy all bidirectional" | "")
         echo "Copying files..."
         scp -o ControlPath="$SSH_SOCKET" -P $PORT $SRC_DIR/* "$USER_HOST":"$REMOTE_ROOT"/src
-        scp -o ControlPath="$SSH_SOCKET" -P $PORT $TB_DIR/*.vhd "$USER_HOST":"$REMOTE_ROOT"/tb
-        scp -o ControlPath="$SSH_SOCKET" -P $PORT $TB_DIR/*.v "$USER_HOST":"$REMOTE_ROOT"/tb
-        scp -o ControlPath="$SSH_SOCKET" -P $PORT $TB_DIR/*.tcl "$USER_HOST":"$REMOTE_ROOT"/sim
+        scp -o ControlPath="$SSH_SOCKET" -P $PORT $TB_DIR/* "$USER_HOST":"$REMOTE_ROOT"/tb
+        scp -o ControlPath="$SSH_SOCKET" -P $PORT $SIM_DIR/* "$USER_HOST":"$REMOTE_ROOT"/sim
         scp -o ControlPath="$SSH_SOCKET" -P $PORT common/samples.txt "$USER_HOST":"$REMOTE_ROOT"/common
         scp -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/common/results-hw.txt common/
         echo "Done."
@@ -57,9 +57,8 @@ case $opt in
         ;;
     3 | "Copy testbench files to server")
         echo "Copying files..."
-        scp -o ControlPath="$SSH_SOCKET" -P $PORT $TB_DIR/*.vhd "$USER_HOST":"$REMOTE_ROOT"/tb
-        scp -o ControlPath="$SSH_SOCKET" -P $PORT $TB_DIR/*.v "$USER_HOST":"$REMOTE_ROOT"/tb
-        scp -o ControlPath="$SSH_SOCKET" -P $PORT $TB_DIR/*.tcl "$USER_HOST":"$REMOTE_ROOT"/sim
+        scp -o ControlPath="$SSH_SOCKET" -P $PORT $TB_DIR/* "$USER_HOST":"$REMOTE_ROOT"/tb
+        scp -o ControlPath="$SSH_SOCKET" -P $PORT $SIM_DIR/* "$USER_HOST":"$REMOTE_ROOT"/sim
         echo "Done."
         echo
         ;;
