@@ -45,7 +45,7 @@ case $opt in
         echo "Copying files..."
         scp -o ControlPath="$SSH_SOCKET" -P $PORT $SRC_DIR/* "$USER_HOST":"$REMOTE_ROOT"/src
         scp -o ControlPath="$SSH_SOCKET" -P $PORT $TB_DIR/* "$USER_HOST":"$REMOTE_ROOT"/tb
-        scp -o ControlPath="$SSH_SOCKET" -P $PORT $SIM_DIR/* "$USER_HOST":"$REMOTE_ROOT"/sim
+        scp -o ControlPath="$SSH_SOCKET" -P $PORT $SIM_DIR/*.tcl "$USER_HOST":"$REMOTE_ROOT"/sim
         scp -o ControlPath="$SSH_SOCKET" -P $PORT common/samples.txt "$USER_HOST":"$REMOTE_ROOT"/common
         scp -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/common/results-hw.txt common/
         echo "Done."
@@ -66,7 +66,8 @@ case $opt in
         ;;
     4 | "Copy simulation files to server")
         echo "Copying files..."
-        scp -o ControlPath="$SSH_SOCKET" -P $PORT $SIM_DIR/* "$USER_HOST":"$REMOTE_ROOT"/sim
+        scp -o ControlPath="$SSH_SOCKET" -P $PORT $SIM_DIR/*.tcl "$USER_HOST":"$REMOTE_ROOT"/sim
+        scp -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/sim/wave.do $SIM_DIR
         echo "Done."
         echo
         ;;    
