@@ -1,5 +1,9 @@
 # to be run inside /home/ida22/lab1/sim
-set sim_mode $env(SIM_MODE)
+if {[info exists env(SIM_MODE)]} {
+    set sim_mode $env(SIM_MODE)
+} else {
+    set sim_mode "gui"
+}
 
 if {$sim_mode == "no-gui"} {
     puts "Running in command line mode. No waveforms will be available."
