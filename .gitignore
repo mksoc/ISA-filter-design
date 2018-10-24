@@ -27,3 +27,6 @@ transcript
 **/simulation/
 **/.vscode/
 **/work/
+
+# Directories
+HW_filter/code/common/
