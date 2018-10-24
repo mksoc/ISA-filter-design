@@ -17,6 +17,9 @@ REMOTE_ROOT="/home/isa22/lab1"
 echo "> Running samples generator..."
 cd common
 python3 samples-generator.py 
+if [ "$?" -ne "0" ]; then
+    exit 1
+fi
 
 echo "> Renaming samples file..."
 cp py-samples.txt samples.txt
@@ -36,17 +39,17 @@ echo ">Select design to simulate:"
 echo "  1) Original architecture"
 echo "  2) Post-synthesis netlist"
 read $opt
+echo "> Running simulation..."
 case $opt in
     1)
-        DESIGN_VAR="arch"
+        ssh -S "$SSH_SOCKET" -p $PORT "$USER_HOST" 'cd lab1/sim && source /software/scripts/init_msim6.2g &&
+    export SIM_MODE="no-gui" && export SIM_DESIGN="arch" && vsim -c -do sim-script.tcl'
         ;;
     2) 
-        DESIGN_VAR="netlist"
+        ssh -S "$SSH_SOCKET" -p $PORT "$USER_HOST" 'cd lab1/sim && source /software/scripts/init_msim6.2g &&
+    export SIM_MODE="no-gui" && export SIM_DESIGN="netlist" && vsim -c -do sim-script.tcl'
         ;;
-
-echo "> Running simulation..."
-ssh -S "$SSH_SOCKET" -p $PORT "$USER_HOST" "cd lab1/sim && source /software/scripts/init_msim6.2g &&
-    export SIM_MODE="no-gui" && export SIM_DESIGN=$DESIGN_VAR && vsim -c -do sim-script.tcl"
+esac
 
 echo "> Copying results from server..."
 scp -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/common/results-hw.txt common/

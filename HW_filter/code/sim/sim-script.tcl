@@ -37,7 +37,6 @@ if {$sim_design == "arch"} {
     vsim -L /software/dk/nangate45/verilog/msim6.2g work.iir_filterTB
 }
 
-
 # restart simulation
 restart -force
 
