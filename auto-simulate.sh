@@ -32,8 +32,21 @@ echo "> Copying samples to server..."
 cd ..
 scp -o ControlPath="$SSH_SOCKET" -P $PORT common/samples.txt "$USER_HOST":"$REMOTE_ROOT"/common
 
+echo ">Select design to simulate:"
+echo "  1) Original architecture"
+echo "  2) Post-synthesis netlist"
+read $opt
+case $opt in
+    1)
+        DESIGN_VAR="arch"
+        ;;
+    2) 
+        DESIGN_VAR="netlist"
+        ;;
+
 echo "> Running simulation..."
-ssh -S "$SSH_SOCKET" -p $PORT "$USER_HOST" 'cd lab1/sim && rm -r work && source /software/scripts/init_msim6.2g && vlib work && export SIM_MODE="no-gui" && vsim -c -do sim-script.tcl'
+ssh -S "$SSH_SOCKET" -p $PORT "$USER_HOST" "cd lab1/sim && source /software/scripts/init_msim6.2g &&
+    export SIM_MODE="no-gui" && export SIM_DESIGN=$DESIGN_VAR && vsim -c -do sim-script.tcl"
 
 echo "> Copying results from server..."
 scp -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/common/results-hw.txt common/

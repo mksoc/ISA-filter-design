@@ -31,7 +31,12 @@ vcom -93 -work ./work ../tb/*.vhd
 vlog -work ./work ../tb/iir_filterTB.v
 
 # load design
-vsim work.iir_filterTB
+if {$sim_design == "arch"} {
+    vsim work.iir_filterTB
+} elseif {$sim_design == "netlist"} {
+    vsim -L /software/dk/nangate45/verilog/msim6.2g work.iir_filterTB
+}
+
 
 # restart simulation
 restart -force
