@@ -1,10 +1,6 @@
 //`timescale 1ns
 
 module iir_filterTB ();
-	initial begin
-	$read lib saif("../saif/NangateOpenCellLibrary.saif");
-	end
-
 	localparam NB = 12;
 
 	wire clk_i;
@@ -16,6 +12,10 @@ module iir_filterTB ();
    	wire [NB-1:0] dOut_i;
    	wire vOut_i;
    	wire end_sim_i;
+
+	initial begin
+		$read_lib_saif("../saif/NangateOpenCellLibrary.saif");
+	end
 
 	clk_gen CG (
 		.end_sim(end_sim_i),
