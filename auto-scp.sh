@@ -21,7 +21,8 @@ SIM_DIR="HW_filter/code/sim"
 echo "This script provides automatic copy in three different ways:"
 echo "          LOCAL                           SERVER"
 echo "../HW_filter/code/src/*  ->      ../lab1/src/"
-echo "../HW_filter/code/tb*    ->      ../lab1/tb/"
+echo "../HW_filter/code/tb/*   ->      ../lab1/tb/"
+echo "../HW_filter/code/sim/*  ->      ../lab1/sim/"  
 echo "../common/samples.txt    ->      ../lab1/common/" 
 echo "../common/               <-      ../lab1/common/results-hw.txt"
 echo
@@ -34,8 +35,9 @@ echo
 echo "1) Copy all bidirectional" 
 echo "2) Copy source files to server" 
 echo "3) Copy testbench files to server" 
-echo "4) Copy samples to server"
-echo "5) Copy results from server"
+echo "4) Copy simulation files to server"
+echo "5) Copy samples to server"
+echo "6) Copy results from server"
 echo -n "Type the selected number and press enter (default = 1): "
 read opt
 case $opt in 
@@ -62,13 +64,19 @@ case $opt in
         echo "Done."
         echo
         ;;
-    4 | "Copy samples to server")
+    4 | "Copy simulation files to server")
+        echo "Copying files..."
+        scp -o ControlPath="$SSH_SOCKET" -P $PORT $SIM_DIR/* "$USER_HOST":"$REMOTE_ROOT"/sim
+        echo "Done."
+        echo
+        ;;    
+    5 | "Copy samples to server")
         echo "Copying files..."
         scp -o ControlPath="$SSH_SOCKET" -P $PORT common/samples.txt "$USER_HOST":"$REMOTE_ROOT"/common
         echo "Done"
         echo
         ;;
-    5 | "Copy results from server")
+    6 | "Copy results from server")
         echo "Copying files..."
         scp -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/common/results-hw.txt common/
         echo "Done."
