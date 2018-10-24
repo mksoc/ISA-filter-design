@@ -13,12 +13,14 @@ USER_HOST="isa22@led-x3850-2.polito.it"
 PORT="10020"
 SSH_SOCKET=~/".ssh/$USER_HOST"
 REMOTE_ROOT="/home/isa22/lab1"
+SRC_DIR="HW_filter/code/src"
+TB_DIR="HW_filter/code/tb"
 
 # print welcome message
 echo "This script provides automatic copy in three different ways:"
 echo "          LOCAL                           SERVER"
-echo "../VHDL/*.vhd            ->      ../lab1/src/"
-echo "../VHDL/testbench/*      ->      ../lab1/tb/"
+echo "../HW_filter/code/src/*  ->      ../lab1/src/"
+echo "../HW_filter/code/tb*    ->      ../lab1/tb/"
 echo "../common/samples.txt    ->      ../lab1/common/" 
 echo "../common/               <-      ../lab1/common/results-hw.txt"
 echo
@@ -38,10 +40,10 @@ read opt
 case $opt in 
     1 | "Copy all bidirectional" | "")
         echo "Copying files..."
-        scp -o ControlPath="$SSH_SOCKET" -P $PORT HW_filter/VHDL/*.vhd "$USER_HOST":"$REMOTE_ROOT"/src
-        scp -o ControlPath="$SSH_SOCKET" -P $PORT HW_filter/VHDL/testbench/*.vhd "$USER_HOST":"$REMOTE_ROOT"/tb
-        scp -o ControlPath="$SSH_SOCKET" -P $PORT HW_filter/VHDL/testbench/*.v "$USER_HOST":"$REMOTE_ROOT"/tb
-        scp -o ControlPath="$SSH_SOCKET" -P $PORT HW_filter/VHDL/testbench/*.tcl "$USER_HOST":"$REMOTE_ROOT"/sim
+        scp -o ControlPath="$SSH_SOCKET" -P $PORT $SRC_DIR/* "$USER_HOST":"$REMOTE_ROOT"/src
+        scp -o ControlPath="$SSH_SOCKET" -P $PORT $TB_DIR/*.vhd "$USER_HOST":"$REMOTE_ROOT"/tb
+        scp -o ControlPath="$SSH_SOCKET" -P $PORT $TB_DIR/*.v "$USER_HOST":"$REMOTE_ROOT"/tb
+        scp -o ControlPath="$SSH_SOCKET" -P $PORT $TB_DIR/*.tcl "$USER_HOST":"$REMOTE_ROOT"/sim
         scp -o ControlPath="$SSH_SOCKET" -P $PORT common/samples.txt "$USER_HOST":"$REMOTE_ROOT"/common
         scp -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/common/results-hw.txt common/
         echo "Done."
@@ -49,15 +51,15 @@ case $opt in
         ;;    
     2 | "Copy source files to server")
         echo "Copying files..."
-        scp -o ControlPath="$SSH_SOCKET" -P $PORT HW_filter/VHDL/*.vhd "$USER_HOST":"$REMOTE_ROOT"/src
+        scp -o ControlPath="$SSH_SOCKET" -P $PORT $SRC_DIR/* "$USER_HOST":"$REMOTE_ROOT"/src
         echo "Done."
         echo
         ;;
     3 | "Copy testbench files to server")
         echo "Copying files..."
-        scp -o ControlPath="$SSH_SOCKET" -P $PORT HW_filter/VHDL/testbench/*.vhd "$USER_HOST":"$REMOTE_ROOT"/tb
-        scp -o ControlPath="$SSH_SOCKET" -P $PORT HW_filter/VHDL/testbench/*.v "$USER_HOST":"$REMOTE_ROOT"/tb
-        scp -o ControlPath="$SSH_SOCKET" -P $PORT HW_filter/VHDL/testbench/*.tcl "$USER_HOST":"$REMOTE_ROOT"/sim
+        scp -o ControlPath="$SSH_SOCKET" -P $PORT $TB_DIR/*.vhd "$USER_HOST":"$REMOTE_ROOT"/tb
+        scp -o ControlPath="$SSH_SOCKET" -P $PORT $TB_DIR/*.v "$USER_HOST":"$REMOTE_ROOT"/tb
+        scp -o ControlPath="$SSH_SOCKET" -P $PORT $TB_DIR/*.tcl "$USER_HOST":"$REMOTE_ROOT"/sim
         echo "Done."
         echo
         ;;
