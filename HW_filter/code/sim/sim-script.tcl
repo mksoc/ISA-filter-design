@@ -1,4 +1,5 @@
 # to be run inside /home/ida22/lab1/sim
+# to run in command line mode (eg. vsim -c), please first export the SIM_MODE env variable setting it to "no-gui"
 if {[info exists env(SIM_MODE)]} {
     set sim_mode $env(SIM_MODE)
 } else {
