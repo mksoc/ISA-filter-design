@@ -39,18 +39,27 @@ echo ">Select design to simulate:"
 echo "  1) Original architecture"
 echo "  2) Post-synthesis netlist"
 echo -n "Type the selected number and press enter: "
-read $opt
-echo "> Running simulation..."
+read opt
+DESIGN_VAR=""
 case $opt in
     1)
-        ssh -S "$SSH_SOCKET" -p $PORT "$USER_HOST" 'cd lab1/sim && source /software/scripts/init_msim6.2g &&
-    export SIM_MODE="no-gui" && export SIM_DESIGN="arch" && vsim -c -do sim-script.tcl'
+        DESIGN_VAR="arch"
         ;;
     2) 
-        ssh -S "$SSH_SOCKET" -p $PORT "$USER_HOST" 'cd lab1/sim && source /software/scripts/init_msim6.2g &&
-    export SIM_MODE="no-gui" && export SIM_DESIGN="netlist" && vsim -c -do sim-script.tcl'
+        DESIGN_VAR="netlist"
+        ;;
+    *)
         ;;
 esac
+
+echo "> Running simulation..."
+ssh -S "$SSH_SOCKET" -p $PORT "$USER_HOST" /bin/bash << EOF
+    cd lab1/sim
+    source /software/scripts/init_msim6.2g
+    export SIM_MODE="no-gui"
+    export SIM_DESIGN=${DESIGN_VAR}
+    vsim -c -do sim-script.tcl
+EOF
 
 echo "> Copying results from server..."
 scp -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/common/results-hw.txt common/
@@ -58,8 +67,8 @@ scp -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/common/res
 echo "> Closing connection..."
 ssh -S "$SSH_SOCKET" -O exit "$USER_HOST"
 
-echo "> Committing changes..."
-git commit -am "Updated samples and results"
+#echo "> Committing changes..."
+#git commit -am "Updated samples and results"
 
 echo "> Comparing results..."
 cd common
