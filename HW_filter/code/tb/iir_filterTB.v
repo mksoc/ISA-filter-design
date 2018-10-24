@@ -1,6 +1,10 @@
 //`timescale 1ns
 
 module iir_filterTB ();
+	initial begin
+	$read lib saif("../saif/NangateOpenCellLibrary.saif");
+	end
+
 	localparam NB = 12;
 
 	wire clk_i;
