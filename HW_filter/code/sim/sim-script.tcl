@@ -23,6 +23,7 @@ if {$sim_mode == "no-gui"} {
 if {$sim_design == "arch"} {
     vcom -93 -work ./work ../src/*.vhd
 } elseif {$sim_design == "netlist"} {
+    vcom -93 -work ./work ../src/filter_pkg.vhd
     vlog -work ./work ../netlist/*.v
 }
 
