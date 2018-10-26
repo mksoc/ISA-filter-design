@@ -12,7 +12,7 @@ esac
 USER_HOST="isa22@led-x3850-2.polito.it"
 PORT="10020"
 SSH_SOCKET=~/".ssh/$USER_HOST"
-REMOTE_ROOT="/home/isa22/lab1"
+REMOTE_ROOT="/home/isa22/lab1/marco"
 SRC_DIR="HW_filter/code/src"
 TB_DIR="HW_filter/code/tb"
 SIM_DIR="HW_filter/code/sim"

@@ -17,6 +17,7 @@
 *.lock
 *.tmp
 *.saif
+.*
 
 # Files
 transcript
