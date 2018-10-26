@@ -16,7 +16,7 @@ package filter_pkg is
 	component reg is
 		generic (N: positive := 8);
 		port (D: in std_logic_vector(N-1 downto 0);
-			  clock, clear, enable: in std_logic;
+			  clock, reset_n, enable: in std_logic;
 			  Q: out std_logic_vector(N-1 downto 0));
 	end component;
 

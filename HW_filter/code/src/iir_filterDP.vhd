@@ -8,7 +8,7 @@ use work.filter_pkg.all;
 entity iir_filterDP is
 	port (
 		-- from external world
-		clk: in std_logic;
+		clk, rst_n: in std_logic;
 		dIn: in dataType;
 		a: in aCoeffType;
 		b: in bCoeffType;
@@ -33,7 +33,7 @@ begin
 		port map (
 			D => std_logic_vector(dIn),
 			clock => clk,
-			clear => regs_clr,
+			reset_n => rst_n,
 			enable => reg_in_en,
 			signed(Q) => x
 		);
@@ -44,7 +44,7 @@ begin
 			port map (
 				D => std_logic_vector(a(i)),
 				clock => clk,
-				clear => regs_clr,
+				reset_n => rst_n,
 				enable => reg_coeff_en,
 				signed(Q) => a_int(i)
 			);
@@ -56,7 +56,7 @@ begin
 			port map (
 				D => std_logic_vector(b(i)),
 				clock => clk,
-				clear => regs_clr,
+				reset_n => rst_n,
 				enable => reg_coeff_en,
 				signed(Q) => b_int(i)
 			);
@@ -67,7 +67,7 @@ begin
 		port map (
 			D => std_logic_vector(w),
 			clock => clk,
-			clear => regs_clr,
+			reset_n => rst_n,
 			enable => reg_sw0_en,
 			signed(Q) => sw0
 		);
@@ -77,7 +77,7 @@ begin
 		port map (
 			D => std_logic_vector(sw0),
 			clock => clk,
-			clear => regs_clr,
+			reset_n => rst_n,
 			enable => reg_sw1_en,
 			signed(Q) => sw1
 		);
@@ -87,7 +87,7 @@ begin
 		port map (
 			D => std_logic_vector(y_out),
 			clock => clk,
-			clear => regs_clr,
+			reset_n => rst_n,
 			enable => reg_out_en,
 			signed(Q) => dOut
 		);
