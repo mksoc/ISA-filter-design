@@ -29,10 +29,10 @@ cp py-samples.txt samples.txt
 # ./iir_filter.exe ../common/samples.txt ../common/results-c.txt
 cd ../C_filter 
 if [ ! -x "$C_EX_NAME" ]; then 
-    echo "Compiling C model to \"$C_EX_NAME\"..."
+    echo "> Compiling C model to \"$C_EX_NAME\"..."
     g++ iir_filter.c -o "$C_EX_NAME"
 fi 
-echo "Running C model..."
+echo "> Running C model..."
 "$C_EX_NAME" ../common/samples.txt ../common/results-c.txt
 
 echo "> Connecting to server..."
