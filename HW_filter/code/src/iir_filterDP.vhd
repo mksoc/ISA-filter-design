@@ -34,7 +34,7 @@ begin
 			D => std_logic_vector(dIn),
 			clock => clk,
 			reset_n => rst_n,
-			enable => reg_in_en,
+			enable => input_regs_en,
 			signed(Q) => x
 		);
 
@@ -45,7 +45,7 @@ begin
 				D => std_logic_vector(a(i)),
 				clock => clk,
 				reset_n => rst_n,
-				enable => reg_coeff_en,
+				enable => input_regs_en,
 				signed(Q) => a_int(i)
 			);
 	end generate;
@@ -57,7 +57,7 @@ begin
 				D => std_logic_vector(b(i)),
 				clock => clk,
 				reset_n => rst_n,
-				enable => reg_coeff_en,
+				enable => input_regs_en,
 				signed(Q) => b_int(i)
 			);
 	end generate;
@@ -68,7 +68,7 @@ begin
 			D => std_logic_vector(w),
 			clock => clk,
 			reset_n => rst_n,
-			enable => reg_sw0_en,
+			enable => sw_out_regs_en,
 			signed(Q) => sw0
 		);
 
@@ -78,7 +78,7 @@ begin
 			D => std_logic_vector(sw0),
 			clock => clk,
 			reset_n => rst_n,
-			enable => reg_sw1_en,
+			enable => sw_out_regs_en,
 			signed(Q) => sw1
 		);
 
@@ -88,7 +88,7 @@ begin
 			D => std_logic_vector(y_out),
 			clock => clk,
 			reset_n => rst_n,
-			enable => reg_out_en,
+			enable => sw_out_regs_en,
 			signed(Q) => dOut
 		);
 
