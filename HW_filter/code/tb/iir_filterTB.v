@@ -13,9 +13,9 @@ module iir_filterTB ();
    	wire vOut_i;
    	wire end_sim_i;
 
-	initial begin
+	/*initial begin
 		$read_lib_saif("../saif/NangateOpenCellLibrary.saif");
-	end
+	end*/
 
 	clk_gen CG (
 		.end_sim(end_sim_i),

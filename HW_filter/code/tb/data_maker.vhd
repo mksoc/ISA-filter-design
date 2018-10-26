@@ -28,7 +28,6 @@ architecture behavior of data_maker is
     signal a_int: aCoeffType;
 
     constant tco       : time := 1 ns;
-    constant insert_pause: boolean := false;
 
     signal sEndSim     : std_logic;
     signal end_sim_int : std_logic_vector(0 to 10);
@@ -60,7 +59,7 @@ begin -- behavior
                 read(line_in, x);
                 
                 -- insert pauses
-                if (insert_pause = true) then
+                if insert_pause then
                     uniform(seed1, seed2, rand);
                     pause := integer(rand*rand_range);
                     wait_loop : for i in 0 to pause loop

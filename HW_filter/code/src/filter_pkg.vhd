@@ -6,6 +6,7 @@ package filter_pkg is
 	-- constant declarations
 	constant NB : natural := 12; -- number of bits of data
 	constant N : positive := 3; -- filter order
+	constant insert_pause: boolean := false;
 
 	-- types declarations
 	subtype dataType is signed(NB-1 downto 0);
