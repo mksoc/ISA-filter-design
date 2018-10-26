@@ -14,7 +14,7 @@ entity iir_filterDP is
 		b: in bCoeffType;
 		dOut: out dataType;
 		-- controls from CU
-		regs_clr, reg_in_en, reg_coeff_en, reg_sw0_en, reg_sw1_en, reg_out_en: in std_logic
+		input_regs_en, sw_out_regs_en: in std_logic
 	);
 end entity;
 
