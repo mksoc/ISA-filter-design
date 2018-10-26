@@ -34,4 +34,9 @@ compile > ./compile-log.txt
 report_timing > timing-report.txt
 report_area > area-report.txt
 
-quit
+# generate netlist and contraints files
+ungroup -all -flatten
+change_names -hierarchy -rules verilog
+write_sdf ../netlist/iir_filter.sdf
+write -f verilog -hierarchy -output ../netlist/iir_filter.v
+write_sdc ../netlist/iir_filter.sdc
