@@ -74,9 +74,6 @@ scp -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/common/res
 echo "> Closing connection..."
 ssh -S "$SSH_SOCKET" -O exit "$USER_HOST"
 
-#echo "> Committing changes..."
-#git commit -am "Updated samples and results"
-
 echo "> Comparing results..."
 cd common
 python3 compare-outputs.py results-c.txt results-hw.txt

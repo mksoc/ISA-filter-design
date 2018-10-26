@@ -1,3 +1,4 @@
+#! /usr/bin/python3
 import sys
 
 # check if both files are given as arguments
@@ -38,7 +39,7 @@ for i in range(length):
 print('=============================================')
 print('Comparison completed.')
 print('Total matches: {:.0f}/{:.0f} ({:.1f}%)'.format(matchCounter,
-                                                      length, 100*matchCounter/length))
+                                                                        length, 100*matchCounter/length))
 if matchCounter == length:
     print('Yeeeeee!!!')
 else:
