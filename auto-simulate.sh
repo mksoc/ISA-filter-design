@@ -13,6 +13,7 @@ USER_HOST="isa22@led-x3850-2.polito.it"
 PORT="10020"
 SSH_SOCKET=~/".ssh/$USER_HOST"
 REMOTE_ROOT="/home/isa22/lab1"
+C_EX_NAME="./irr_filter.exe"
 
 echo "> Running samples generator..."
 cd common
@@ -24,9 +25,15 @@ fi
 echo "> Renaming samples file..."
 cp py-samples.txt samples.txt
 
-echo "> Running C model..."
-cd ../C_filter
-./iir_filter.exe ../common/samples.txt ../common/results-c.txt
+# echo "> Running C model..."
+# ./iir_filter.exe ../common/samples.txt ../common/results-c.txt
+cd ../C_filter 
+if [ ! -x "$C_EX_NAME" ]; then 
+    echo "Compiling C model to \"$C_EX_NAME\"..."
+    g++ iir_filter.c -o "$C_EX_NAME"
+fi 
+echo "Running C model..."
+"$C_EX_NAME" ../common/samples.txt ../common/results-c.txt
 
 echo "> Connecting to server..."
 ssh -M -f -N -o ControlPath="$SSH_SOCKET" -p $PORT "$USER_HOST"
