@@ -1,5 +1,3 @@
-//`timescale 1ns
-
 module iir_filterTB ();
 	localparam NB = 12;
 
@@ -14,7 +12,13 @@ module iir_filterTB ();
    	wire end_sim_i;
 
 	initial begin
-		$read_lib_saif("../../saif/NangateOpenCellLibrary.saif");
+		`ifdef SYN
+			// read saif file
+			$read_lib_saif("../saif/NangateOpenCellLibrary.saif");
+			$set_gate_level_monitoring("on");
+			$set_toggle_region(UUT);
+			$toggle_start;
+		`endif
 	end
 
 	clk_gen CG (
@@ -52,7 +56,11 @@ module iir_filterTB ();
 	);
 
 	always @(end_sim_i) begin
-		if (end_sim_i == 1) begin
+		if (end_sim_i) begin
+			`ifdef SYN
+				$toggle_stop;
+				$toggle_report("../saif/iir_filter_back.saif", 1.0e-9, "iir_filterTB.UUT");
+			`endif
 			$stop(2);
 		end
 	end
