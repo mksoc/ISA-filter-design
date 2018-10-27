@@ -34,9 +34,17 @@ compile > ./compile-log.txt
 report_timing > timing-report.txt
 report_area > area-report.txt
 
-# generate netlist and contraints files
+# flatten hierarchy
 ungroup -all -flatten
+
+# setup Verilog name rules
 change_names -hierarchy -rules verilog
+
+# export netlist delay file
 write_sdf ../netlist/iir_filter.sdf
+
+# export netlist file
 write -f verilog -hierarchy -output ../netlist/iir_filter.v
+
+# export Synopsys Design Constraints file
 write_sdc ../netlist/iir_filter.sdc
