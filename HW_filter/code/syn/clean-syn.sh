@@ -4,4 +4,3 @@ rm -r *
 mkdir work
 mv ../tmp-bak/* ../tmp-bak/.* .
 rm -r ../tmp-bak
-mkdir reports && mv *report.txt reports/ 

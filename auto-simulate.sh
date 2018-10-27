@@ -12,8 +12,8 @@ esac
 USER_HOST="isa22@led-x3850-2.polito.it"
 PORT="10020"
 SSH_SOCKET=~/".ssh/$USER_HOST"
-REMOTE_ROOT="/home/isa22/lab1/marco"
-C_EX_NAME="./irr_filter.exe"
+REMOTE_ROOT="/home/isa22/lab1"
+C_EX_NAME="./iir_filter.exe"
 
 echo "> Running samples generator..."
 cd common
