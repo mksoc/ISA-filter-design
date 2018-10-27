@@ -1,10 +1,13 @@
+Information: Updating design information... (UID-85)
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+Warning: There is no defined clock in the design. (PWR-80)
  
 ****************************************
 Report : power
         -analysis_effort low
 Design : iir_filter
 Version: Z-2007.03-SP1
-Date   : Tue Oct 23 11:02:17 2018
+Date   : Sat Oct 27 15:33:13 2018
 ****************************************
 
 
@@ -30,11 +33,11 @@ Power-specific unit information :
     Leakage Power Units = 1nW
 
 
-  Cell Internal Power  = 111.9068 uW   (69%)
-  Net Switching Power  =  50.8791 uW   (31%)
+  Cell Internal Power  = 317.8496 uW   (60%)
+  Net Switching Power  = 209.3343 uW   (40%)
                          ---------
-Total Dynamic Power    = 162.7859 uW  (100%)
+Total Dynamic Power    = 527.1840 uW  (100%)
 
-Cell Leakage Power     =  80.7218 uW
+Cell Leakage Power     =  81.5563 uW
 
 1
