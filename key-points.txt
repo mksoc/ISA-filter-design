@@ -8,3 +8,4 @@ Simulation:
 
 Synthesis:
 - had to remove async resets from CU, connect rst_n directly to register and keep only IDLE state
+- fmax = 357.14 MHz
