@@ -17,8 +17,8 @@ elaborate iir_filter -arch structure -lib WORK > ./elaborate-log.txt
 uniquify
 link
 
-# create symbolic clock signal (period = 0 to find maximum frequency)
-create_clock -name CLOCK -period 0 clk
+# create symbolic clock signal (period = 11.2 ns)
+create_clock -name CLOCK -period 11.2 clk
 set_dont_touch_network CLOCK
 set_clock_uncertainty 0.07 [get_clocks CLOCK]
 

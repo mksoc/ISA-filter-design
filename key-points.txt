@@ -8,4 +8,5 @@ Simulation:
 
 Synthesis:
 - had to remove async resets from CU, connect rst_n directly to register and keep only IDLE state
-- fmax = 357.14 MHz
+- fmax = 357.14 MHz, area = 4742.51
+- With f = 89.28 MHz, area = 3932.81
