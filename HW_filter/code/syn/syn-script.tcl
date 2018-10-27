@@ -1,9 +1,12 @@
 # to be run inside /home/isa22/lab1/syn
 # compile the needed project files
 set dir "../src"
+analyze -f vhdl -lib WORK $dir/filter_pkg.vhd
 set source_files [glob -directory $dir *.vhd]
 foreach item $source_files {
-    analyze -f vhdl -lib WORK $item
+    if {$item != "$dir/filter_pkg.vhd"} {
+        analyze -f vhdl -lib WORK $item
+    }    
 } 
 
 # preserve RTL names
@@ -14,8 +17,8 @@ elaborate iir_filter -arch structure -lib WORK > ./elaborate-log.txt
 uniquify
 link
 
-# create symbolic clock signal
-create_clock -name CLOCK -period 10.0 clk
+# create symbolic clock signal (period = 0 to find maximum frequency)
+create_clock -name CLOCK -period 0 clk
 set_dont_touch_network CLOCK
 set_clock_uncertainty 0.07 [get_clocks CLOCK]
 
