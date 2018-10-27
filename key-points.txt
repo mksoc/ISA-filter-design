@@ -1,0 +1,10 @@
+Basic architecture:
+- package to define constant, data types and functions
+- parallelism due to addition overflow, but only +1 bit for our coefficients
+- saturation of output result, which overflowed in some cases (modified C model)
+
+Simulation:
+- random pauses inside testbench
+
+Synthesis:
+- had to remove async resets from CU, connect rst_n directly to register and keep only IDLE state
