@@ -12,7 +12,7 @@ esac
 USER_HOST="isa22@led-x3850-2.polito.it"
 PORT="10020"
 SSH_SOCKET=~/".ssh/$USER_HOST"
-REMOTE_ROOT="/home/isa22/lab1"
+REMOTE_ROOT="/home/isa22/lab1/marco"
 C_EX_NAME="./irr_filter.exe"
 
 echo "> Running samples generator..."
@@ -26,7 +26,6 @@ echo "> Renaming samples file..."
 cp py-samples.txt samples.txt
 
 # echo "> Running C model..."
-# ./iir_filter.exe ../common/samples.txt ../common/results-c.txt
 cd ../C_filter 
 if [ ! -x "$C_EX_NAME" ]; then 
     echo "> Compiling C model to \"$C_EX_NAME\"..."
@@ -61,7 +60,7 @@ esac
 
 echo "> Running simulation..."
 ssh -S "$SSH_SOCKET" -p $PORT "$USER_HOST" /bin/bash << EOF
-    cd lab1/sim
+    cd ${REMOTE_ROOT}/sim
     source /software/scripts/init_msim6.2g
     export SIM_MODE="no-gui"
     export SIM_DESIGN=${DESIGN_VAR}

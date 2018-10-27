@@ -34,8 +34,8 @@ set $OLOAD [all_outputs]
 compile > ./compile-log.txt
 
 # save results
-report_timing > timing-report.txt
-report_area > area-report.txt
+report_timing > ./reports/timing-report.txt
+report_area > ./reports/area-report.txt
 
 # flatten hierarchy
 ungroup -all -flatten
