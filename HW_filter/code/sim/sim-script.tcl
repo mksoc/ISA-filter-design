@@ -29,20 +29,28 @@ if {$sim_design == "arch"} {
 
 # compile testbench 
 vcom -93 -work ./work ../tb/*.vhd
-vlog -work ./work ../tb/iir_filterTB.v
+if {$sim_design == "arch"} {
+    vlog -work ./work ../tb/iir_filterTB.v
+} elseif {$sim_design == "netlist"} {
+    vlog -work ./work +define+SYN=1 ../tb/iir_filterTB.v
+}
+
 
 # load design
 if {$sim_design == "arch"} {
     vsim work.iir_filterTB
-} elseif {$sim_design == "netlist"} {
-    vsim -L /software/dk/nangate45/verilog/msim6.2g work.iir_filterTB
+} elseif {$sim_design == "netlist"} { 
+    vsim -L /software/dk/nangate45/verilog/msim6.2g \
+            -sdftyp /iir_filterTB/UUT=../netlist/iir_filter.sdf \
+            -pli /software/synopsys/syn_current/auxx/syn/power/vpower/lib-linux/libvpower.so \
+            work.iir_filterTB
 }
 
 # restart simulation
 restart -force
 
-if {$sim_mode != "no-gui"} {
-    # load waves (black box signals, internal lines)
+if {$sim_mode == "gui"} {
+    # load waves
     do ./wave.do
 }
 

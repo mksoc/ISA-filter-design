@@ -12,7 +12,7 @@ add wave -noupdate -divider {Internal signals}
 add wave -noupdate -itemcolor Orange -label PS -radix ascii /iir_filterTB/UUT/CU/presentState
 add wave -noupdate -itemcolor Gold -label input_regs_en /iir_filterTB/UUT/CU/input_regs_en
 add wave -noupdate -label x -radix decimal /iir_filterTB/UUT/DP/x
-add wave -noupdate -label a_int -radix decimal -childformat {{/iir_filterTB/UUT/DP/a_int(1) -radix decimal} {/iir_filterTB/UUT/DP/a_int(2) -radix decimal}} -subitemconfig {/iir_filterTB/UUT/DP/a_int(1) {-radix decimal} /iir_filterTB/UUT/DP/a_int(2) {-radix decimal}} /iir_filterTB/UUT/DP/a_int
+add wave -noupdate -label a_int -radix decimal /iir_filterTB/UUT/DP/a_int
 add wave -noupdate -label b_int -radix decimal /iir_filterTB/UUT/DP/b_int
 add wave -noupdate -itemcolor Gold -label sw_out_regs_en /iir_filterTB/UUT/CU/sw_out_regs_en
 add wave -noupdate -label sw0_a1 -radix decimal /iir_filterTB/UUT/DP/sw0_a1
@@ -29,7 +29,6 @@ add wave -noupdate -label y -radix decimal /iir_filterTB/UUT/DP/y
 add wave -noupdate -label y_out -radix decimal /iir_filterTB/UUT/DP/y_out
 TreeUpdate [SetDefaultTree]
 WaveRestoreCursors {{Cursor 1} {0 ps} 0}
-quietly wave cursor active 0
 configure wave -namecolwidth 395
 configure wave -valuecolwidth 100
 configure wave -justifyvalue left
@@ -42,6 +41,5 @@ configure wave -gridoffset 0
 configure wave -gridperiod 1
 configure wave -griddelta 40
 configure wave -timeline 0
-configure wave -timelineunits ns
 update
 WaveRestoreZoom {0 ps} {250 ns}
