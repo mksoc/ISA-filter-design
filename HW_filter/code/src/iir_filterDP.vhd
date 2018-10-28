@@ -24,7 +24,8 @@ architecture behavior of iir_filterDP is
 	signal fb, ff, w, sw0, sw1, y: signed(dataType'high + 1 downto 0);
 	signal a_int: aCoeffType;
 	signal b_int: bCoeffType;
-	signal overflow, underflow: std_logic;
+	signal coeff_ret0, coeff_pipe2: signed(20 downto 0);
+	signal coeff_ret1, coeff_pipe1, coeff_pipe3: signed(19 downto 0);
 
 begin
 	-- component instantiations
@@ -93,6 +94,12 @@ begin
 		);
 
 	-- signal assignments 
+	coeff_ret0 <= resize(a_int(1)*a_int(1) - a_int(2), coeff_ret0'length);
+	coeff_ret1 <= resize(a_int(1)*a_int(2), coeff_ret1'length);
+	coeff_pipe1 <= resize(b_int(1) - a_int(1)*b_int(0), coeff_pipe1'length);
+	coeff_pipe2 <= resize(b_int(2) - a_int(1)*b_int(2), coeff_pipe2'length);
+	coeff_pipe3 <= resize(- a_int(1)*b_int(2), coeff_pipe3'length);
+
 	sw0_a1 <= multiplyAndRound(a_int(1), sw0);
 	sw1_a2 <= multiplyAndRound(a_int(2), sw1);
 	sw0_b1 <= multiplyAndRound(b_int(1), sw0);
