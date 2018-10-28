@@ -22,6 +22,7 @@ auto-scp.sh
 auto-simulate.sh
 - Questo è un po' più complicato e serve per automatizzare la simulazione del filtro con Modelsim, permettendo di scegliere tra i vari step (VHDL base, 
     netlist post sintesi e netlist post place&route)
+- Per impostare la cartella c'è la stessa variabile REMOTE_ROOT come prima
 - Innanzitutto chiama un altro script (samples-generator.py, si trova in common) che permette di generare samples casuali oppure speciali (massimo, minimo e 0 
     soltanto). Un menu chiede di scegliere che tipo di sample si vogliono e quanti.
 - Quindi genera il file samples.txt, ci fa girare il modello C sopra e genera quindi results-c.txt (tutti nella cartella common)
