@@ -1,4 +1,9 @@
 #!/bin/bash
+# set whichever folder is the one containing src, tb, sim, syn... which you want to work on
+# MIND THAT THERE'S NO "/" AT THE END OF THE PATH!!
+# E.g. /home/isa22/lab1 or /home/isa22/lab1/marco or /home/isa22/lab1/pippo ...
+REMOTE_ROOT="/home/isa22/lab1" 
+
 # check if the script is run inside ../ISA-filter-design
 case "$PWD" in
     *ISA-filter-design );;
@@ -12,7 +17,6 @@ esac
 USER_HOST="isa22@led-x3850-2.polito.it"
 PORT="10020"
 SSH_SOCKET=~/".ssh/$USER_HOST"
-REMOTE_ROOT="/home/isa22/lab1/marco"
 SRC_DIR="HW_filter/code/src"
 TB_DIR="HW_filter/code/tb"
 SIM_DIR="HW_filter/code/sim"

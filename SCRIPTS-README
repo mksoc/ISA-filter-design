@@ -1,0 +1,54 @@
+L'IDEA BASE PRINCIPALE CONSISTE NEL MODIFICARE TUTTI I FILE SORGENTE/SCRIPT/STICAZZI OGNUNO SUL PROPRIO PC, COL PROPRIO EDITOR DI FIDUCIA 
+E NELLE CARTELLE DELLA REPOSITORY. POI QUELLO CHE SERVE PER USARE I TOOL SI COPIA SUL SERVER E I RISPETTIVI RISULTATI/NETLIST/REPORTS SI COPIANO 
+DAL SERVER DENTRO IL NOSTRO PC LOCALE NELLA REPOSITORY. PER AIUTARE A QUESTO PROPOSITO, HO FATTO DEGLI SCRIPT:
+
+auto-scp.sh
+- Si trova nella root della repository e permette di automatizzare la copia SUL server dei file sorgente/testbench/script di simulazione/sintesi 
+    e la copia DAL server dei risultati/netlist/ecc. 
+- Si basa sul presupposto che la struttura delle cartelle sul server sia quella consigliata (src, tb, sim, syn...) e che tutte queste siano dentro una 
+    cartella comune, che può essere lab1 oppure una col nostro nome quando lavoriamo separatamente (questa cartella si può impostare dentro
+    lo script nella variabile "REMOTE_ROOT" che trovate all'inizio del file)
+- Deve essere runnato nella root della repository perchè usa i percorsi relativi a partire dalla cartella ISA-filter-design (se non viene FATTO
+    girare lì dà un messaggio di errore)
+- Permette di scegliere cosa copiare all'inizio (ci sono i percorsi con le direzioni di copia) scegliendo il numero dal menu
+- Usa secure copy (scp) via SSH chiedendo di mettere la password del server una volta sola
+- In pratica io modifico con il mio editor in locale e tengo sempre un terminale pronto a lanciare quello script quando devo copiare dei file sul server
+- Questo script non copre tutti i casi possibili di file che ci servono (ovviamente), però siete liberi di modificarlo per aggiungere roba,
+    oppure di copiare file che non sono previsti in modo manuale (con scp, FileZilla ecc), però cercando di tenere sempre la repository il luogo aggiornato 
+    e il server solo un mirror di quello che c'è nella repository
+- Non voglio imporre l'uso di questi script o di questo flusso di lavoro a nessuno, però visto che abbiamo deciso di usare git mi sembra il metodo più intelligente
+    per tenere sempre tutto sincronizzato per essere sicuri che in un dato posto ci siano i file più recenti senza dover andare a pescare da altre partire
+
+auto-simulate.sh
+- Questo è un po' più complicato e serve per automatizzare la simulazione del filtro con Modelsim, permettendo di scegliere tra i vari step (VHDL base, 
+    netlist post sintesi e netlist post place&route)
+- Innanzitutto chiama un altro script (samples-generator.py, si trova in common) che permette di generare samples casuali oppure speciali (massimo, minimo e 0 
+    soltanto). Un menu chiede di scegliere che tipo di sample si vogliono e quanti.
+- Quindi genera il file samples.txt, ci fa girare il modello C sopra e genera quindi results-c.txt (tutti nella cartella common)
+- Poi usa lo script di prima per copiare samples.txt sul server
+- Quindi chiede di scegliere quale architettura si vuole simulare e fa partire Modelsim con quella simulazione (sim-script.tcl)
+- Poi prende results-hw.txt dal server e lo copia in common
+- Infine lancia l'ultimo script (compare-outputs.py) che confronta results-c.txt e results-hw.txt e dice quanti errori e quanti off-by-one ci sono stati
+
+DI SEGUITO CI SONO ALTRI SCRIPT CHE SONO UTILIZZATI DA QUESTI DUE PRINCIPALI, MA CHE SONO UTILI ANCHE DA USARE STANDALONE:
+common/samples-generator.py
+- Come spiegato prima genera campioni casuali (o non) per la simulazione e chiede quanti ne vogliamo
+
+common/compare-outputs.py
+- Confronta due file che vanno passati come argomenti da linea di comando (se viene lanciato in modo errato, stampa un messaggio che spiega come usarlo)
+
+HW_filter/code/sim/sim-script.tcl
+- Classico script di simulazione per Modelsim che compila tutti i file sorgente e il testbench e lancia la simulazione
+- L'unica cosa da notare è che permette di fare due scelte (per ora): scegliere se lanciare Modelsim con l'interfaccia grafica (utile per debuggare 
+    con le wave), oppure senza interfaccia solo da linea di comando (utile per simulare e basta ed è la modalità usata in auto-simulate.sh); scegliere
+    quale architettura simulare
+- Entrambe queste scelte vanno impostate con variabili d'ambiente in Linux perchè avevo provato ad usare argomenti da linea di comando per lo script,
+    ma il problema è che vengono interpretati come argomenti del comando 'vsim' e non di 'sim-script.tcl' quindi non funziona.
+- Per scegliere la modalità, la variabile è SIM_MODE, che può valere "gui" (default) o "no-gui". Per impostarla, prima di lanciare la simulazione bisogna fare
+    export SIM_MODE="gui/no-gui" a seconda della scelta. Se non si imposta la variabile vale il default. auto-simulate.sh la imposta da solo in base alla scelta 
+    dal menu.
+- Per scegliere l'architettura vale la stessa procedura, ma la variabile è SIM_DESIGN che può valere "arch" (VHDL base, default), "netlist" (post sintesi), oppure
+    "postpr" (post place&route)
+
+HW_filter/code/syn/syn-script.tcl e HW_filter/code/syn/power-script.tcl
+- Semplicemente raccolgono i comandi per la sintesi e il power report (la seconda va lanciata solo dopo aver estratto la switching activity con Modelsim)
