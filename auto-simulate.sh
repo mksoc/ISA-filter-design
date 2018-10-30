@@ -48,6 +48,7 @@ scp -o ControlPath="$SSH_SOCKET" -P $PORT common/samples.txt "$USER_HOST":"$REMO
 echo ">Select design to simulate:"
 echo "  1) Original architecture"
 echo "  2) Post-synthesis netlist"
+echo "  3) Post-place and route netlist"
 echo -n "Type the selected number and press enter: "
 read opt
 DESIGN_VAR=""
@@ -56,7 +57,10 @@ case $opt in
         DESIGN_VAR="arch"
         ;;
     2) 
-        DESIGN_VAR="netlist"
+        DESIGN_VAR="postsyn"
+        ;;
+    3) 
+        DESIGN_VAR="postpr"
         ;;
     *)
         ;;

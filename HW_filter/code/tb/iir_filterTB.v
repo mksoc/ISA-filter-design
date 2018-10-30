@@ -11,15 +11,17 @@ module iir_filterTB ();
    	wire vOut_i;
    	wire end_sim_i;
 
-	initial begin
-		`ifdef SYN
+	// this initial block is needed only for the post-synthesis simulation,
+	// not for the basic architercure or the post P&R simulation
+	`ifdef SYN
+		initial begin		
 			// read saif file
 			$read_lib_saif("../saif/NangateOpenCellLibrary.saif");
 			$set_gate_level_monitoring("on");
 			$set_toggle_region(UUT);
-			$toggle_start;
-		`endif
-	end
+			$toggle_start;		
+		end
+	`endif
 
 	clk_gen CG (
 		.end_sim(end_sim_i),
@@ -57,6 +59,8 @@ module iir_filterTB ();
 
 	always @(end_sim_i) begin
 		if (end_sim_i) begin
+			// this initial block is needed only for the post-synthesis simulation,
+			// not for the basic architercure or the post P&R simulation
 			`ifdef SYN
 				$toggle_stop;
 				$toggle_report("../saif/iir_filter_back.saif", 1.0e-9, "iir_filterTB.UUT");

@@ -48,7 +48,7 @@ HW_filter/code/sim/sim-script.tcl
 - Per scegliere la modalità, la variabile è SIM_MODE, che può valere "gui" (default) o "no-gui". Per impostarla, prima di lanciare la simulazione bisogna fare
     export SIM_MODE="gui/no-gui" a seconda della scelta. Se non si imposta la variabile vale il default. auto-simulate.sh la imposta da solo in base alla scelta 
     dal menu.
-- Per scegliere l'architettura vale la stessa procedura, ma la variabile è SIM_DESIGN che può valere "arch" (VHDL base, default), "netlist" (post sintesi), oppure
+- Per scegliere l'architettura vale la stessa procedura, ma la variabile è SIM_DESIGN che può valere "arch" (VHDL base, default), "postsyn" (post sintesi), oppure
     "postpr" (post place&route)
 
 HW_filter/code/syn/syn-script.tcl e HW_filter/code/syn/power-script.tcl
