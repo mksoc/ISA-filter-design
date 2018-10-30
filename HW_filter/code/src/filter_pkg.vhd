@@ -22,15 +22,15 @@ package filter_pkg is
 	end component;
 
 	-- functions declarations
-	function multiplyAndRound(coeff: dataType; sample: signed) return dataType;
+	function multiplyAndRound(coeff: signed; sample: signed) return signed;
 end package filter_pkg;
 
 package body filter_pkg is
-	function multiplyAndRound(coeff: dataType; sample: signed) return dataType is
+	function multiplyAndRound(coeff: signed; sample: signed) return signed is
 		variable temp: signed((2*sample'length - 1) downto 0) := resize(coeff, sample'length) * sample;
-		variable result: dataType;
+		variable result: signed(coeff'range);
 	begin
-		result := resize(shift_right(temp, NB - 1), dataType'length);
+		result := resize(shift_right(temp, temp'length - result'length - 1), result'length);
 		return result;
 	end function;
 end package body filter_pkg;

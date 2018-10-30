@@ -14,7 +14,7 @@ entity iir_filterDP is
 		b: in bCoeffType;
 		dOut: out dataType;
 		-- controls from CU
-		input_regs_en, regs_en: in std_logic
+		input_regs_en, sw_out_regs_en: in std_logic
 	);
 end entity;
 
@@ -71,7 +71,7 @@ begin
 			D => std_logic_vector(w),
 			clock => clk,
 			reset_n => rst_n,
-			enable => regs_en,
+			enable => sw_out_regs_en,
 			signed(Q) => sw0
 		);
 	reg_sw1: reg
@@ -80,7 +80,7 @@ begin
 			D => std_logic_vector(sw0),
 			clock => clk,
 			reset_n => rst_n,
-			enable => regs_en,
+			enable => sw_out_regs_en,
 			signed(Q) => sw1
 		);
 	reg_sw2: reg
@@ -89,7 +89,7 @@ begin
 			D => std_logic_vector(sw1),
 			clock => clk,
 			reset_n => rst_n,
-			enable => regs_en,
+			enable => sw_out_regs_en,
 			signed(Q) => sw2
 		);
 
@@ -100,7 +100,7 @@ begin
 			D => std_logic_vector(w_coeff_ret0),
 			clock => clk,
 			reset_n => rst_n,
-			enable => regs_en,
+			enable => '1',
 			signed(Q) => ret0
 		);
 	reg_ret1: reg
@@ -109,7 +109,7 @@ begin
 			D => std_logic_vector(sw0_coeff_ret1),
 			clock => clk,
 			reset_n => rst_n,
-			enable => regs_en,
+			enable => '1',
 			signed(Q) => ret1
 		);
 	reg_ret2: reg
@@ -118,7 +118,7 @@ begin
 			D => std_logic_vector(fb),
 			clock => clk,
 			reset_n => rst_n,
-			enable => regs_en,
+			enable => '1',
 			signed(Q) => ret2
 		);
 
@@ -129,7 +129,7 @@ begin
 			D => std_logic_vector(w),
 			clock => clk,
 			reset_n => rst_n,
-			enable => regs_en,
+			enable => '1',
 			signed(Q) => pipe00
 		);
 	reg_pipe01: reg
@@ -138,7 +138,7 @@ begin
 			D => std_logic_vector(sw0),
 			clock => clk,
 			reset_n => rst_n,
-			enable => regs_en,
+			enable => '1',
 			signed(Q) => pipe01
 		);
 	reg_pipe02: reg
@@ -147,7 +147,7 @@ begin
 			D => std_logic_vector(sw1),
 			clock => clk,
 			reset_n => rst_n,
-			enable => regs_en,
+			enable => '1',
 			signed(Q) => pipe02
 		);
 	reg_pipe03: reg
@@ -156,7 +156,7 @@ begin
 			D => std_logic_vector(sw2),
 			clock => clk,
 			reset_n => rst_n,
-			enable => regs_en,
+			enable => '1',
 			signed(Q) => pipe03
 		);
 	reg_pipe10: reg
@@ -165,7 +165,7 @@ begin
 			D => std_logic_vector(pipe0_b0),
 			clock => clk,
 			reset_n => rst_n,
-			enable => regs_en,
+			enable => '1',
 			signed(Q) => pipe10
 		);
 	reg_pipe11: reg
@@ -174,7 +174,7 @@ begin
 			D => std_logic_vector(pipe0_coeff_pipe01),
 			clock => clk,
 			reset_n => rst_n,
-			enable => regs_en,
+			enable => '1',
 			signed(Q) => pipe11
 		);
 	reg_pipe12: reg
@@ -183,7 +183,7 @@ begin
 			D => std_logic_vector(pipe0_coeff_pipe02),
 			clock => clk,
 			reset_n => rst_n,
-			enable => regs_en,
+			enable => '1',
 			signed(Q) => pipe12
 		);
 	reg_pipe13: reg
@@ -192,7 +192,7 @@ begin
 			D => std_logic_vector(pipe0_coeff_pipe03),
 			clock => clk,
 			reset_n => rst_n,
-			enable => regs_en,
+			enable => '1',
 			signed(Q) => pipe13
 		);
 
@@ -203,7 +203,7 @@ begin
 			D => std_logic_vector(y_out),
 			clock => clk,
 			reset_n => rst_n,
-			enable => regs_en,
+			enable => sw_out_regs_en,
 			signed(Q) => dOut
 		);
 
@@ -214,18 +214,19 @@ begin
 	coeff_pipe02 <= resize(b_int(2) - a_int(1)*b_int(2), coeff_pipe02'length);
 	coeff_pipe03 <= resize(- a_int(1)*b_int(2), coeff_pipe03'length);
 
-	sw0_a1 <= multiplyAndRound(a_int(1), sw0);
-	sw1_a2 <= multiplyAndRound(a_int(2), sw1);
-	sw0_b1 <= multiplyAndRound(b_int(1), sw0);
-	sw1_b2 <= multiplyAndRound(b_int(2), sw1);
+	w_coeff_ret0 <= multiplyAndRound(coeff_ret0, w);
+	sw0_coeff_ret1 <= multiplyAndRound(coeff_ret1, sw0);
+	pipe0_b0 <= multiplyAndRound(b_int(0), pipe00);
+	pipe0_coeff_pipe01 <= multiplyAndRound(coeff_pipe01, pipe01);
+	pipe0_coeff_pipe02 <= multiplyAndRound(coeff_pipe02, pipe02);
+	pipe0_coeff_pipe03 <= multiplyAndRound(coeff_pipe03, pipe03);
 
-	fb <= resize(sw0_a1, fb'length) + resize(sw1_a2, fb'length);
-	ff <= resize(sw0_b1, ff'length) + resize(sw1_b2, ff'length);
+	fb <= resize(ret0, fb'length) + resize(ret1, fb'length);
+	ff_part <= resize(pipe12, ff_part'length) + resize(pipe13, ff_part'length);
+	ff <= resize(pipe11, ff'length) + resize(ff_part, ff'length);
+	w <= resize(x, w'length) - resize(ret2, w'length);
 
-	w <= resize(x, w'length) - resize(fb, w'length);
-	w_b0 <= multiplyAndRound(b_int(0), w);
-
-	y <= resize(w_b0, y'length) + resize(ff, y'length);
+	y <= resize(pipe10, y'length) + resize(ff, y'length);
 	sat_process: process(y)
 	begin
 		if (to_integer(y) >  2**(NB - 1) - 1) then
