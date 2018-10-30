@@ -12,8 +12,13 @@ add wave -noupdate -divider {Internal signals}
 add wave -noupdate -itemcolor Orange -label PS -radix ascii /iir_filterTB/UUT/CU/presentState
 add wave -noupdate -itemcolor Gold -label input_regs_en /iir_filterTB/UUT/CU/input_regs_en
 add wave -noupdate -label x -radix decimal /iir_filterTB/UUT/DP/x
-add wave -noupdate -label a_int -radix decimal /iir_filterTB/UUT/DP/a_int
-add wave -noupdate -label b_int -radix decimal /iir_filterTB/UUT/DP/b_int
+add wave -noupdate -expand -group Coefficients -label a_int -radix decimal /iir_filterTB/UUT/DP/a_int
+add wave -noupdate -expand -group Coefficients -label b_int -radix decimal /iir_filterTB/UUT/DP/b_int
+add wave -noupdate -expand -group Coefficients -radix decimal /iir_filterTB/UUT/DP/coeff_ret0
+add wave -noupdate -expand -group Coefficients -radix decimal /iir_filterTB/UUT/DP/coeff_ret1
+add wave -noupdate -expand -group Coefficients -radix decimal /iir_filterTB/UUT/DP/coeff_pipe01
+add wave -noupdate -expand -group Coefficients -radix decimal /iir_filterTB/UUT/DP/coeff_pipe02
+add wave -noupdate -expand -group Coefficients -radix decimal /iir_filterTB/UUT/DP/coeff_pipe03
 add wave -noupdate -itemcolor Gold -label sw_out_regs_en /iir_filterTB/UUT/CU/sw_out_regs_en
 add wave -noupdate -label w -radix decimal /iir_filterTB/UUT/DP/w
 add wave -noupdate -label sw0 -radix decimal /iir_filterTB/UUT/DP/sw0
