@@ -25,12 +25,14 @@ NET_DIR="HW_filter/code/netlist"
 # print welcome message
 echo "This script provides automatic copy in three different ways:"
 echo "          LOCAL                           SERVER"
-echo "../HW_filter/code/src/*     ->      ../lab1/src/"
-echo "../HW_filter/code/tb/*      ->      ../lab1/tb/"
-echo "../HW_filter/code/sim/*     ->      ../lab1/sim/"  
-echo "../common/samples.txt       ->      ../lab1/common/" 
-echo "../common/                  <-      ../lab1/common/results-hw.txt"
-echo "../HW_filter/code/netlist/  <-      ../lab1/netlist/iir_filter.v"
+echo "../HW_filter/code/src/*               ->      ../lab1/src/"
+echo "../HW_filter/code/tb/*                ->      ../lab1/tb/"
+echo "../HW_filter/code/sim/*               ->      ../lab1/sim/"  
+echo "../common/samples.txt                 ->      ../lab1/common/" 
+echo "../common/                            <-      ../lab1/common/results-hw.txt"
+echo "../HW_filter/code/netlist/            <-      ../lab1/netlist/iir_filter.v"
+echo "../HW_filter/code/netlist/post_per    <-      ../lab1/innovus/netlist/iir_filter.v"
+echo "../reports/post_per                   <-      ../lab1/innovus/{areaReport,RC_timing,timingReports,ver}"
 echo
 
 # create master SSH connection
@@ -45,6 +47,7 @@ echo "4) Copy simulation files to server"
 echo "5) Copy samples to server"
 echo "6) Copy results from server"
 echo "7) Copy netlist from server"
+echo "8) Copy innovus reports and netlist from server"
 echo -n "Type the selected number and press enter (default = 1): "
 read opt
 case $opt in 
@@ -73,8 +76,7 @@ case $opt in
         ;;
     4 | "Copy simulation files to server")
         echo "Copying files..."
-        scp -o ControlPath="$SSH_SOCKET" -P $PORT $SIM_DIR/*.tcl "$USER_HOST":"$REMOTE_ROOT"/sim
-        scp -o ControlPath="$SSH_SOCKET" -P $PORT $SIM_DIR/*.do "$USER_HOST":"$REMOTE_ROOT"/sim
+        scp -o ControlPath="$SSH_SOCKET" -P $PORT $SIM_DIR/\{*.tcl,*.do\} "$USER_HOST":"$REMOTE_ROOT"/sim
         echo "Done."
         echo
         ;;    
@@ -93,6 +95,13 @@ case $opt in
     7 | "Copy netlist from server")
         echo "Copying files..."
         scp -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/netlist/*.v $NET_DIR
+        echo "Done."
+        echo
+        ;;
+    8 | "8) Copy innovus reports and netlist from server")
+        echo "Copying files..."
+        scp -r -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/innovus/\{areaReport,RC_timing,timingReports,ver\} reports/post_per
+        scp  -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/innovus/netlist/*.v "$NET_DIR"/post_per
         echo "Done."
         echo
         ;;
