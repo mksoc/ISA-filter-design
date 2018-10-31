@@ -32,7 +32,7 @@ package body filter_pkg is
 		variable temp: signed((2*sample'length - 1) downto 0) := resize(coeff, sample'length) * sample;
 		variable result: newCoeffType;
 	begin
-		result := resize(shift_right(temp, temp'length - result'length - 1), result'length);
+		result := resize(shift_right(temp, result'length - 1), result'length);
 		return result;
 	end function;
 end package body filter_pkg;
