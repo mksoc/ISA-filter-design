@@ -21,9 +21,9 @@ end entity;
 architecture behavior of iir_filterDP is
 	-- signal declarations (refer to scheme for the naming used)
 	signal x, pipe0_b0, pipe10, y_out: dataType;
-	signal coeff_ret1, coeff_pipe01, coeff_pipe03, ret1, sw0_coeff_ret1, pipe0_coeff_pipe01, pipe0_coeff_pipe03, pipe11, pipe13: signed(19 downto 0);
-	signal coeff_ret0, coeff_pipe02, ret0, w_coeff_ret0, pipe0_coeff_pipe02, pipe12: signed(20 downto 0);
-	signal ret2, fb, ff_part: signed(21 downto 0);
+	signal coeff_ret1, coeff_pipe01, coeff_pipe03, ret1, sw1_coeff_ret1, pipe0_coeff_pipe01, pipe0_coeff_pipe03, pipe11, pipe13: signed(19 downto 0);
+	signal coeff_ret0, coeff_pipe02, ret0, sw0_coeff_ret0, pipe0_coeff_pipe02, pipe12: signed(20 downto 0);
+	signal fb, ff_part: signed(21 downto 0);
 	signal w, sw0, sw1, sw2, pipe00, pipe01, pipe02, pipe03, ff, y: signed(22 downto 0);
 	signal a_int: aCoeffType;
 	signal b_int: bCoeffType;
@@ -97,7 +97,7 @@ begin
 	reg_ret0: reg
 		generic map (N => 21)
 		port map (
-			D => std_logic_vector(w_coeff_ret0),
+			D => std_logic_vector(sw0_coeff_ret0),
 			clock => clk,
 			reset_n => rst_n,
 			enable => '1',
@@ -106,7 +106,7 @@ begin
 	reg_ret1: reg
 		generic map (N => 20)
 		port map (
-			D => std_logic_vector(sw0_coeff_ret1),
+			D => std_logic_vector(sw1_coeff_ret1),
 			clock => clk,
 			reset_n => rst_n,
 			enable => '1',
@@ -214,8 +214,8 @@ begin
 	coeff_pipe02 <= resize(b_int(2) - a_int(1)*b_int(2), coeff_pipe02'length);
 	coeff_pipe03 <= resize(- a_int(1)*b_int(2), coeff_pipe03'length);
 
-	w_coeff_ret0 <= multiplyAndRound(coeff_ret0, w);
-	sw0_coeff_ret1 <= multiplyAndRound(coeff_ret1, sw0);
+	sw0_coeff_ret0 <= multiplyAndRound(coeff_ret0, sw0);
+	sw1_coeff_ret1 <= multiplyAndRound(coeff_ret1, sw1);
 	pipe0_b0 <= multiplyAndRound(b_int(0), pipe00);
 	pipe0_coeff_pipe01 <= multiplyAndRound(coeff_pipe01, pipe01);
 	pipe0_coeff_pipe02 <= multiplyAndRound(coeff_pipe02, pipe02);
@@ -224,7 +224,7 @@ begin
 	fb <= resize(ret0, fb'length) + resize(ret1, fb'length);
 	ff_part <= resize(pipe12, ff_part'length) + resize(pipe13, ff_part'length);
 	ff <= resize(pipe11, ff'length) + resize(ff_part, ff'length);
-	w <= resize(x, w'length) - resize(ret2, w'length);
+	w <= resize(x, w'length) - resize(fb, w'length);
 
 	y <= resize(pipe10, y'length) + resize(ff, y'length);
 	sat_process: process(y)
