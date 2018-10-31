@@ -20,11 +20,10 @@ end entity;
 
 architecture behavior of iir_filterDP is
 	-- signal declarations (refer to scheme for the naming used)
-	signal x, pipe0_b0, pipe10, y_out: dataType;
-	signal coeff_ret1, coeff_pipe01, coeff_pipe03, ret1, sw1_coeff_ret1, pipe0_coeff_pipe01, pipe0_coeff_pipe03, pipe11, pipe13: signed(19 downto 0);
-	signal coeff_ret0, coeff_pipe02, ret0, sw0_coeff_ret0, pipe0_coeff_pipe02, pipe12: signed(20 downto 0);
-	signal fb, ff_part: signed(21 downto 0);
-	signal w, sw0, sw1, sw2, pipe00, pipe01, pipe02, pipe03, ff, y: signed(22 downto 0);
+	signal x, y_out: dataType;
+	signal coeff_ret0, coeff_ret1, coeff_pipe01, coeff_pipe02, coeff_pipe03, ret0, ret1, pipe0_b0, pipe0_coeff_pipe01, pipe0_coeff_pipe02, pipe0_coeff_pipe03, pipe10, pipe11, pipe12, pipe13: newCoeffType;
+	signal fb, ff_part: signed(newCoeffType'high + 1 downto 0);
+	signal w, sw0, sw1, sw2, pipe00, pipe01, pipe02, pipe03, ff, y: signed(newCoeffType'high + 2 downto 0);
 	signal a_int: aCoeffType;
 	signal b_int: bCoeffType;
 	
@@ -33,7 +32,7 @@ begin
 	-- component instantiations
 	-- input registers
 	reg_in: reg
-		generic map (N => NB)
+		generic map (N => x'length)
 		port map (
 			D => std_logic_vector(dIn),
 			clock => clk,
@@ -43,7 +42,7 @@ begin
 		);
 	reg_a_gen: for i in aCoeffType'range generate
 		reg_a_i: reg
-			generic map (N => NB)
+			generic map (N => a_int(i)'length)
 			port map (
 				D => std_logic_vector(a(i)),
 				clock => clk,
@@ -54,7 +53,7 @@ begin
 	end generate;
 	reg_b_gen: for i in bCoeffType'range generate
 		reg_b_i: reg
-			generic map (N => NB)
+			generic map (N => b_int(i)'length)
 			port map (
 				D => std_logic_vector(b(i)),
 				clock => clk,
@@ -66,7 +65,7 @@ begin
 	
 	-- delay line registers
 	reg_sw0: reg
-		generic map (N => 23)
+		generic map (N => sw0'length)
 		port map (
 			D => std_logic_vector(w),
 			clock => clk,
@@ -75,7 +74,7 @@ begin
 			signed(Q) => sw0
 		);
 	reg_sw1: reg
-		generic map (N => 23)
+		generic map (N => sw1'length)
 		port map (
 			D => std_logic_vector(sw0),
 			clock => clk,
@@ -84,7 +83,7 @@ begin
 			signed(Q) => sw1
 		);
 	reg_sw2: reg
-		generic map (N => 23)
+		generic map (N => sw2'length)
 		port map (
 			D => std_logic_vector(sw1),
 			clock => clk,
@@ -95,7 +94,7 @@ begin
 
 	-- retiming registers
 	reg_ret0: reg
-		generic map (N => 21)
+		generic map (N => ret0'length)
 		port map (
 			D => std_logic_vector(sw0_coeff_ret0),
 			clock => clk,
@@ -104,7 +103,7 @@ begin
 			signed(Q) => ret0
 		);
 	reg_ret1: reg
-		generic map (N => 20)
+		generic map (N => ret1'length)
 		port map (
 			D => std_logic_vector(sw1_coeff_ret1),
 			clock => clk,
@@ -113,7 +112,7 @@ begin
 			signed(Q) => ret1
 		);
 	reg_ret2: reg
-		generic map (N => 22)
+		generic map (N => ret2'length)
 		port map (
 			D => std_logic_vector(fb),
 			clock => clk,
@@ -124,7 +123,7 @@ begin
 
 	-- pipeline registers
 	reg_pipe00: reg
-		generic map (N => 23)
+		generic map (N => pipe00'length)
 		port map (
 			D => std_logic_vector(w),
 			clock => clk,
@@ -133,7 +132,7 @@ begin
 			signed(Q) => pipe00
 		);
 	reg_pipe01: reg
-		generic map (N => 23)
+		generic map (N => pipe01'length)
 		port map (
 			D => std_logic_vector(sw0),
 			clock => clk,
@@ -142,7 +141,7 @@ begin
 			signed(Q) => pipe01
 		);
 	reg_pipe02: reg
-		generic map (N => 23)
+		generic map (N => pipe02'length)
 		port map (
 			D => std_logic_vector(sw1),
 			clock => clk,
@@ -151,7 +150,7 @@ begin
 			signed(Q) => pipe02
 		);
 	reg_pipe03: reg
-		generic map (N => 23)
+		generic map (N => pipe03'length)
 		port map (
 			D => std_logic_vector(sw2),
 			clock => clk,
@@ -160,7 +159,7 @@ begin
 			signed(Q) => pipe03
 		);
 	reg_pipe10: reg
-		generic map (N => 12)
+		generic map (N => pipe10'length)
 		port map (
 			D => std_logic_vector(pipe0_b0),
 			clock => clk,
@@ -169,7 +168,7 @@ begin
 			signed(Q) => pipe10
 		);
 	reg_pipe11: reg
-		generic map (N => 20)
+		generic map (N => pipe11'length)
 		port map (
 			D => std_logic_vector(pipe0_coeff_pipe01),
 			clock => clk,
@@ -178,7 +177,7 @@ begin
 			signed(Q) => pipe11
 		);
 	reg_pipe12: reg
-		generic map (N => 21)
+		generic map (N => pipe12'length)
 		port map (
 			D => std_logic_vector(pipe0_coeff_pipe02),
 			clock => clk,
@@ -187,7 +186,7 @@ begin
 			signed(Q) => pipe12
 		);
 	reg_pipe13: reg
-		generic map (N => 20)
+		generic map (N => pipe13'length)
 		port map (
 			D => std_logic_vector(pipe0_coeff_pipe03),
 			clock => clk,
@@ -198,7 +197,7 @@ begin
 
 	-- output register
 	reg_out: reg
-		generic map (N => NB)
+		generic map (N => dOut)
 		port map (
 			D => std_logic_vector(y_out),
 			clock => clk,
@@ -216,7 +215,7 @@ begin
 
 	sw0_coeff_ret0 <= multiplyAndRound(coeff_ret0, sw0);
 	sw1_coeff_ret1 <= multiplyAndRound(coeff_ret1, sw1);
-	pipe0_b0 <= multiplyAndRound(b_int(0), pipe00);
+	pipe0_b0 <= multiplyAndRound(resize(b_int(0), newCoeffType'length), pipe00);
 	pipe0_coeff_pipe01 <= multiplyAndRound(coeff_pipe01, pipe01);
 	pipe0_coeff_pipe02 <= multiplyAndRound(coeff_pipe02, pipe02);
 	pipe0_coeff_pipe03 <= multiplyAndRound(coeff_pipe03, pipe03);
