@@ -29,7 +29,10 @@ architecture behavior of iir_filterDP is
 	
 
 begin
+	-----------------------------
 	-- component instantiations
+	-----------------------------
+
 	-- input registers
 	reg_in: reg
 		generic map (N => x'length)
@@ -206,13 +209,18 @@ begin
 			signed(Q) => dOut
 		);
 
+	-----------------------------
 	-- signal assignments 
+	-----------------------------
+
+	-- compute new coefficients
 	coeff_ret0 <= resize(a_int(1)*a_int(1) - a_int(2), coeff_ret0'length);
 	coeff_ret1 <= resize(a_int(1)*a_int(2), coeff_ret1'length);
 	coeff_pipe01 <= resize(b_int(1) - a_int(1)*b_int(0), coeff_pipe01'length);
 	coeff_pipe02 <= resize(b_int(2) - a_int(1)*b_int(2), coeff_pipe02'length);
 	coeff_pipe03 <= resize(- a_int(1)*b_int(2), coeff_pipe03'length);
 
+	-- compute products
 	sw0_coeff_ret0 <= multiplyAndRound(coeff_ret0, sw0);
 	sw1_coeff_ret1 <= multiplyAndRound(coeff_ret1, sw1);
 	pipe0_b0 <= multiplyAndRound(resize(b_int(0), newCoeffType'length), pipe00);
@@ -220,11 +228,13 @@ begin
 	pipe0_coeff_pipe02 <= multiplyAndRound(coeff_pipe02, pipe02);
 	pipe0_coeff_pipe03 <= multiplyAndRound(coeff_pipe03, pipe03);
 
+	-- compute forward and backward sums
 	fb <= resize(ret0, fb'length) + resize(ret1, fb'length);
 	ff_part <= resize(pipe12, ff_part'length) + resize(pipe13, ff_part'length);
 	ff <= resize(pipe11, ff'length) + resize(ff_part, ff'length);
 	w <= resize(x, w'length) - resize(fb, w'length);
 
+	-- compute output sample with saturation
 	y <= resize(pipe10, y'length) + resize(ff, y'length);
 	sat_process: process(y)
 	begin
