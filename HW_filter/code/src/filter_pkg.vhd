@@ -6,7 +6,7 @@ package filter_pkg is
 	-- constant declarations
 	constant NB : natural := 12; -- number of bits for input/output
 	constant N : positive := 3; -- filter order
-	constant NB_INTERNAL: natural := 21; -- internal number of bits for coefficients and multiplication results
+	constant NB_INTERNAL: natural := 64; -- internal number of bits for coefficients and multiplication results
 	constant INSERT_PAUSE: boolean := false;
 
 	-- types declarations
