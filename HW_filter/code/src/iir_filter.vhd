@@ -85,7 +85,7 @@ architecture structure of iir_filter is
     end component;
 
     -- signal declarations
-    signal input_regs_en_int, sw_out_regs_en_int : std_logic;
+    signal input_regs_en_int: std_logic;
     signal b_int                                 : bCoeffType;
     signal a_int                                 : aCoeffType;
     signal delayed_controls: delay_array;

@@ -21,7 +21,7 @@ end entity;
 architecture behavior of iir_filterDP is
 	-- signal declarations (refer to scheme for the naming used)
 	signal x, y_out: dataType;
-	signal coeff_ret0, coeff_ret1, coeff_pipe01, coeff_pipe02, coeff_pipe03, ret0, ret1, pipe0_b0, pipe0_coeff_pipe01, pipe0_coeff_pipe02, pipe0_coeff_pipe03, pipe10, pipe11, pipe12, pipe13: newCoeffType;
+	signal coeff_ret0, coeff_ret1, coeff_pipe01, coeff_pipe02, coeff_pipe03, ret0, ret1, pipe0_b0, pipe0_coeff_pipe01, pipe0_coeff_pipe02, pipe0_coeff_pipe03, pipe10, pipe11, pipe12, pipe13, sw0_coeff_ret0, sw1_coeff_ret1: newCoeffType;
 	signal fb, ff_part: signed(newCoeffType'high + 1 downto 0);
 	signal w, sw0, sw1, sw2, pipe00, pipe01, pipe02, pipe03, ff, y: signed(newCoeffType'high + 2 downto 0);
 	signal a_int: aCoeffType;
@@ -114,15 +114,6 @@ begin
 			enable => '1',
 			signed(Q) => ret1
 		);
-	reg_ret2: reg
-		generic map (N => ret2'length)
-		port map (
-			D => std_logic_vector(fb),
-			clock => clk,
-			reset_n => rst_n,
-			enable => '1',
-			signed(Q) => ret2
-		);
 
 	-- pipeline registers
 	reg_pipe00: reg
@@ -200,7 +191,7 @@ begin
 
 	-- output register
 	reg_out: reg
-		generic map (N => dOut)
+		generic map (N => dOut'length)
 		port map (
 			D => std_logic_vector(y_out),
 			clock => clk,
@@ -223,7 +214,7 @@ begin
 	-- compute products
 	sw0_coeff_ret0 <= multiplyAndRound(coeff_ret0, sw0);
 	sw1_coeff_ret1 <= multiplyAndRound(coeff_ret1, sw1);
-	pipe0_b0 <= multiplyAndRound(resize(b_int(0), newCoeffType'length), pipe00);
+	pipe0_b0 <= multiplyAndRound(resize(b_int(0), coeff_pipe01'length), pipe00);
 	pipe0_coeff_pipe01 <= multiplyAndRound(coeff_pipe01, pipe01);
 	pipe0_coeff_pipe02 <= multiplyAndRound(coeff_pipe02, pipe02);
 	pipe0_coeff_pipe03 <= multiplyAndRound(coeff_pipe03, pipe03);

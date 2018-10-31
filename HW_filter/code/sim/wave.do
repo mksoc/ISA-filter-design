@@ -13,23 +13,23 @@ add wave -noupdate -itemcolor Orange -label PS -radix ascii /iir_filterTB/UUT/CU
 add wave -noupdate -itemcolor Gold -label input_regs_en /iir_filterTB/UUT/CU/input_regs_en
 add wave -noupdate -label x -radix decimal /iir_filterTB/UUT/DP/x
 add wave -noupdate -expand -group Coefficients -label a_int -radix decimal /iir_filterTB/UUT/DP/a_int
-add wave -noupdate -expand -group Coefficients -label b_int -radix decimal /iir_filterTB/UUT/DP/b_int
+add wave -noupdate -expand -group Coefficients -label b_int -radix decimal -childformat {{/iir_filterTB/UUT/DP/b_int(0) -radix decimal} {/iir_filterTB/UUT/DP/b_int(1) -radix decimal} {/iir_filterTB/UUT/DP/b_int(2) -radix decimal}} -subitemconfig {/iir_filterTB/UUT/DP/b_int(0) {-height 16 -radix decimal} /iir_filterTB/UUT/DP/b_int(1) {-height 16 -radix decimal} /iir_filterTB/UUT/DP/b_int(2) {-height 16 -radix decimal}} /iir_filterTB/UUT/DP/b_int
 add wave -noupdate -expand -group Coefficients -radix decimal /iir_filterTB/UUT/DP/coeff_ret0
 add wave -noupdate -expand -group Coefficients -radix decimal /iir_filterTB/UUT/DP/coeff_ret1
 add wave -noupdate -expand -group Coefficients -radix decimal /iir_filterTB/UUT/DP/coeff_pipe01
 add wave -noupdate -expand -group Coefficients -radix decimal /iir_filterTB/UUT/DP/coeff_pipe02
 add wave -noupdate -expand -group Coefficients -radix decimal /iir_filterTB/UUT/DP/coeff_pipe03
 add wave -noupdate -itemcolor Gold -label sw_out_regs_en /iir_filterTB/UUT/CU/sw_out_regs_en
+add wave -noupdate -itemcolor Gold -subitemconfig {/iir_filterTB/UUT/delayed_controls(0) {-height 16 -itemcolor Gold -expand} /iir_filterTB/UUT/delayed_controls(0)(0) {-height 16 -itemcolor Gold} /iir_filterTB/UUT/delayed_controls(0)(1) {-height 16 -itemcolor Gold} /iir_filterTB/UUT/delayed_controls(1) {-height 16 -itemcolor Gold -expand} /iir_filterTB/UUT/delayed_controls(1)(0) {-height 16 -itemcolor Gold} /iir_filterTB/UUT/delayed_controls(1)(1) {-height 16 -itemcolor Gold} /iir_filterTB/UUT/delayed_controls(2) {-height 16 -itemcolor Gold -expand} /iir_filterTB/UUT/delayed_controls(2)(0) {-height 16 -itemcolor Gold} /iir_filterTB/UUT/delayed_controls(2)(1) {-height 16 -itemcolor Gold} /iir_filterTB/UUT/delayed_controls(3) {-height 16 -itemcolor Gold -expand} /iir_filterTB/UUT/delayed_controls(3)(0) {-height 16 -itemcolor Gold} /iir_filterTB/UUT/delayed_controls(3)(1) {-height 16 -itemcolor Gold}} /iir_filterTB/UUT/delayed_controls
 add wave -noupdate -label w -radix decimal /iir_filterTB/UUT/DP/w
 add wave -noupdate -label sw0 -radix decimal /iir_filterTB/UUT/DP/sw0
 add wave -noupdate -label sw1 -radix decimal /iir_filterTB/UUT/DP/sw1
 add wave -noupdate -radix decimal /iir_filterTB/UUT/DP/sw2
-add wave -noupdate -expand -group Feedback -radix decimal /iir_filterTB/UUT/DP/w_coeff_ret0
-add wave -noupdate -expand -group Feedback -radix decimal /iir_filterTB/UUT/DP/sw0_coeff_ret1
+add wave -noupdate -expand -group Feedback -radix decimal /iir_filterTB/UUT/DP/sw0_coeff_ret0
+add wave -noupdate -expand -group Feedback -radix decimal /iir_filterTB/UUT/DP/sw1_coeff_ret1
 add wave -noupdate -expand -group Feedback -radix decimal /iir_filterTB/UUT/DP/ret0
 add wave -noupdate -expand -group Feedback -radix decimal /iir_filterTB/UUT/DP/ret1
 add wave -noupdate -expand -group Feedback -label fb -radix decimal /iir_filterTB/UUT/DP/fb
-add wave -noupdate -expand -group Feedback -radix decimal /iir_filterTB/UUT/DP/ret2
 add wave -noupdate -expand -group Feedforward -radix decimal /iir_filterTB/UUT/DP/pipe00
 add wave -noupdate -expand -group Feedforward -radix decimal /iir_filterTB/UUT/DP/pipe01
 add wave -noupdate -expand -group Feedforward -radix decimal /iir_filterTB/UUT/DP/pipe02
@@ -47,7 +47,7 @@ add wave -noupdate -expand -group Feedforward -label ff -radix decimal /iir_filt
 add wave -noupdate -label y -radix decimal /iir_filterTB/UUT/DP/y
 add wave -noupdate -label y_out -radix decimal /iir_filterTB/UUT/DP/y_out
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {112781 ps} 0}
+WaveRestoreCursors {{Cursor 1} {77416 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 395
 configure wave -valuecolwidth 100
