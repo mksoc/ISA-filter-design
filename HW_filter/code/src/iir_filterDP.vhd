@@ -21,9 +21,7 @@ end entity;
 architecture behavior of iir_filterDP is
 	-- signal declarations (refer to scheme for the naming used)
 	signal x, y_out: dataType;
-	signal coeff_ret0, coeff_ret1, coeff_pipe01, coeff_pipe02, coeff_pipe03, ret0, ret1, pipe0_b0, pipe0_coeff_pipe01, pipe0_coeff_pipe02, pipe0_coeff_pipe03, pipe10, pipe11, pipe12, pipe13, sw0_coeff_ret0, sw1_coeff_ret1: newCoeffType;
-	signal fb, ff_part: signed(newCoeffType'high + 1 downto 0);
-	signal w, sw0, sw1, sw2, pipe00, pipe01, pipe02, pipe03, ff, y: signed(newCoeffType'high + 2 downto 0);
+	signal coeff_ret0, coeff_ret1, coeff_pipe01, coeff_pipe02, coeff_pipe03, ret0, ret1, pipe0_b0, pipe0_coeff_pipe01, pipe0_coeff_pipe02, pipe0_coeff_pipe03, pipe10, pipe11, pipe12, pipe13, sw0_coeff_ret0, sw1_coeff_ret1, fb, ff_part, w, sw0, sw1, sw2, pipe00, pipe01, pipe02, pipe03, ff, y: word;
 	signal a_int: aCoeffType;
 	signal b_int: bCoeffType;
 	
@@ -212,27 +210,26 @@ begin
 	coeff_pipe03 <= resize(- a_int(1)*b_int(2), coeff_pipe03'length);
 
 	-- compute products
-	-- sw0_coeff_ret0 <= multiplyAndRound(coeff_ret0, sw0);
-	-- sw1_coeff_ret1 <= multiplyAndRound(coeff_ret1, sw1);
-	-- pipe0_b0 <= multiplyAndRound(resize(b_int(0), coeff_pipe01'length), pipe00);
-	-- pipe0_coeff_pipe01 <= multiplyAndRound(coeff_pipe01, pipe01);
-	-- pipe0_coeff_pipe02 <= multiplyAndRound(coeff_pipe02, pipe02);
-	-- pipe0_coeff_pipe03 <= multiplyAndRound(coeff_pipe03, pipe03);
-	sw0_coeff_ret0 <= resize(coeff_ret0 * sw0, sw0_coeff_ret0'length);
-	sw1_coeff_ret1 <= resize(coeff_ret1 * sw1, sw1_coeff_ret1'length);
-	pipe0_b0 <= resize(b_int(0) * pipe00, pipe0_b0'length);
-	pipe0_coeff_pipe01 <= resize(coeff_pipe01 * pipe01, pipe0_coeff_pipe01'length);
-	pipe0_coeff_pipe02 <= resize(coeff_pipe02 * pipe02, pipe0_coeff_pipe02'length);
-	pipe0_coeff_pipe03 <= resize(coeff_pipe03 * pipe03, pipe0_coeff_pipe03'length);
+	sw0_coeff_ret0 <= multiplyAndRound(coeff_ret0, sw0);
+	sw1_coeff_ret1 <= multiplyAndRound(coeff_ret1, sw1);
+	pipe0_b0 <= multiplyAndRound(resize(b_int(0), WL), pipe00);
+	pipe0_coeff_pipe01 <= multiplyAndRound(coeff_pipe01, pipe01);
+	pipe0_coeff_pipe02 <= multiplyAndRound(coeff_pipe02, pipe02);
+	pipe0_coeff_pipe03 <= multiplyAndRound(coeff_pipe03, pipe03);
 
 	-- compute forward and backward sums
+	-- all these resize() are useless as long as the parallelism is the same 
+	-- for all internal nodes, but they're kept for future development
 	fb <= resize(ret0, fb'length) + resize(ret1, fb'length);
 	ff_part <= resize(pipe12, ff_part'length) + resize(pipe13, ff_part'length);
 	ff <= resize(pipe11, ff'length) + resize(ff_part, ff'length);
 	w <= resize(x, w'length) - resize(fb, w'length);
 
 	-- compute output sample with saturation
-	y <= resize(pipe10, y'length) + resize(ff, y'length);
+	-- remove the rightmost fractional part to end up
+	-- with a Q(WL_INT).(11) number, and then check if 
+	-- saturation is needed (overflow occurred and didn't resolve internally)
+	y <= shift_right(resize(pipe10, y'length) + resize(ff, y'length), NB - 1); -- y is Q(WL_INT + 11).(11)
 	sat_process: process(y)
 	begin
 		if (to_integer(y) >  2**(NB - 1) - 1) then
