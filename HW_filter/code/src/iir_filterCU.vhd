@@ -7,7 +7,7 @@ entity iir_filterCU is
         clk, rst_n: in std_logic;
         vIn: in std_logic;
         -- controls to DP
-        input_regs_en, sw_out_regs_en: out std_logic;
+        input_regs_en, sw_regs_en, out_reg_en: out std_logic;
         -- to external world
         vOut : out std_logic 
     );
@@ -68,17 +68,20 @@ begin
     out_process: process(presentState)
         begin
             -- default assignments  
-            sw_out_regs_en <= '0';
+            sw_regs_en <= '0';
+            out_reg_en <= '0';
             vOut <= '0';
 
             case presentState is
                 when IDLE =>
 
                 when FIRST_SAMPLE => 
-                    sw_out_regs_en <= '1';
+                    sw_regs_en <= '1';
+                    out_reg_en <= '1';
                     
                 when SAMPLE => 
-                    sw_out_regs_en <= '1';
+                    sw_regs_en <= '1';
+                    out_reg_en <= '1';
                     vOut <= '1';
 
                 when PAUSE => 

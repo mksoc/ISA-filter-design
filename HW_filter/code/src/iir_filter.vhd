@@ -54,7 +54,7 @@ end entity;
 
 architecture structure of iir_filter is
     -- type and constants definition
-    constant PIPE_STAGES: positive := 3;
+    constant PIPE_STAGES: positive := 2;
     constant NUM_OF_SIGNALS: positive := 2;
     type delay_array is array (0 to PIPE_STAGES) of std_logic_vector(0 to NUM_OF_SIGNALS-1); -- the array has one element more, otherwise reg_delay_gen would go out of bound at the last iteration (assign Q to array(i+1))
 
@@ -68,7 +68,7 @@ architecture structure of iir_filter is
             b                             : in bCoeffType;
             dOut                          : out dataType;
             -- controls from CU
-            input_regs_en, sw_out_regs_en : in std_logic
+            input_regs_en, sw_regs_en, out_reg_en : in std_logic
         );
     end component;
 
@@ -78,14 +78,14 @@ architecture structure of iir_filter is
             clk, rst_n                    : in std_logic;
             vIn                           : in std_logic;
             -- controls to DP
-            input_regs_en, sw_out_regs_en : out std_logic;
+            input_regs_en, sw_regs_en, out_reg_en : out std_logic;
             -- to external world
             vOut                          : out std_logic
         );
     end component;
 
     -- signal declarations
-    signal input_regs_en_int: std_logic;
+    signal input_regs_en_int, sw_regs_en_int: std_logic;
     signal b_int                                 : bCoeffType;
     signal a_int                                 : aCoeffType;
     signal delayed_controls: delay_array;
@@ -101,7 +101,8 @@ begin
         a              => a_int,
         dOut           => dOut,
         input_regs_en  => input_regs_en_int,
-        sw_out_regs_en => delayed_controls(PIPE_STAGES)(0)
+        sw_regs_en     => sw_regs_en_int,
+        out_reg_en     => delayed_controls(PIPE_STAGES)(0)
     );
 
     CU : iir_filterCU
@@ -110,7 +111,8 @@ begin
         rst_n          => rst_n,
         vIn            => vIn,
         input_regs_en  => input_regs_en_int,
-        sw_out_regs_en => delayed_controls(0)(0),
+        sw_regs_en     => sw_regs_en_int,
+        out_reg_en     => delayed_controls(0)(0),
         vOut           => delayed_controls(0)(1)
     );
 

@@ -14,7 +14,7 @@ entity iir_filterDP is
 		b: in bCoeffType;
 		dOut: out dataType;
 		-- controls from CU
-		input_regs_en, sw_out_regs_en: in std_logic
+		input_regs_en, sw_regs_en, out_reg_en: in std_logic
 	);
 end entity;
 
@@ -71,7 +71,7 @@ begin
 			D => std_logic_vector(w),
 			clock => clk,
 			reset_n => rst_n,
-			enable => sw_out_regs_en,
+			enable => sw_regs_en,
 			signed(Q) => sw0
 		);
 	reg_sw1: reg
@@ -80,7 +80,7 @@ begin
 			D => std_logic_vector(sw0),
 			clock => clk,
 			reset_n => rst_n,
-			enable => sw_out_regs_en,
+			enable => sw_regs_en,
 			signed(Q) => sw1
 		);
 	reg_sw2: reg
@@ -89,7 +89,7 @@ begin
 			D => std_logic_vector(sw1),
 			clock => clk,
 			reset_n => rst_n,
-			enable => sw_out_regs_en,
+			enable => sw_regs_en,
 			signed(Q) => sw2
 		);
 
@@ -194,7 +194,7 @@ begin
 			D => std_logic_vector(y_out),
 			clock => clk,
 			reset_n => rst_n,
-			enable => sw_out_regs_en,
+			enable => out_reg_en,
 			signed(Q) => dOut
 		);
 
