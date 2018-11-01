@@ -19,9 +19,9 @@ add wave -noupdate -expand -group Coefficients -radix decimal /iir_filterTB/UUT/
 add wave -noupdate -expand -group Coefficients -radix decimal /iir_filterTB/UUT/DP/coeff_pipe01
 add wave -noupdate -expand -group Coefficients -radix decimal /iir_filterTB/UUT/DP/coeff_pipe02
 add wave -noupdate -expand -group Coefficients -radix decimal /iir_filterTB/UUT/DP/coeff_pipe03
-add wave -noupdate -itemcolor Gold -label sw_out_regs_en /iir_filterTB/UUT/CU/sw_out_regs_en
-add wave -noupdate -itemcolor Gold -subitemconfig {/iir_filterTB/UUT/delayed_controls(0) {-height 16 -itemcolor Gold -expand} /iir_filterTB/UUT/delayed_controls(0)(0) {-height 16 -itemcolor Gold} /iir_filterTB/UUT/delayed_controls(0)(1) {-height 16 -itemcolor Gold} /iir_filterTB/UUT/delayed_controls(1) {-height 16 -itemcolor Gold -expand} /iir_filterTB/UUT/delayed_controls(1)(0) {-height 16 -itemcolor Gold} /iir_filterTB/UUT/delayed_controls(1)(1) {-height 16 -itemcolor Gold} /iir_filterTB/UUT/delayed_controls(2) {-height 16 -itemcolor Gold -expand} /iir_filterTB/UUT/delayed_controls(2)(0) {-height 16 -itemcolor Gold} /iir_filterTB/UUT/delayed_controls(2)(1) {-height 16 -itemcolor Gold} /iir_filterTB/UUT/delayed_controls(3) {-height 16 -itemcolor Gold -expand} /iir_filterTB/UUT/delayed_controls(3)(0) {-height 16 -itemcolor Gold} /iir_filterTB/UUT/delayed_controls(3)(1) {-height 16 -itemcolor Gold}} /iir_filterTB/UUT/delayed_controls
+add wave -noupdate -itemcolor Gold /iir_filterTB/UUT/CU/out_reg_en
 add wave -noupdate -label w -radix decimal /iir_filterTB/UUT/DP/w
+add wave -noupdate -itemcolor Gold /iir_filterTB/UUT/CU/sw_regs_en
 add wave -noupdate -label sw0 -radix decimal /iir_filterTB/UUT/DP/sw0
 add wave -noupdate -label sw1 -radix decimal /iir_filterTB/UUT/DP/sw1
 add wave -noupdate -radix decimal /iir_filterTB/UUT/DP/sw2
@@ -46,6 +46,7 @@ add wave -noupdate -expand -group Feedforward -radix decimal /iir_filterTB/UUT/D
 add wave -noupdate -expand -group Feedforward -label ff -radix decimal /iir_filterTB/UUT/DP/ff
 add wave -noupdate -label y -radix decimal /iir_filterTB/UUT/DP/y
 add wave -noupdate -label y_out -radix decimal /iir_filterTB/UUT/DP/y_out
+add wave -noupdate -itemcolor Gold -expand -subitemconfig {/iir_filterTB/UUT/delayed_controls(0) {-height 16 -itemcolor Gold -expand} /iir_filterTB/UUT/delayed_controls(0)(0) {-height 16 -itemcolor Gold} /iir_filterTB/UUT/delayed_controls(0)(1) {-height 16 -itemcolor Gold} /iir_filterTB/UUT/delayed_controls(1) {-height 16 -itemcolor Gold -expand} /iir_filterTB/UUT/delayed_controls(1)(0) {-height 16 -itemcolor Gold} /iir_filterTB/UUT/delayed_controls(1)(1) {-height 16 -itemcolor Gold} /iir_filterTB/UUT/delayed_controls(2) {-height 16 -itemcolor Gold -expand} /iir_filterTB/UUT/delayed_controls(2)(0) {-height 16 -itemcolor Gold} /iir_filterTB/UUT/delayed_controls(2)(1) {-height 16 -itemcolor Gold}} /iir_filterTB/UUT/delayed_controls
 TreeUpdate [SetDefaultTree]
 WaveRestoreCursors {{Cursor 1} {77416 ps} 0}
 quietly wave cursor active 1
