@@ -7,13 +7,13 @@ package filter_pkg is
 	constant NB : natural := 12; -- number of bits for input/output (Q1.11)
 	constant N : positive := 3; -- filter order
 	constant INSERT_PAUSE: boolean := false; -- allows pauses between input samples
-	-- new coefficients are expressed on 21 bits (Q1.20)
-	-- we keep the fractional part constant and allow for the integer part to grow to fill 8 bits
-	-- so that the internal computation is done on Q8.20 numbers
+	-- new coefficients are expressed on 22 bits (Q1.21)
+	-- we keep the fractional part constant and allow for the integer part to grow to fill 7 bits
+	-- so that the internal computation is done on Q8.21 numbers
 	-- (this is probably too much and can be reduced in the following)
 	constant WL: natural := 28; -- WL stands for word length
-	constant WL_INT: natural := 8; 
-	constant WL_FRAC: natural := 20;	
+	constant WL_INT: natural := 6; 
+	constant WL_FRAC: natural := 22;	
 
 	-- types declarations
 	subtype dataType is signed(NB-1 downto 0);
