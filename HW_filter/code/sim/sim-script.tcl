@@ -62,8 +62,10 @@ if {$sim_design == "arch"} {
     vcd add /iir_filterTB/UUT/*
 }
 
-# restart simulation
-restart -force
+# restart simulation (causes vcd not to work if invoked)
+if {$sim_design != "postpr"} {
+    restart -force
+}
 
 if {$sim_mode == "gui"} {
     # load waves

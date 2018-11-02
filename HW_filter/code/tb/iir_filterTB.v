@@ -65,7 +65,8 @@ module iir_filterTB ();
 				$toggle_stop;
 				$toggle_report("../saif/iir_filter_back.saif", 1.0e-9, "iir_filterTB.UUT");
 			`endif
-			$stop(2);
+			// $stop(2);
+			$finish(2);
 		end
 	end
 

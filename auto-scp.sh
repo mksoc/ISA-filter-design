@@ -49,6 +49,7 @@ echo "5) Copy samples to server"
 echo "6) Copy results from server"
 echo "7) Copy netlist from server"
 echo "8) Copy innovus reports and netlist from server"
+echo "9) Copy sim-script.tcl to server"
 echo -n "Type the selected number and press enter (default = 1): "
 read opt
 case $opt in 
@@ -106,6 +107,14 @@ case $opt in
         echo "Done."
         echo
         ;;
+
+    9 | "Copy sim-script.tcl to server")
+        echo "Copying files..."
+        scp -o ControlPath="$SSH_SOCKET" -P $PORT $SIM_DIR/sim-script.tcl "$USER_HOST":"$REMOTE_ROOT"/sim
+        echo "Done."
+        echo
+        ;;
+
     *)
         echo "Error: invalid option."
         ;;    
