@@ -33,7 +33,7 @@ echo "5) ../common/samples.txt                 ->      ../lab1/common/"
 echo "6) ../common/                            <-      ../lab1/common/results-hw.txt"
 echo "7) ../HW_filter/code/netlist/            <-      ../lab1/netlist/iir_filter.v"
 echo "8) ../HW_filter/code/netlist/post_per    <-      ../lab1/innovus/netlist/iir_filter.v"
-echo "   ../reports/post_per                   <-      ../lab1/innovus/{areaReport,RC_timing,timingReports,ver}"
+echo "   ../reports/post_per                   <-      ../lab1/innovus/{areaReport,RC_timing,timingReports,powerReport,ver}"
 echo
 
 # create master SSH connection
@@ -102,7 +102,8 @@ case $opt in
         ;;
     8 | "8) Copy innovus reports and netlist from server")
         echo "Copying files..."
-        scp -r -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/innovus/\{areaReport,RC_timing,timingReports,ver\} reports/post_per
+        scp -r -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/innovus/\{areaReport,RC_timing,timingReports,powerReport,ver\} reports/post_per
+        rm reports/post_per/timingReports/*.gz
         scp  -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/innovus/netlist/*.v "$NET_DIR"/post_per
         echo "Done."
         echo
