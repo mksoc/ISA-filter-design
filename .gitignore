@@ -22,6 +22,8 @@
 
 # Files
 transcript
+samples.txt
+results-*.txt
 
 # Directories global
 **/db/

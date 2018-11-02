@@ -30,8 +30,8 @@ const int coeff_pipe03 = -(-757)*423; // -a1*b2
 //\return the new output sample
 int iir_filter(int x)
 {
-    static long int sw[Ndel];         // w shift register
-    static int first_run = 0; // for cleaning the shift register
+    static long int sw[Ndel];      // w shift register
+    static int first_run = 0;      // for cleaning the shift register
     int x_Q1_22;                   // input sample Q1.22
     int i;                         // index
     long int w;                    // intermediate value (w)
