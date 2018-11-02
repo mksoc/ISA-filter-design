@@ -7,7 +7,7 @@ function [bi, ai, bq, aq] = myiir_design(N, nb)
 
     close all;
 
-    f_cut_off = 2000; % 1kHz
+    f_cut_off = 2000; % 2kHz
     f_sampling = 10000; % 10kHz
 
     f_nyq = f_sampling / 2; %% Nyquist frequenc
@@ -23,6 +23,7 @@ function [bi, ai, bq, aq] = myiir_design(N, nb)
     [h2, w2] = freqz(bq, aq); %% get the transfer function of the quantized filter
 
     %% show the transfer functions
+    figure (1)
     plot(w1 / pi, 20 * log10(abs(h1)));
     hold on;
     plot(w2 / pi, 20 * log10(abs(h2)), 'r--');

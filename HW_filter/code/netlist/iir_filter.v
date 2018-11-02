@@ -1148,54 +1148,54 @@ module iir_filter ( clk, rst_n, vIn, dIn, a, b, dOut, vOut );
         .Q(DP_b_int[26]), .QN(DP_reg_b_i_2_n53) );
   DFFR_X1 DP_reg_b_i_2_Q_reg_10_ ( .D(DP_reg_b_i_2_n40), .CK(clk), .RN(DP_n2), 
         .Q(DP_b_int[25]), .QN(DP_reg_b_i_2_n52) );
-  NAND2_X1 DP_reg_sw0_U30 ( .A1(DP_w_7_), .A2(DP_reg_sw0_n40), .ZN(
-        DP_reg_sw0_n8) );
-  OAI21_X1 DP_reg_sw0_U29 ( .B1(DP_reg_sw0_n41), .B2(DP_reg_sw0_n21), .A(
-        DP_reg_sw0_n8), .ZN(DP_reg_sw0_n34) );
-  NAND2_X1 DP_reg_sw0_U28 ( .A1(DP_w_3_), .A2(DP_reg_sw0_n40), .ZN(
-        DP_reg_sw0_n4) );
-  OAI21_X1 DP_reg_sw0_U27 ( .B1(DP_reg_sw0_n41), .B2(DP_reg_sw0_n17), .A(
-        DP_reg_sw0_n4), .ZN(DP_reg_sw0_n30) );
-  NAND2_X1 DP_reg_sw0_U26 ( .A1(DP_w_1_), .A2(DP_reg_sw0_n40), .ZN(
-        DP_reg_sw0_n2) );
-  OAI21_X1 DP_reg_sw0_U25 ( .B1(DP_reg_sw0_n41), .B2(DP_reg_sw0_n15), .A(
-        DP_reg_sw0_n2), .ZN(DP_reg_sw0_n28) );
-  NAND2_X1 DP_reg_sw0_U24 ( .A1(sw_out_regs_en_int), .A2(DP_w_0_), .ZN(
+  NAND2_X1 DP_reg_sw0_U30 ( .A1(sw_out_regs_en_int), .A2(DP_w_0_), .ZN(
         DP_reg_sw0_n1) );
-  OAI21_X1 DP_reg_sw0_U23 ( .B1(DP_reg_sw0_n41), .B2(DP_reg_sw0_n14), .A(
+  OAI21_X1 DP_reg_sw0_U29 ( .B1(DP_reg_sw0_n41), .B2(DP_reg_sw0_n14), .A(
         DP_reg_sw0_n1), .ZN(DP_reg_sw0_n27) );
-  NAND2_X1 DP_reg_sw0_U22 ( .A1(DP_w_9_), .A2(DP_reg_sw0_n40), .ZN(
-        DP_reg_sw0_n10) );
-  OAI21_X1 DP_reg_sw0_U21 ( .B1(DP_reg_sw0_n41), .B2(DP_reg_sw0_n23), .A(
-        DP_reg_sw0_n10), .ZN(DP_reg_sw0_n36) );
-  NAND2_X1 DP_reg_sw0_U20 ( .A1(DP_w_8_), .A2(DP_reg_sw0_n40), .ZN(
-        DP_reg_sw0_n9) );
-  OAI21_X1 DP_reg_sw0_U19 ( .B1(DP_reg_sw0_n41), .B2(DP_reg_sw0_n22), .A(
-        DP_reg_sw0_n9), .ZN(DP_reg_sw0_n35) );
-  NAND2_X1 DP_reg_sw0_U18 ( .A1(DP_w_6_), .A2(DP_reg_sw0_n40), .ZN(
-        DP_reg_sw0_n7) );
-  OAI21_X1 DP_reg_sw0_U17 ( .B1(DP_reg_sw0_n41), .B2(DP_reg_sw0_n20), .A(
-        DP_reg_sw0_n7), .ZN(DP_reg_sw0_n33) );
-  NAND2_X1 DP_reg_sw0_U16 ( .A1(DP_w_5_), .A2(DP_reg_sw0_n40), .ZN(
-        DP_reg_sw0_n6) );
-  OAI21_X1 DP_reg_sw0_U15 ( .B1(DP_reg_sw0_n41), .B2(DP_reg_sw0_n19), .A(
-        DP_reg_sw0_n6), .ZN(DP_reg_sw0_n32) );
-  NAND2_X1 DP_reg_sw0_U14 ( .A1(DP_w_4_), .A2(DP_reg_sw0_n40), .ZN(
-        DP_reg_sw0_n5) );
-  OAI21_X1 DP_reg_sw0_U13 ( .B1(DP_reg_sw0_n41), .B2(DP_reg_sw0_n18), .A(
-        DP_reg_sw0_n5), .ZN(DP_reg_sw0_n31) );
-  NAND2_X1 DP_reg_sw0_U12 ( .A1(DP_w_2_), .A2(DP_reg_sw0_n40), .ZN(
-        DP_reg_sw0_n3) );
-  OAI21_X1 DP_reg_sw0_U11 ( .B1(DP_reg_sw0_n41), .B2(DP_reg_sw0_n16), .A(
-        DP_reg_sw0_n3), .ZN(DP_reg_sw0_n29) );
-  NAND2_X1 DP_reg_sw0_U10 ( .A1(DP_w_11_), .A2(DP_reg_sw0_n40), .ZN(
-        DP_reg_sw0_n12) );
-  OAI21_X1 DP_reg_sw0_U9 ( .B1(DP_reg_sw0_n41), .B2(DP_reg_sw0_n25), .A(
-        DP_reg_sw0_n12), .ZN(DP_reg_sw0_n38) );
-  NAND2_X1 DP_reg_sw0_U8 ( .A1(DP_w_10_), .A2(DP_reg_sw0_n40), .ZN(
+  NAND2_X1 DP_reg_sw0_U28 ( .A1(DP_w_10_), .A2(DP_reg_sw0_n40), .ZN(
         DP_reg_sw0_n11) );
-  OAI21_X1 DP_reg_sw0_U7 ( .B1(DP_reg_sw0_n41), .B2(DP_reg_sw0_n24), .A(
+  OAI21_X1 DP_reg_sw0_U27 ( .B1(DP_reg_sw0_n41), .B2(DP_reg_sw0_n24), .A(
         DP_reg_sw0_n11), .ZN(DP_reg_sw0_n37) );
+  NAND2_X1 DP_reg_sw0_U26 ( .A1(DP_w_7_), .A2(DP_reg_sw0_n40), .ZN(
+        DP_reg_sw0_n8) );
+  OAI21_X1 DP_reg_sw0_U25 ( .B1(DP_reg_sw0_n41), .B2(DP_reg_sw0_n21), .A(
+        DP_reg_sw0_n8), .ZN(DP_reg_sw0_n34) );
+  NAND2_X1 DP_reg_sw0_U24 ( .A1(DP_w_4_), .A2(DP_reg_sw0_n40), .ZN(
+        DP_reg_sw0_n5) );
+  OAI21_X1 DP_reg_sw0_U23 ( .B1(DP_reg_sw0_n41), .B2(DP_reg_sw0_n18), .A(
+        DP_reg_sw0_n5), .ZN(DP_reg_sw0_n31) );
+  NAND2_X1 DP_reg_sw0_U22 ( .A1(DP_w_3_), .A2(DP_reg_sw0_n40), .ZN(
+        DP_reg_sw0_n4) );
+  OAI21_X1 DP_reg_sw0_U21 ( .B1(DP_reg_sw0_n41), .B2(DP_reg_sw0_n17), .A(
+        DP_reg_sw0_n4), .ZN(DP_reg_sw0_n30) );
+  NAND2_X1 DP_reg_sw0_U20 ( .A1(DP_w_1_), .A2(DP_reg_sw0_n40), .ZN(
+        DP_reg_sw0_n2) );
+  OAI21_X1 DP_reg_sw0_U19 ( .B1(DP_reg_sw0_n41), .B2(DP_reg_sw0_n15), .A(
+        DP_reg_sw0_n2), .ZN(DP_reg_sw0_n28) );
+  NAND2_X1 DP_reg_sw0_U18 ( .A1(DP_w_9_), .A2(DP_reg_sw0_n40), .ZN(
+        DP_reg_sw0_n10) );
+  OAI21_X1 DP_reg_sw0_U17 ( .B1(DP_reg_sw0_n41), .B2(DP_reg_sw0_n23), .A(
+        DP_reg_sw0_n10), .ZN(DP_reg_sw0_n36) );
+  NAND2_X1 DP_reg_sw0_U16 ( .A1(DP_w_8_), .A2(DP_reg_sw0_n40), .ZN(
+        DP_reg_sw0_n9) );
+  OAI21_X1 DP_reg_sw0_U15 ( .B1(DP_reg_sw0_n41), .B2(DP_reg_sw0_n22), .A(
+        DP_reg_sw0_n9), .ZN(DP_reg_sw0_n35) );
+  NAND2_X1 DP_reg_sw0_U14 ( .A1(DP_w_6_), .A2(DP_reg_sw0_n40), .ZN(
+        DP_reg_sw0_n7) );
+  OAI21_X1 DP_reg_sw0_U13 ( .B1(DP_reg_sw0_n41), .B2(DP_reg_sw0_n20), .A(
+        DP_reg_sw0_n7), .ZN(DP_reg_sw0_n33) );
+  NAND2_X1 DP_reg_sw0_U12 ( .A1(DP_w_5_), .A2(DP_reg_sw0_n40), .ZN(
+        DP_reg_sw0_n6) );
+  OAI21_X1 DP_reg_sw0_U11 ( .B1(DP_reg_sw0_n41), .B2(DP_reg_sw0_n19), .A(
+        DP_reg_sw0_n6), .ZN(DP_reg_sw0_n32) );
+  NAND2_X1 DP_reg_sw0_U10 ( .A1(DP_w_2_), .A2(DP_reg_sw0_n40), .ZN(
+        DP_reg_sw0_n3) );
+  OAI21_X1 DP_reg_sw0_U9 ( .B1(DP_reg_sw0_n41), .B2(DP_reg_sw0_n16), .A(
+        DP_reg_sw0_n3), .ZN(DP_reg_sw0_n29) );
+  NAND2_X1 DP_reg_sw0_U8 ( .A1(DP_w_11_), .A2(DP_reg_sw0_n40), .ZN(
+        DP_reg_sw0_n12) );
+  OAI21_X1 DP_reg_sw0_U7 ( .B1(DP_reg_sw0_n41), .B2(DP_reg_sw0_n25), .A(
+        DP_reg_sw0_n12), .ZN(DP_reg_sw0_n38) );
   NAND2_X1 DP_reg_sw0_U6 ( .A1(DP_w_12_), .A2(DP_reg_sw0_n40), .ZN(
         DP_reg_sw0_n13) );
   OAI21_X1 DP_reg_sw0_U5 ( .B1(DP_reg_sw0_n41), .B2(DP_reg_sw0_n26), .A(
