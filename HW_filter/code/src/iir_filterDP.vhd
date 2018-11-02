@@ -204,8 +204,8 @@ begin
 
 	-- compute new coefficients
 	-- I have no idea why shift_left() doesn't work, so I manually shifted by adding trailing 0s
-	coeff_ret0 <= resize(a_int(1)*a_int(1) - (a_int(2) & "00000000000"), coeff_ret0'length);
-	coeff_ret1 <= resize(a_int(1)*a_int(2), coeff_ret1'length);
+	coeff_ret0 <= resize(- a_int(1)*a_int(1) + (a_int(2) & "00000000000"), coeff_ret0'length);
+	coeff_ret1 <= resize(- a_int(1)*a_int(2), coeff_ret1'length);
 	coeff_pipe01 <= resize((b_int(1) & "00000000000") - a_int(1)*b_int(0), coeff_pipe01'length);
 	coeff_pipe02 <= resize((b_int(2) & "00000000000") - a_int(1)*b_int(1), coeff_pipe02'length);
 	coeff_pipe03 <= resize(- a_int(1)*b_int(2), coeff_pipe03'length);
@@ -224,7 +224,7 @@ begin
 	fb <= resize(ret0, fb'length) + resize(ret1, fb'length);
 	ff_part <= resize(pipe12, ff_part'length) + resize(pipe13, ff_part'length);
 	ff <= resize(pipe11, ff'length) + resize(ff_part, ff'length);
-	w <= resize(x & "00000000000", w'length) + resize(fb, w'length); -- shift left input sample to be Q1.22
+	w <= resize(x & "00000000000", w'length) - resize(fb, w'length); -- shift left input sample to be Q1.22
 
 	-- compute output sample with saturation
 	-- remove the rightmost fractional part to end up
