@@ -1,0 +1,218 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This will help you in writing your homebook
+% Remember that the character % is a comment in latex
+
+% Divide the work you have done in each of the chapters used 
+% during the lab lessons in a new chapter, as in the example below, 
+% using a coherent title 
+
+
+% For each chapter you can include :
+
+%-----------------------------
+% VHDL file, using the sintax:
+
+
+	%\begin{listato}
+	%\lstinputlisting{./exeMPLE/listato1.vhd}
+	%\end{listato}
+
+% the path to the file must be correct, obviously
+% Should you have listings written in other languages the method is the 
+% same, but the language set up must be changed using a different 
+% setting for the command \lstset{language=VHDL} in file homebook.tex 
+
+
+%-----------------------------
+% figures in postcript (ps) or encapsulated postcript (eps)
+% format, using the syntax:
+
+%	\begin{figure}[h]
+%	\centering
+%	\includegraphics[width=9cm]{./cap1/figure1.eps}
+%	\caption{Put a caption if you want (didascalia...:)))}
+%	\label{put-a-label-for-referring-to-this-picture}	
+%	\end{figure}
+
+% the path to the file must be correct, obviously
+% you can refer to this picture in any point of your document
+% by typing the instruction:
+
+% 	\ref{put-a-label-for-referring-to-this-picture}
+
+% that is using the same label you put in the fiure label
+% when you will run the "latex command" an automatic reference to
+% this figure with the correct enumeration will be inserted
+
+
+%-----------------------
+% comment in text format (if you are not skilled in latex and don't want to be)
+% using the sintax:
+
+	%\begin{verbatim}
+	% blablabla 
+	%\end{verbatim}
+
+% The verbatimg includes text as it is, as you could write in a normal text file 
+
+% (BETTER) If uou want to write enhancing all the latex possibilities you 
+% should add to you text a few commands in some particular cases. 
+% In the following you have and example of a few chapters roughtly commented
+% and written all in this file: remember that you can saparate
+% each chapter in different files (this is always what a latex pro does) 
+% and include them using the instruction: \input{./directoryxx/fileyy.tex}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Beginning of latex commands
+% You can copy this in a new file (e.g. cap1/cap1.tex) and inlcude it here
+% using the command : \input{./cap1/cap1.tex}
+
+
+% chapter 1
+\chapter{Introduction to VHDL}
+
+
+% include here only files for the first lesson and homeworks
+% here the path to figures and VHDL should be ./cap1/
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% you can organize thje report usign section -> \section{Simulating an inverter}
+% or subsection -> \subsection{simulating a particular type of inverter}
+
+%%%%%%   First section
+\section{Simulating an inverter}
+
+The first exercize relies on the inverter example described in VHDL 
+in the following:
+	\begin{listato}
+	\lstinputlisting{./cap1/iv.vhd}
+	\end{listato}
+
+
+The result of the simulation is shown in Figure \ref{fig:cap1:iv}.
+
+% please note the use of the accent and the reference to the figure
+% using the string in the label field below
+
+	\begin{figure}[h]
+	\centering
+	\includegraphics[width=3cm]{./logopoli}
+	\caption{Caption for my first figure}
+	\label{fig:cap1:iv}
+	\end{figure}
+
+As it can be observed the output ...
+
+	\begin{verbatim}
+	bla bla bla including comments between this ``verbatim'' commands
+	you can ingore latex commands  	
+	\end{verbatim}
+
+
+
+%%%%%%   Second section
+\section{Simulating a NAND gate}
+
+% homework 1
+\section{Simulating an OR gate}
+
+
+%homework 2
+\section{Simulating an EXOR gate}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% chapter 2
+\chapter{Next chapter ...}
+
+
+% include here only file for the third lesson and homeworks
+% here the path to figures and VHDL should be ./cap2/
+
+\section{Example for using some latex feature}
+
+\subsection{Example of an itemize}
+
+\begin{itemize}
+\item this is the first item
+\item this is the second item...
+\item if you want to change the point of the item do as in the following ite:
+\item[-] whithin squared parentheses you can put a sign you like
+\end{itemize} 
+
+
+\subsection{Eample of an enumeration}
+
+\begin{enumerate}
+\item this is the first point
+\item the second.....
+\end{enumerate}
+
+
+
+\subsection{example of a description}
+\begin{description}
+\item[latex] is a powerful editing and formatting language, whaich helps you
+at writing reporte, books, letters, or whatever, just using the brain 
+once at the beginning; it comes for free, and is completely portable
+\item[word] is an awful terrible and nasty editing suite, it is proprietary,
+not portable, it occupies a lot of space, you go mad with formatting,
+and very often you loose you work all in a sudden. 
+\end{description}
+
+
+\subsection{Example of a table:}
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|c|ccc|}
+pippo & pluto & indiana pipps & gilberto de pippis \\
+topolino & minni & tip & tap \\
+paperino & paperina & orazio & clarabella \\
+qui & quo & qua & ottoperotto \\
+zio paperone & gastone & paperoga & battista \\  
+\end{tabular}
+\end{center}
+\caption{A caption for your table}
+\label{A-lable-for-your-table}
+\end{table}
+
+
+Other features are available for table formatting: just refer to the manuals.
+For what concerns equations: what do you think about the word equation editor?
+Well, whatever you will try to do, you will loose your afternoom on it, and
+still you are not sure it will have a decent aspect. The equation suite
+in latex is extremely powerful, and her you anly a very small example:
+refer to the manuals and to AMS-MATH suite for help.
+
+
+\subsection{Example of a small equation:}
+
+writing an equation on line is easy $a \cdot \int^{\infty}_0 i(t)
+\frac{di}{dt}$
+while if you want to better display it just include it in this way:
+$$a \cdot \int^{\infty}_0 i(t) \frac{di}{dt}$$
+
+and finally if you want to refer and number the equation as the
+\ref{label-my-equation} then the syntax is:
+
+\begin{equation}
+a \cdot \int^{\infty}_0 i(t) \frac{di}{dt}
+\label{label-my-equation}
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% chapter 4
+\chapter{... and so on...}
+
+
+% include here only file for the third lesson and homeworks
+% here the path to figures and VHDL should be ./exe3/
+
