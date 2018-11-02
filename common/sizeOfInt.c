@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/* This program prints the size of the type "int" in Bytes and in bits.
+This value depends on the architecture of the machine. */
+
 int main(int argc, char **argv)
 {
   int Bsize = 0; // size of int in Bytes
