@@ -18,7 +18,7 @@
 // the need for an additional 11 bits right-shift (BF-BF_old) to uniform the fractional format.
 // In the end all the coefficients will be in the format Q2.22
 // For practical reasons remember that an "int" is assumed to be 32 bits wide. The real format of the coefficients is then Q10.22
-const int coeff_ref0 = (401 << (BF-BF_old)) - pow(-757,2); // coeff_ref0 = a2-a1^2
+const int coeff_ref0 = (401 << (BF-BF_old)) - 757*757; // coeff_ref0 = a2-a1^2
 const int coeff_ref1 = -(-757)*401; // -a1*a2
 const int b0 = (423 << (BF-BF_old)); // b0
 const int coeff_pipe01 = ((846) << (BF-BF_old)) - (-757)*423; // b1-a1*b0
