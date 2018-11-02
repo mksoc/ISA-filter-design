@@ -3,7 +3,7 @@
 #include <math.h>
 
 #define Ndel 3 // # of positions in delay line 
-#define NB_old 12 // # old total number of bits -- definition not used
+#define NB_old 12 // # old total number of bits
 #define BF_old 11 // # bits for the old fractional representation, for samples and coefficients
 #define NB 28   // # total number of bits in the VHDL model
 #define BF 22  // # bits for the fractional rep
@@ -36,7 +36,7 @@ int iir_filter(int x)
     int i;                         // index
     long int w;                    // intermediate value (w)
     long int y;                    // output sample Q1.22
-    int y_Q1_12;				   // output sample Q1.11
+    int y_Q1_11;				   // output sample Q1.11
     long int fb, ff;               // feed-back and feed-forward results
 
     // work on samples in Q1.22 parallelism for coherence with the new samples
@@ -69,20 +69,20 @@ int iir_filter(int x)
         sw[i] = sw[i - 1];
     sw[0] = w;
 
-    // saturate in case of overflow wrt the VHDL model with signals in format Q(NB-BF).BF
-    if (y > pow(2, NB-1) - 1)
-    {
-        y = pow(2, NB-1) - 1;
-    }
-    else if (y < - pow(2, NB-1))
-    {
-        y = - pow(2, NB-1);
-    }
-
     // return to the Q1.12 format
-    y_Q1_12 = y >> (BF-BF_old);
+    y_Q1_11 = y >> (BF-BF_old);
 
-    return y_Q1_12;
+    // saturate in case of overflow wrt the VHDL model with signals in format Q(NB-BF).BF
+    if (y_Q1_11 > pow(2, NB_old-1) - 1)
+    {
+        y_Q1_11 = pow(2, NB_old-1) - 1;
+    }
+    else if (y_Q1_11 < - pow(2, NB_old-1))
+    {
+        y_Q1_11 = - pow(2, NB_old-1);
+    }
+
+    return y_Q1_11;
 }
 
 int main(int argc, char **argv)
