@@ -27,6 +27,14 @@ if {$sim_mode == "no-gui"} {
     puts "Running in GUI mode."
 }
 
+# delete rtl_work if it does exist. Then it creates the lib rtl_work and maps to work
+if {[file exists work]} {
+    vdel -lib work -all
+}
+vlib work
+vmap work work
+
+
 # compile the design project files 
 if {$sim_design == "arch"} {
     vcom -93 -work ./work ../src/*.vhd

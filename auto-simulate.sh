@@ -2,7 +2,10 @@
 # set whichever folder is the one containing src, tb, sim, syn... which you want to work on
 # MIND THAT THERE'S NO "/" AT THE END OF THE PATH!!
 # E.g. /home/isa22/lab1 or /home/isa22/lab1/marco or /home/isa22/lab1/pippo ...
+
+# SET THESE VARIABLES BEFORE USING!!
 REMOTE_ROOT="/home/isa22/lab1" 
+MSIM_COMMAND="source /home/marco/.local/bin/init_msim_ase"
 
 # check if the script is run inside ../ISA-filter-design
 case "$PWD" in
@@ -13,11 +16,23 @@ case "$PWD" in
         ;;
 esac
 
+echo "> Do you want to run the simulation locally or on the server?"
+echo "  1) Locally"
+echo "  2) On the server"
+echo -n "Type the selected number and press enter: "
+read place
+
 # define constants
-USER_HOST="isa22@led-x3850-2.polito.it"
-PORT="10020"
-SSH_SOCKET=~/".ssh/$USER_HOST"
-C_EX_NAME="./iir_filter.exe"
+if [ $place -eq 1 ]
+then
+    echo "> Running locally..."
+elif [ $place -eq 2 ]
+then
+    echo "> Setting constants to run on server..."
+    USER_HOST="isa22@led-x3850-2.polito.it"
+    PORT="10020"
+    SSH_SOCKET=~/".ssh/$USER_HOST"
+fi
 
 echo "> Running samples generator..."
 cd common
@@ -29,8 +44,8 @@ fi
 echo "> Renaming samples file..."
 cp py-samples.txt samples.txt
 
-# echo "> Running C model..."
 cd ../C_filter 
+C_EX_NAME="./iir_filter.exe"
 if [ ! -x "$C_EX_NAME" ]; then 
     echo "> Compiling C model to \"$C_EX_NAME\"..."
     g++ iir_filter.c -o "$C_EX_NAME"
@@ -38,12 +53,15 @@ fi
 echo "> Running C model..."
 "$C_EX_NAME" ../common/samples.txt ../common/results-c.txt
 
-echo "> Connecting to server..."
-ssh -M -f -N -o ControlPath="$SSH_SOCKET" -p $PORT "$USER_HOST"
-
-echo "> Copying samples to server..."
 cd ..
-scp -o ControlPath="$SSH_SOCKET" -P $PORT common/samples.txt "$USER_HOST":"$REMOTE_ROOT"/common
+if [ $place -eq 2 ]
+then
+    echo "> Connecting to server..."
+    ssh -M -f -N -o ControlPath="$SSH_SOCKET" -p $PORT "$USER_HOST"
+
+    echo "> Copying samples to server..."
+    scp -o ControlPath="$SSH_SOCKET" -P $PORT common/samples.txt "$USER_HOST":"$REMOTE_ROOT"/common
+fi
 
 echo ">Select design to simulate:"
 echo "  1) Original architecture"
@@ -67,20 +85,30 @@ case $opt in
 esac
 
 echo "> Running simulation..."
-ssh -S "$SSH_SOCKET" -p $PORT "$USER_HOST" /bin/bash << EOF
-    cd ${REMOTE_ROOT}/sim
-    source /software/scripts/init_msim6.2g
+if [ $place -eq 1 ]
+then
+    cd HW_filter/code/sim
+    $MSIM_COMMAND
     export SIM_MODE="no-gui"
     export SIM_DESIGN=${DESIGN_VAR}
     vsim -c -do sim-script.tcl
+elif [ $place -eq 2 ]
+then
+    ssh -S "$SSH_SOCKET" -p $PORT "$USER_HOST" /bin/bash << EOF
+        cd ${REMOTE_ROOT}/sim
+        source /software/scripts/init_msim6.2g
+        export SIM_MODE="no-gui"
+        export SIM_DESIGN=${DESIGN_VAR}
+        vsim -c -do sim-script.tcl
 EOF
 
-echo "> Copying results from server..."
-scp -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/common/results-hw.txt common/
+    echo "> Copying results from server..."
+    scp -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/common/results-hw.txt common/
 
-echo "> Closing connection..."
-ssh -S "$SSH_SOCKET" -O exit "$USER_HOST"
+    echo "> Closing connection..."
+    ssh -S "$SSH_SOCKET" -O exit "$USER_HOST"
+fi
 
 echo "> Comparing results..."
-cd common
+cd ../../../common
 python3 compare-outputs.py results-c.txt results-hw.txt

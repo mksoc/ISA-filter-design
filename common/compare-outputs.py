@@ -26,22 +26,36 @@ else:
 # compare files
 matchCounter = 0
 offByOneCounter = 0
-for i in range(length):
-    if fileData[0][i] == fileData[1][i]:
-        matchCounter += 1
-    elif abs(fileData[0][i] - fileData[1][i]) == 1:
-        offByOneCounter += 1
-        print('Off-by-one at line {}'.format(i+1))
-    else:
-        print('Error at line {}'.format(i+1))
+with open('error-lines.txt', 'w') as outFile:
+    for i in range(length):
+        data1 = fileData[0][i]
+        data2 = fileData[1][i]
+        if data1 == data2:
+            matchCounter += 1
+        elif abs(data1 - data2) == 1:
+            offByOneCounter += 1
+            outFile.write('{:>5} {:>5}\n'.format(data1, data2))
+            if data1 >= 0:
+                if data1 > data2:
+                    print('Off-by-one at line {} - Positive number, {} > {}'.format(i+1, sys.argv[1], sys.argv[2]))
+                else:
+                    print('Off-by-one at line {} - Positive number, {} < {}'.format(i+1, sys.argv[1], sys.argv[2]))
+            else:
+                if data1 > data2:
+                    print('Off-by-one at line {} - Negative number, {} > {}'.format(i+1, sys.argv[1], sys.argv[2]))
+                else:
+                    print('Off-by-one at line {} - Negative number, {} < {}'.format(i+1, sys.argv[1], sys.argv[2]))
+        else:
+            outFile.write('{:>5} {:>5}\n'.format(data1, data2))
+            print('Error at line {}'.format(i+1))
 
 # print stats
 print('=============================================')
 print('Comparison completed.')
-print('Total matches: {:.0f}/{:.0f} ({:.1f}%)'.format(matchCounter,
+print('Total matches: {:.0f}/{:.0f} ({:.3f}%)'.format(matchCounter,
                                                                         length, 100*matchCounter/length))
 if matchCounter == length:
     print('Yeeeeee!!!')
 else:
-    print('Off-by-one errors: {:.0f}/{:.0f} ({:.1f}% of errors)'.format(offByOneCounter,
+    print('Off-by-one errors: {:.0f}/{:.0f} ({:.3f}% of errors)'.format(offByOneCounter,
                                                                         length, 100*offByOneCounter/(length - matchCounter)))

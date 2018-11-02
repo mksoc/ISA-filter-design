@@ -59,7 +59,7 @@ begin -- behavior
                 read(line_in, x);
                 
                 -- insert pauses
-                if insert_pause then
+                if INSERT_PAUSE then
                     uniform(seed1, seed2, rand);
                     pause := integer(rand*rand_range);
                     wait_loop : for i in 0 to pause loop

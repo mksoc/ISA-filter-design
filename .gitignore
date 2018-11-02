@@ -21,6 +21,8 @@
 *.aux
 *.idx
 *.new
+*.ini
+*.txt
 
 # Files
 transcript

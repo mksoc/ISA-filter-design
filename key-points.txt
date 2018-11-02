@@ -9,3 +9,8 @@ Simulation:
 Synthesis:
 - had to remove async resets from CU, connect rst_n directly to register and keep only IDLE state
 - fmax = 357.14 MHz, area = 4742.51 -> set freq to 89.28 MHz
+
+Look-ahead architecture:
+- fixed internal parallelism with arbitrary big integer part, and fractional part equal to the one of new coefficients
+- needed to shift left coefficients and input sample to align the fixed point
+- results differed between VHDL and C because the feedback branch was subtracted in C, but added in VHDL and coefficients had opposite signs
