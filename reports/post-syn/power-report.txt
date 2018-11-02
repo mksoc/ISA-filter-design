@@ -7,7 +7,7 @@ Report : power
         -analysis_effort low
 Design : iir_filter
 Version: Z-2007.03-SP1
-Date   : Sat Oct 27 15:33:13 2018
+Date   : Fri Nov  2 16:18:16 2018
 ****************************************
 
 
@@ -33,11 +33,11 @@ Power-specific unit information :
     Leakage Power Units = 1nW
 
 
-  Cell Internal Power  = 317.8496 uW   (60%)
-  Net Switching Power  = 209.3343 uW   (40%)
+  Cell Internal Power  = 317.7365 uW   (60%)
+  Net Switching Power  = 209.1261 uW   (40%)
                          ---------
-Total Dynamic Power    = 527.1840 uW  (100%)
+Total Dynamic Power    = 526.8626 uW  (100%)
 
-Cell Leakage Power     =  81.5563 uW
+Cell Leakage Power     =  81.5497 uW
 
 1

@@ -1,4 +1,3 @@
-Information: Updating design information... (UID-85)
  
 ****************************************
 Report : timing
@@ -7,7 +6,7 @@ Report : timing
         -max_paths 1
 Design : iir_filter
 Version: Z-2007.03-SP1
-Date   : Sat Oct 27 15:31:24 2018
+Date   : Fri Nov  2 15:21:21 2018
 ****************************************
 
 Operating Conditions: typical   Library: NangateOpenCellLibrary

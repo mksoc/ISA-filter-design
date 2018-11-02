@@ -1,4 +1,4 @@
-# to be run inside /home/ida22/lab1/sim
+# to be run inside /home/isa22/lab1/sim
 # to run in command line mode (eg. vsim -c), please first export the SIM_MODE env variable to:
 #"no-gui" 		in order to avoid waveform display
 #"gui" (default)	in order to display waveform (bug checking)	
