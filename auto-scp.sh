@@ -102,8 +102,8 @@ case $opt in
         ;;
     8 | "8) Copy innovus reports and netlist from server")
         echo "Copying files..."
-        scp -r -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/innovus/\{areaReport,RC_timing,timingReports,powerReport,ver\} reports/post_per
-        rm reports/post_per/timingReports/*.gz
+        scp -r -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/innovus/\{areaReport,RC_timing,powerReport,ver\} reports/post_per
+        scp -r -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/innovus/timingReports/*.slk reports/post_per/timingReports/
         scp  -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/innovus/netlist/*.v "$NET_DIR"/post_per
         echo "Done."
         echo
