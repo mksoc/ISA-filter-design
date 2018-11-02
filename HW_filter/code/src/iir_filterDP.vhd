@@ -224,7 +224,7 @@ begin
 	fb <= resize(ret0, fb'length) + resize(ret1, fb'length);
 	ff_part <= resize(pipe12, ff_part'length) + resize(pipe13, ff_part'length);
 	ff <= resize(pipe11, ff'length) + resize(ff_part, ff'length);
-	w <= resize(x & "00000000000", w'length) - resize(fb, w'length); -- shift left input sample to be Q1.22
+	w <= resize(x & "00000000000", w'length) + resize(fb, w'length); -- shift left input sample to be Q1.22
 
 	-- compute output sample with saturation
 	-- remove the rightmost fractional part to end up

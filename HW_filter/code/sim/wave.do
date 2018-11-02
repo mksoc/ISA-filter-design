@@ -48,10 +48,10 @@ add wave -noupdate -label y -radix decimal /iir_filterTB/UUT/DP/y
 add wave -noupdate -label y_out -radix decimal /iir_filterTB/UUT/DP/y_out
 add wave -noupdate -itemcolor Gold -subitemconfig {/iir_filterTB/UUT/delayed_controls(0) {-height 16 -itemcolor Gold -expand} /iir_filterTB/UUT/delayed_controls(0)(0) {-height 16 -itemcolor Gold} /iir_filterTB/UUT/delayed_controls(0)(1) {-height 16 -itemcolor Gold} /iir_filterTB/UUT/delayed_controls(1) {-height 16 -itemcolor Gold -expand} /iir_filterTB/UUT/delayed_controls(1)(0) {-height 16 -itemcolor Gold} /iir_filterTB/UUT/delayed_controls(1)(1) {-height 16 -itemcolor Gold} /iir_filterTB/UUT/delayed_controls(2) {-height 16 -itemcolor Gold -expand} /iir_filterTB/UUT/delayed_controls(2)(0) {-height 16 -itemcolor Gold} /iir_filterTB/UUT/delayed_controls(2)(1) {-height 16 -itemcolor Gold}} /iir_filterTB/UUT/delayed_controls
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {77416 ps} 0}
+WaveRestoreCursors {{Cursor 1} {47429 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 395
-configure wave -valuecolwidth 100
+configure wave -valuecolwidth 248
 configure wave -justifyvalue left
 configure wave -signalnamewidth 1
 configure wave -snapdistance 10
@@ -64,4 +64,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ns
 update
-WaveRestoreZoom {0 ps} {250 ns}
+WaveRestoreZoom {0 ps} {111604 ps}
