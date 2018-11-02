@@ -18,6 +18,9 @@
 *.tmp
 *.saif
 .*
+*.aux
+*.idx
+*.new
 
 # Files
 transcript
