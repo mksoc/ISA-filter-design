@@ -23,8 +23,11 @@ if {[info exists env(SIM_DESIGN)]} {
 
 if {$sim_mode == "no-gui"} {
     puts "Running in command line mode. No waveforms will be available."
-} else {
+} elseif {$sim_mode == "gui"} {
     puts "Running in GUI mode."
+} else {
+    puts "Error. Invalid environment variable SIM_MODE"
+    exit 1
 }
 
 # compile the design project files 
@@ -36,15 +39,36 @@ if {$sim_design == "arch"} {
 } elseif {$sim_design == "postpr"} {
     vcom -93 -work ./work ../src/filter_pkg.vhd
     vlog -work ./work ../innovus/netlist/*.v
+} else {
+    puts "Error. Invalid environment variable SIM_DESIGN"
+    exit 1
 }
 
 # compile testbench 
 vcom -93 -work ./work ../tb/*.vhd
-if {($sim_design == "arch") || ($sim_design == "postpr")} {
-    vlog -work ./work ../tb/iir_filterTB.v
-} elseif {$sim_design == "postsyn"} {
-    vlog -work ./work +define+SYN=1 ../tb/iir_filterTB.v
-} 
+if {$sim_mode == "gui"} {
+    if {($sim_design == "arch") || ($sim_design == "postpr")} {
+        vlog -work ./work ../tb/iir_filterTB.v
+    } elseif {$sim_design == "postsyn"} {
+        vlog -work ./work +define+SYN=1 ../tb/iir_filterTB.v
+    } else {
+        puts "Error. Invalid environment variable SIM_DESIGN"
+        exit 1
+    }
+} elseif {$sim_mode == "no-gui"} {
+    if {($sim_design == "arch") || ($sim_design == "postpr")} {
+        vlog -work ./work +define+NO_GUI=1 ../tb/iir_filterTB.v
+    } elseif {$sim_design == "postsyn"} {
+        vlog -work ./work +define+SYN=1+NO_GUI=1 ../tb/iir_filterTB.v
+    } else {
+        puts "Error. Invalid environment variable SIM_DESIGN"
+        exit 1
+    }
+} else {
+    puts "Error. Invalid environment variable SIM_MODE"
+    exit 1
+}
+
 
 # load design
 if {$sim_design == "arch"} {
@@ -60,21 +84,15 @@ if {$sim_design == "arch"} {
             work.iir_filterTB
     vcd file ../vcd/design.vcd
     vcd add /iir_filterTB/UUT/*
-}
-
-# restart simulation (causes vcd not to work if invoked)
-if {$sim_design != "postpr"} {
-    restart -force
+} else {
+    puts "Error. Invalid environment variable SIM_DESIGN"
+    exit 1
 }
 
 if {$sim_mode == "gui"} {
-    # load waves
+    restart -force
     do ./wave.do
 }
 
 # run simulation
 run -all
-
-if {$sim_mode == "no-gui"} {
-    quit
-}
