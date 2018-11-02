@@ -22,7 +22,7 @@
 
 # Files
 transcript
-samples.txt
+*samples.txt
 results-*.txt
 
 # Directories global
