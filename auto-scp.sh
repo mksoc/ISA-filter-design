@@ -28,14 +28,15 @@ declare -i loop_end=0
 # print welcome message
 echo "This script provides automatic copy in three different ways:"
 echo "          LOCAL                           SERVER"
-echo "../HW_filter/code/src/*               ->      ../lab1/src/"
-echo "../HW_filter/code/tb/*                ->      ../lab1/tb/"
-echo "../HW_filter/code/sim/*               ->      ../lab1/sim/"  
-echo "../common/samples.txt                 ->      ../lab1/common/" 
-echo "../common/                            <-      ../lab1/common/results-hw.txt"
-echo "../HW_filter/code/netlist/            <-      ../lab1/netlist/iir_filter.v"
-echo "../HW_filter/code/netlist/post_per    <-      ../lab1/innovus/netlist/iir_filter.v"
-echo "../reports/post_per                   <-      ../lab1/innovus/{areaReport,RC_timing,timingReports,ver}"
+echo "1) ../HW_filter/code/{src, tb, sim}      ->      ../lab1/{src, tb, sim}"
+echo "2) ../HW_filter/code/src/*               ->      ../lab1/src/"
+echo "3) ../HW_filter/code/tb/*                ->      ../lab1/tb/"
+echo "4) ../HW_filter/code/sim/*               ->      ../lab1/sim/"  
+echo "5) ../common/samples.txt                 ->      ../lab1/common/" 
+echo "6) ../common/                            <-      ../lab1/common/results-hw.txt"
+echo "7) ../HW_filter/code/netlist/            <-      ../lab1/netlist/iir_filter.v"
+echo "8) ../HW_filter/code/netlist/post_per    <-      ../lab1/innovus/netlist/iir_filter.v"
+echo "   ../reports/post_per                   <-      ../lab1/innovus/{areaReport,RC_timing,timingReports,ver}"
 echo
 
 # create master SSH connection

@@ -1,4 +1,4 @@
-fs = 10000; %% sampling frequency
+fs = 10000; %% sampling frequency (10kHz)
 f1 = 500; %% first sinewave freq (in band)
 f2 = 4500; %% second sinnewave freq (out band)
 
@@ -18,7 +18,7 @@ x = (x1 + x2) / 2; %% input signal
 y = filter(bq, aq, x); %% apply filter
 
 %% plots
-figure
+figure (2)
 plot(tt, x1);
 hold on
 plot(tt, x2);
@@ -37,7 +37,7 @@ idy = find(yq == 2^(nb - 1));
 yq(idy) = 2^(nb - 1) - 1;
 
 %% save input and output
-fp = fopen('../common/samples.txt', 'w');
+fp = fopen('../common/matlab-samples.txt', 'w');
 fprintf(fp, '%d\n', xq);
 fclose(fp);
 
