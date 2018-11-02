@@ -23,6 +23,7 @@
 *.new
 *.ini
 *.txt
+*.synctex*
 
 # Files
 transcript
