@@ -207,7 +207,7 @@ begin
 	coeff_ret0 <= resize(a_int(1)*a_int(1) - (a_int(2) & "00000000000"), coeff_ret0'length);
 	coeff_ret1 <= resize(a_int(1)*a_int(2), coeff_ret1'length);
 	coeff_pipe01 <= resize((b_int(1) & "00000000000") - a_int(1)*b_int(0), coeff_pipe01'length);
-	coeff_pipe02 <= resize((b_int(2) & "00000000000") - a_int(1)*b_int(2), coeff_pipe02'length);
+	coeff_pipe02 <= resize((b_int(2) & "00000000000") - a_int(1)*b_int(1), coeff_pipe02'length);
 	coeff_pipe03 <= resize(- a_int(1)*b_int(2), coeff_pipe03'length);
 
 	-- compute products
