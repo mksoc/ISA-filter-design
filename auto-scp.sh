@@ -88,7 +88,8 @@ while (( loop_end == 0 )); do
 	        ;;
 	    4 | "4) Copy simulation files to server")
 	        echo "Copying files..."
-	        scp -o ControlPath="$SSH_SOCKET" -P $PORT $SIM_DIR/\{*.tcl,*.do\} "$USER_HOST":"$REMOTE_ROOT"/sim
+	        scp -o ControlPath="$SSH_SOCKET" -P $PORT $SIM_DIR/*.tcl "$USER_HOST":"$REMOTE_ROOT"/sim
+            scp -o ControlPath="$SSH_SOCKET" -P $PORT $SIM_DIR/*.do "$USER_HOST":"$REMOTE_ROOT"/sim
 	        echo "Done."
 	        echo
 	        ;;    
