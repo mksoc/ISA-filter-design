@@ -1,0 +1,8 @@
+Dia can export in .tex format ('Latex PGF routine' in the export menu).
+
+By searching through the .tex file (that is a Tikz image), we can change the text labels
+into beautiful math-like text (with subscript and superscript, etc).
+
+The 'test_include_dia.tex' file simply serves as the wrapper for including such exported .tex
+files and compiling them.
+
