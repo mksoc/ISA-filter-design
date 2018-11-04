@@ -2,7 +2,7 @@
 # set whichever folder is the one containing src, tb, sim, syn... which you want to work on
 # MIND THAT THERE'S NO "/" AT THE END OF THE PATH!!
 # E.g. /home/isa22/lab1 or /home/isa22/lab1/marco or /home/isa22/lab1/pippo ...
-REMOTE_ROOT="/home/isa22/lab1/matteo/opt/" 
+REMOTE_ROOT="/home/isa22/lab1/" 
 
 # check if the script is run inside ../ISA-filter-design
 case "$PWD" in
@@ -56,7 +56,8 @@ while (( loop_end == 0 )); do
 	echo "6) Copy results from server"
 	echo "7) Copy netlist from server"
 	echo "8) Copy innovus reports and netlist from server"
-	echo "9) Quit"
+    echo "9) Copy a file/directory from server to a local directory"
+	echo "10) Quit"
 	echo -n "Type the selected number and press enter (default = 1): "
 	echo
 	echo
@@ -87,7 +88,8 @@ while (( loop_end == 0 )); do
 	        ;;
 	    4 | "4) Copy simulation files to server")
 	        echo "Copying files..."
-	        scp -o ControlPath="$SSH_SOCKET" -P $PORT $SIM_DIR/\{*.tcl,*.do\} "$USER_HOST":"$REMOTE_ROOT"/sim
+	        scp -o ControlPath="$SSH_SOCKET" -P $PORT $SIM_DIR/*.tcl "$USER_HOST":"$REMOTE_ROOT"/sim
+            scp -o ControlPath="$SSH_SOCKET" -P $PORT $SIM_DIR/*.do "$USER_HOST":"$REMOTE_ROOT"/sim
 	        echo "Done."
 	        echo
 	        ;;    
@@ -116,7 +118,16 @@ while (( loop_end == 0 )); do
 	        echo "Done."
 	        echo
 	        ;;
-	    9 | "9) QUIT")
+        9 | "9) Copy a file/directory from server to a local directory")
+            echo "Specify a file/directory to copy from $REMOTE_ROOT"
+            read SOURCE;
+            echo "Specify destination in the repository"
+            read DRAIN;
+            scp -r -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/"$SOURCE" $DRAIN
+            echo "Done."
+            echo
+            ;;            
+	    10 | "10) QUIT")
 			loop_end=1
 			echo "Quitting... bye bye!"
 			;;
