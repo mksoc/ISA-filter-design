@@ -17,8 +17,8 @@ package filter_pkg is
 	-- types declarations
 	subtype dataType is signed(NB-1 downto 0);
 	subtype word is signed(WL-1 downto 0);
-	type aCoeffType is array (1 to N-1) of dataType;
-	type bCoeffType is array (0 to N-1) of dataType;
+	type aCoeffType is array (1 to N-1) of word;
+	type bCoeffType is array (0 to N) of word;
 
 	-- components declarations
 	component reg is

@@ -110,5 +110,5 @@ EOF
 fi
 
 echo "> Comparing results..."
-cd ../../../common
+cd common
 python3 compare-outputs.py results-c.txt results-hw.txt
