@@ -1,3 +1,4 @@
+Information: Updating design information... (UID-85)
  
 ****************************************
 Report : timing
@@ -6,15 +7,15 @@ Report : timing
         -max_paths 1
 Design : iir_filter
 Version: Z-2007.03-SP1
-Date   : Fri Nov  2 15:21:21 2018
+Date   : Sat Nov 10 19:27:50 2018
 ****************************************
 
 Operating Conditions: typical   Library: NangateOpenCellLibrary
 Wire Load Model Mode: top
 
-  Startpoint: DP/reg_a_i_2/Q_reg[1]
+  Startpoint: DP/reg_b_i_0/Q_reg[2]
               (rising edge-triggered flip-flop clocked by CLOCK)
-  Endpoint: DP/reg_out/Q_reg[0]
+  Endpoint: DP/reg_pipe10/Q_reg[23]
             (rising edge-triggered flip-flop clocked by CLOCK)
   Path Group: CLOCK
   Path Type: max
@@ -27,100 +28,82 @@ Wire Load Model Mode: top
   --------------------------------------------------------------------------
   clock CLOCK (rise edge)                                 0.00       0.00
   clock network delay (ideal)                             0.00       0.00
-  DP/reg_a_i_2/Q_reg[1]/CK (DFFR_X1)                      0.00       0.00 r
-  DP/reg_a_i_2/Q_reg[1]/Q (DFFR_X1)                       0.18       0.18 r
-  DP/reg_a_i_2/Q[1] (reg_N12_4)                           0.00       0.18 r
-  DP/mult_97/a[1] (iir_filterDP_DW_mult_tc_1)             0.00       0.18 r
-  DP/mult_97/U563/Z (XOR2_X1)                             0.11       0.29 r
-  DP/mult_97/U334/ZN (INV_X1)                             0.07       0.37 f
-  DP/mult_97/U549/ZN (NAND2_X1)                           0.12       0.49 r
-  DP/mult_97/U370/ZN (OAI22_X1)                           0.06       0.55 f
-  DP/mult_97/U120/S (HA_X1)                               0.08       0.63 f
-  DP/mult_97/U546/ZN (AOI222_X1)                          0.11       0.74 r
-  DP/mult_97/U545/ZN (INV_X1)                             0.03       0.77 f
-  DP/mult_97/U544/ZN (AOI222_X1)                          0.09       0.86 r
-  DP/mult_97/U543/ZN (INV_X1)                             0.03       0.89 f
-  DP/mult_97/U542/ZN (AOI222_X1)                          0.09       0.99 r
-  DP/mult_97/U541/ZN (INV_X1)                             0.03       1.02 f
-  DP/mult_97/U540/ZN (AOI222_X1)                          0.09       1.11 r
-  DP/mult_97/U539/ZN (INV_X1)                             0.03       1.14 f
-  DP/mult_97/U538/ZN (AOI222_X1)                          0.11       1.25 r
-  DP/mult_97/U535/ZN (OAI222_X1)                          0.07       1.32 f
-  DP/mult_97/U534/ZN (AOI222_X1)                          0.11       1.43 r
-  DP/mult_97/U531/ZN (OAI222_X1)                          0.07       1.49 f
-  DP/mult_97/U42/CO (FA_X1)                               0.10       1.59 f
-  DP/mult_97/U41/CO (FA_X1)                               0.09       1.68 f
-  DP/mult_97/U40/CO (FA_X1)                               0.09       1.77 f
-  DP/mult_97/U39/CO (FA_X1)                               0.09       1.87 f
-  DP/mult_97/U38/CO (FA_X1)                               0.09       1.96 f
-  DP/mult_97/U37/CO (FA_X1)                               0.09       2.05 f
-  DP/mult_97/U36/CO (FA_X1)                               0.09       2.14 f
-  DP/mult_97/U30/CO (FA_X1)                               0.09       2.23 f
-  DP/mult_97/U20/CO (FA_X1)                               0.09       2.32 f
-  DP/mult_97/U10/CO (FA_X1)                               0.09       2.42 f
-  DP/mult_97/U9/CO (FA_X1)                                0.09       2.51 f
-  DP/mult_97/U342/ZN (AOI222_X1)                          0.12       2.63 r
-  DP/mult_97/U341/ZN (OAI22_X1)                           0.05       2.67 f
-  DP/mult_97/U340/ZN (AOI21_X1)                           0.06       2.73 r
-  DP/mult_97/product[24] (iir_filterDP_DW_mult_tc_1)      0.00       2.73 r
-  DP/sub_1_root_sub_0_root_sub_104/B[12] (iir_filterDP_DW01_sub_1)
-                                                          0.00       2.73 r
-  DP/sub_1_root_sub_0_root_sub_104/U12/ZN (INV_X1)        0.03       2.76 f
-  DP/sub_1_root_sub_0_root_sub_104/U2_11/CO (FA_X1)       0.11       2.87 f
-  DP/sub_1_root_sub_0_root_sub_104/U2_12/S (FA_X1)        0.14       3.01 r
-  DP/sub_1_root_sub_0_root_sub_104/DIFF[12] (iir_filterDP_DW01_sub_1)
-                                                          0.00       3.01 r
-  DP/sub_0_root_sub_0_root_sub_104/A[12] (iir_filterDP_DW01_sub_0)
-                                                          0.00       3.01 r
-  DP/sub_0_root_sub_0_root_sub_104/U2_12/S (FA_X1)        0.14       3.15 f
-  DP/sub_0_root_sub_0_root_sub_104/DIFF[12] (iir_filterDP_DW01_sub_0)
-                                                          0.00       3.15 f
-  DP/mult_105/b[12] (iir_filterDP_DW_mult_tc_4)           0.00       3.15 f
-  DP/mult_105/U369/Z (XOR2_X1)                            0.09       3.24 f
-  DP/mult_105/U365/ZN (OAI22_X1)                          0.07       3.31 r
-  DP/mult_105/U87/S (FA_X1)                               0.13       3.44 f
-  DP/mult_105/U85/S (FA_X1)                               0.14       3.58 r
-  DP/mult_105/U84/S (FA_X1)                               0.12       3.70 f
-  DP/mult_105/U41/CO (FA_X1)                              0.10       3.80 f
-  DP/mult_105/U40/CO (FA_X1)                              0.09       3.89 f
-  DP/mult_105/U39/CO (FA_X1)                              0.09       3.99 f
-  DP/mult_105/U38/CO (FA_X1)                              0.09       4.08 f
-  DP/mult_105/U37/CO (FA_X1)                              0.09       4.17 f
-  DP/mult_105/U36/CO (FA_X1)                              0.09       4.26 f
-  DP/mult_105/U30/CO (FA_X1)                              0.09       4.35 f
-  DP/mult_105/U20/CO (FA_X1)                              0.09       4.44 f
-  DP/mult_105/U10/CO (FA_X1)                              0.09       4.54 f
-  DP/mult_105/U9/CO (FA_X1)                               0.09       4.63 f
-  DP/mult_105/U342/ZN (AOI222_X1)                         0.12       4.75 r
-  DP/mult_105/U341/ZN (OAI22_X1)                          0.05       4.79 f
-  DP/mult_105/U340/ZN (AOI21_X1)                          0.09       4.88 r
-  DP/mult_105/product[24] (iir_filterDP_DW_mult_tc_4)     0.00       4.88 r
-  DP/add_0_root_add_0_root_add_107/B[11] (iir_filterDP_DW01_add_0)
-                                                          0.00       4.88 r
-  DP/add_0_root_add_0_root_add_107/U1_11/CO (FA_X1)       0.09       4.97 r
-  DP/add_0_root_add_0_root_add_107/U1_12/S (FA_X1)        0.12       5.08 f
-  DP/add_0_root_add_0_root_add_107/SUM[12] (iir_filterDP_DW01_add_0)
-                                                          0.00       5.08 f
-  DP/U6/ZN (NAND2_X1)                                     0.09       5.17 r
-  DP/U29/ZN (NAND2_X1)                                    0.04       5.21 f
-  DP/U28/ZN (NAND2_X1)                                    0.03       5.24 r
-  DP/reg_out/D[0] (reg_N12_0)                             0.00       5.24 r
-  DP/reg_out/U27/ZN (NAND2_X1)                            0.03       5.27 f
-  DP/reg_out/U26/ZN (OAI21_X1)                            0.04       5.31 r
-  DP/reg_out/Q_reg[0]/D (DFFR_X1)                         0.01       5.31 r
-  data arrival time                                                  5.31
+  DP/reg_b_i_0/Q_reg[2]/CK (DFFR_X1)                      0.00       0.00 r
+  DP/reg_b_i_0/Q_reg[2]/Q (DFFR_X1)                       0.18       0.18 r
+  DP/reg_b_i_0/Q[2] (reg_N24_16)                          0.00       0.18 r
+  DP/mult_206/a[2] (iir_filterDP_DW_mult_tc_3)            0.00       0.18 r
+  DP/mult_206/U1957/ZN (INV_X1)                           0.11       0.29 f
+  DP/mult_206/U1327/Z (XOR2_X1)                           0.10       0.39 r
+  DP/mult_206/U1323/ZN (INV_X1)                           0.03       0.42 f
+  DP/mult_206/U1177/ZN (AND2_X1)                          0.05       0.46 f
+  DP/mult_206/U1137/ZN (INV_X1)                           0.16       0.63 r
+  DP/mult_206/U1248/ZN (OAI22_X1)                         0.07       0.69 f
+  DP/mult_206/U1247/ZN (XNOR2_X1)                         0.06       0.76 f
+  DP/mult_206/U408/S (HA_X1)                              0.08       0.84 f
+  DP/mult_206/U1943/ZN (AOI222_X1)                        0.12       0.96 r
+  DP/mult_206/U1937/ZN (OAI222_X1)                        0.07       1.03 f
+  DP/mult_206/U1931/ZN (AOI222_X1)                        0.11       1.14 r
+  DP/mult_206/U1924/ZN (OAI222_X1)                        0.07       1.21 f
+  DP/mult_206/U1918/ZN (AOI222_X1)                        0.11       1.32 r
+  DP/mult_206/U1911/ZN (OAI222_X1)                        0.07       1.39 f
+  DP/mult_206/U1905/ZN (AOI222_X1)                        0.11       1.50 r
+  DP/mult_206/U1898/ZN (OAI222_X1)                        0.07       1.57 f
+  DP/mult_206/U1892/ZN (AOI222_X1)                        0.11       1.69 r
+  DP/mult_206/U1885/ZN (OAI222_X1)                        0.07       1.75 f
+  DP/mult_206/U1879/ZN (AOI222_X1)                        0.11       1.87 r
+  DP/mult_206/U1872/ZN (OAI222_X1)                        0.07       1.94 f
+  DP/mult_206/U1866/ZN (AOI222_X1)                        0.11       2.05 r
+  DP/mult_206/U1859/ZN (OAI222_X1)                        0.07       2.12 f
+  DP/mult_206/U1853/ZN (AOI222_X1)                        0.11       2.23 r
+  DP/mult_206/U1846/ZN (OAI222_X1)                        0.07       2.30 f
+  DP/mult_206/U1840/ZN (AOI222_X1)                        0.10       2.40 r
+  DP/mult_206/U1839/ZN (INV_X1)                           0.03       2.43 f
+  DP/mult_206/U1833/ZN (AOI222_X1)                        0.11       2.54 r
+  DP/mult_206/U1826/ZN (OAI222_X1)                        0.07       2.60 f
+  DP/mult_206/U204/CO (FA_X1)                             0.10       2.70 f
+  DP/mult_206/U203/CO (FA_X1)                             0.09       2.79 f
+  DP/mult_206/U202/CO (FA_X1)                             0.09       2.88 f
+  DP/mult_206/U201/CO (FA_X1)                             0.09       2.97 f
+  DP/mult_206/U200/CO (FA_X1)                             0.09       3.07 f
+  DP/mult_206/U199/CO (FA_X1)                             0.09       3.16 f
+  DP/mult_206/U198/CO (FA_X1)                             0.09       3.25 f
+  DP/mult_206/U197/CO (FA_X1)                             0.09       3.34 f
+  DP/mult_206/U196/CO (FA_X1)                             0.09       3.43 f
+  DP/mult_206/U195/CO (FA_X1)                             0.09       3.52 f
+  DP/mult_206/U194/CO (FA_X1)                             0.09       3.62 f
+  DP/mult_206/U193/CO (FA_X1)                             0.09       3.71 f
+  DP/mult_206/U192/CO (FA_X1)                             0.09       3.80 f
+  DP/mult_206/U191/CO (FA_X1)                             0.09       3.89 f
+  DP/mult_206/U190/CO (FA_X1)                             0.09       3.98 f
+  DP/mult_206/U189/CO (FA_X1)                             0.09       4.07 f
+  DP/mult_206/U188/CO (FA_X1)                             0.09       4.16 f
+  DP/mult_206/U187/CO (FA_X1)                             0.09       4.26 f
+  DP/mult_206/U186/CO (FA_X1)                             0.09       4.35 f
+  DP/mult_206/U185/CO (FA_X1)                             0.09       4.44 f
+  DP/mult_206/U184/CO (FA_X1)                             0.09       4.53 f
+  DP/mult_206/U183/CO (FA_X1)                             0.09       4.62 f
+  DP/mult_206/U182/CO (FA_X1)                             0.09       4.72 f
+  DP/mult_206/U1229/ZN (AOI222_X1)                        0.12       4.83 r
+  DP/mult_206/U1227/ZN (OAI22_X1)                         0.04       4.88 f
+  DP/mult_206/U1226/ZN (AOI21_X1)                         0.06       4.94 r
+  DP/mult_206/product[47] (iir_filterDP_DW_mult_tc_3)     0.00       4.94 r
+  DP/reg_pipe10/D[23] (reg_N24_3)                         0.00       4.94 r
+  DP/reg_pipe10/U5/ZN (NAND2_X1)                          0.03       4.97 f
+  DP/reg_pipe10/U4/ZN (OAI21_X1)                          0.03       5.00 r
+  DP/reg_pipe10/Q_reg[23]/D (DFFR_X1)                     0.01       5.01 r
+  data arrival time                                                  5.01
 
-  clock CLOCK (rise edge)                                11.20      11.20
-  clock network delay (ideal)                             0.00      11.20
-  clock uncertainty                                      -0.07      11.13
-  DP/reg_out/Q_reg[0]/CK (DFFR_X1)                        0.00      11.13 r
-  library setup time                                     -0.04      11.09
-  data required time                                                11.09
+  clock CLOCK (rise edge)                                 6.00       6.00
+  clock network delay (ideal)                             0.00       6.00
+  clock uncertainty                                      -0.07       5.93
+  DP/reg_pipe10/Q_reg[23]/CK (DFFR_X1)                    0.00       5.93 r
+  library setup time                                     -0.04       5.89
+  data required time                                                 5.89
   --------------------------------------------------------------------------
-  data required time                                                11.09
-  data arrival time                                                 -5.31
+  data required time                                                 5.89
+  data arrival time                                                 -5.01
   --------------------------------------------------------------------------
-  slack (MET)                                                        5.78
+  slack (MET)                                                        0.89
 
 
 1
