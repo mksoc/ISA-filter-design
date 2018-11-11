@@ -2,7 +2,7 @@
 # set whichever folder is the one containing src, tb, sim, syn... which you want to work on
 # MIND THAT THERE'S NO "/" AT THE END OF THE PATH!!
 # E.g. /home/isa22/lab1 or /home/isa22/lab1/marco or /home/isa22/lab1/pippo ...
-REMOTE_ROOT="/home/isa22/lab1/" 
+REMOTE_ROOT="/home/isa22/lab1" 
 
 # check if the script is run inside ../ISA-filter-design
 case "$PWD" in
@@ -88,8 +88,7 @@ while (( loop_end == 0 )); do
 	        ;;
 	    4 | "4) Copy simulation files to server")
 	        echo "Copying files..."
-	        scp -o ControlPath="$SSH_SOCKET" -P $PORT $SIM_DIR/*.tcl "$USER_HOST":"$REMOTE_ROOT"/sim
-            scp -o ControlPath="$SSH_SOCKET" -P $PORT $SIM_DIR/*.do "$USER_HOST":"$REMOTE_ROOT"/sim
+	        scp -o ControlPath="$SSH_SOCKET" -P $PORT $SIM_DIR/{*.tcl,*.do} "$USER_HOST":"$REMOTE_ROOT"/sim
 	        echo "Done."
 	        echo
 	        ;;    

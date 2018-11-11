@@ -11,21 +11,22 @@ library work;
 use work.filter_pkg.all;
 
 entity data_maker is
+    generic (IN_PATH: string := "../common");
     port (
         clock   : in std_logic;
         reset_n : in std_logic;
         vOut    : out std_logic;    -- these are vIn and 
         dOut    : out dataType;     -- dIn of the UUT
-        b       : out std_logic_vector((3*NB - 1) downto 0);
-        a       : out std_logic_vector((2*NB - 1) downto 0);
+        coeffs_fb      : out std_logic_vector(2*word'length - 1 downto 0);
+        coeffs_ff       : out std_logic_vector(4*word'length - 1 downto 0);
         end_sim : out std_logic
     );
 end data_maker;
 
 architecture behavior of data_maker is
     -- signal declarations
-    signal b_int: bCoeffType;
-    signal a_int: aCoeffType;
+    signal coeffs_ff_int: bCoeffType;
+    signal coeffs_fb_int: aCoeffType;
 
     constant tco       : time := 1 ns;
 
@@ -34,13 +35,27 @@ architecture behavior of data_maker is
 
 begin -- behavior
     -- assign coefficients
-    b_int <= (to_signed(423, dataType'length), to_signed(846, dataType'length), to_signed(423, dataType'length));
-    a_int <= (to_signed(-757, dataType'length), to_signed(401, dataType'length));
-    b <= std_logic_vector(b_int(0)) & std_logic_vector(b_int(1)) & std_logic_vector(b_int(2));
-    a <= std_logic_vector(a_int(1)) & std_logic_vector(a_int(2));
+    coeff_proc: process
+        variable a1: integer := -757;
+        variable a2: integer := 401;
+        variable b0: integer := 423;
+        variable b1: integer := 846;
+        variable b2: integer := 423;
+    begin
+        coeffs_fb_int <= (to_signed(- a1*a1 + a2*(2**(WL_FRAC - (NB - 1))), word'length), 
+                    to_signed(- a1*a2, word'length));
+        coeffs_ff_int <= (to_signed(b0*(2**(WL_FRAC - (NB - 1))), word'length), 
+                    to_signed(b1*(2**(WL_FRAC - (NB - 1))) - a1*b0, word'length),
+                    to_signed(b2*(2**(WL_FRAC - (NB - 1))) - a1*b1, word'length),
+                    to_signed(- a1*b2, word'length));
+        wait;
+    end process ; 
+
+    coeffs_fb <= std_logic_vector(coeffs_fb_int(1)) & std_logic_vector(coeffs_fb_int(2));
+    coeffs_ff <= std_logic_vector(coeffs_ff_int(0))& std_logic_vector(coeffs_ff_int(1)) & std_logic_vector(coeffs_ff_int(2)) & std_logic_vector(coeffs_ff_int(3));
 
     read_file: process
-        file fp_in          : text open READ_MODE is "../common/samples.txt";
+        file fp_in          : text open READ_MODE is IN_PATH & "/samples.txt";
         variable line_in    : line;
         variable x          : integer;
         -- for random pause generator

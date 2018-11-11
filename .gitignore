@@ -22,8 +22,8 @@
 *.idx
 *.new
 *.ini
-*.txt
 *.synctex*
+# *.txt
 
 # Files
 transcript

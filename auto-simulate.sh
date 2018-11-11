@@ -110,6 +110,5 @@ EOF
 fi
 
 echo "> Comparing results..."
-echo $PWD
 cd common
 python3 compare-outputs.py results-c.txt results-hw.txt

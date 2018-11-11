@@ -45,8 +45,8 @@ entity iir_filter is
         rst_n : in std_logic;
         vIn   : in std_logic;
         dIn   : in dataType;
-        a     : in std_logic_vector((2 * NB - 1) downto 0);
-        b     : in std_logic_vector((3 * NB - 1) downto 0);
+        coeffs_fb      : in std_logic_vector(2*word'length - 1 downto 0);
+        coeffs_ff       : in std_logic_vector(4*word'length - 1 downto 0);
         dOut  : out dataType;
         vOut  : out std_logic
     );
@@ -62,13 +62,13 @@ architecture structure of iir_filter is
     component iir_filterDP is
         port (
             -- from external world
-            clk, rst_n                    : in std_logic;
-            dIn                           : in dataType;
-            a                             : in aCoeffType;
-            b                             : in bCoeffType;
-            dOut                          : out dataType;
+            clk, rst_n: in std_logic;
+            dIn: in dataType;
+            coeffs_fb: in aCoeffType;
+            coeffs_ff: in bCoeffType;
+            dOut: out dataType;
             -- controls from CU
-            input_regs_en, sw_regs_en, out_reg_en : in std_logic
+            input_regs_en, sw_regs_en, out_reg_en: in std_logic
         );
     end component;
 
@@ -86,8 +86,8 @@ architecture structure of iir_filter is
 
     -- signal declarations
     signal input_regs_en_int, sw_regs_en_int: std_logic;
-    signal b_int                                 : bCoeffType;
-    signal a_int                                 : aCoeffType;
+    signal coeffs_fb_int: aCoeffType;
+    signal coeffs_ff_int: bCoeffType;
     signal delayed_controls: delay_array;
 
 begin
@@ -97,8 +97,8 @@ begin
         clk            => clk,
         rst_n          => rst_n,
         dIn            => dIn,
-        b              => b_int,
-        a              => a_int,
+        coeffs_ff              => coeffs_ff_int,
+        coeffs_fb             => coeffs_fb_int,
         dOut           => dOut,
         input_regs_en  => input_regs_en_int,
         sw_regs_en     => sw_regs_en_int,
@@ -130,8 +130,8 @@ begin
     end generate;
 
     -- signal assignments
-    b_int <= (signed(b((3 * NB - 1) downto 2 * NB)), signed(b((2 * NB - 1) downto NB)), signed(b((NB - 1) downto 0)));
-    a_int <= (signed(a((2 * NB - 1) downto NB)), signed(a((NB - 1) downto 0)));
+    coeffs_fb_int <= (signed(coeffs_fb((2 * WL - 1) downto WL)), signed(coeffs_fb((WL - 1) downto 0)));
+    coeffs_ff_int <= (signed(coeffs_ff((4 * WL - 1) downto 3 * WL)), signed(coeffs_ff((3 * WL - 1) downto 2 * WL)), signed(coeffs_ff((2 * WL - 1) downto WL)), signed(coeffs_ff((WL - 1) downto 0)));
     vOut <= delayed_controls(PIPE_STAGES)(1);
 
 end architecture structure;
