@@ -19,10 +19,11 @@ y = filter(bq, aq, x); %% apply filter
 
 %% plots
 figure (2)
-plot(tt, x1);
-hold on
-plot(tt, x2);
+%plot(tt, x1);
+%hold on
+%plot(tt, x2);
 plot(tt, x);
+hold on
 plot(tt, y);
 
 legend('x1', 'x2', 'x', 'y')
