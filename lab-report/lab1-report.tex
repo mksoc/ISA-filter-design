@@ -17,6 +17,8 @@
 \begin{document}
 \maketitle
 
+This report along with all the source files, scripts, reports and diagrams for the project can be found on GitHub at \url{https://github.com/mksoc/ISA-filter-design}.
+
 \section{Filter design}
 Following the rules given in the assignment, the main specifications were derived:
 \begin{itemize}
@@ -29,7 +31,9 @@ Following the rules given in the assignment, the main specifications were derive
 Then, using the provided example MATLAB script, the filter coefficients were found by means of the \texttt{butter} function. Real coefficients are then quantized as fixed point fractional number in the format $Q1.(n_b-1)$ ($Q1.11$ in our case) and expressed as integers on $n_b$ bits for the future C model and hardware filter. We will discover later that some care has to be taken when performing operations on the integer representation of fixed point numbers. 
 
 Quantization is performed by truncation (\texttt{floor} function), so that the maximum error is equal to:
-\[\varepsilon_{max} = 2^{-(n_b-1)} = 2^{-11} = 0.049\%\]
+\begin{equation}\label{eq:emax}
+    \varepsilon_{max} = 2^{-(n_b-1)} = 2^{-11} = 0.049\%
+\end{equation}
 We accept that this error could be reduced by rounding and that truncation introduces a negative bias by approximating always towards \(-\infty\), because on the other hand truncation is much easier to implement in hardware, where it just represent an arithmetic shift.
 
 The resulting difference equation is in the end:
@@ -58,6 +62,11 @@ Figure~\ref{fig:tf} shows the transfer function of the filter computed from both
     \label{fig:sine}
 \end{figure}
 Figure~\ref{fig:sine} on the other hand shows the time domain waveforms of an input signal $x_1(t)$, in blue, containing two frequency components one in band and one out of band, and the corresponding output $x_2(t)$, in red, where only the in-band component survives.
+
+\section{Fixed-point C model}
+The next step consists of writing a software model of the filter in C, which mirrors the behavior of the hardware architecture to be designed next. In this regard, the main difference between the MATLAB model and this one is that the former uses quantized coefficients but performs the internal computation using the maximum precision allowed by the machine, while the latter performs computation always resorting to the original fixed parallelism of data (12 bits here).
+
+The development of this software model started with the example provided in the assignment, tailored to our specifications. A \href{https://github.com/mksoc/ISA-filter-design/blob/master/common/compare-outputs.py}{Python script} was developed and used to compare the results file of the two models. As expected, the comparison shows that the two models differ at most of one unity, that is the previously computed $\varepsilon_{max}$ (\ref{eq:emax}) in fractional form. Furthermore, results from the MATLAB model, when different, are always greater than the results from the C model, as the latter performs multiple truncation (rounding towards $-\infty$) in its computations. 
 
 \end{document}
 
