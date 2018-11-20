@@ -7,7 +7,7 @@
 REMOTE_ROOT="/home/isa22/lab1"
 INIT_SYN="/software/scripts/init_synopsys"
 SYN_SCRIPT="/home/isa22/lab1/syn/syn-script.tcl"
-REPORTS_LOCAL="./reports/post-syn"
+REPORTS_LOCAL="./reports/lookahead_architecture/post-syn"
 
 # SSH configuration variables
 USER_HOST="isa22@led-x3850-2.polito.it"
@@ -15,7 +15,7 @@ PORT="10020"
 SSH_SOCKET=~/".ssh/$USER_HOST"
 
 # Current minimum clock period (maximum frequency) in ns:
-T_DEFAULT=6
+T_DEFAULT=5.8
 
 # check if the script is run inside ../ISA-filter-design
 case "$PWD" in
