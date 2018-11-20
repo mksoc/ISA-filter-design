@@ -112,7 +112,7 @@ while (( loop_end == 0 )); do
 	        ;;
 	    8 | "8) Copy innovus reports and netlist from server")
 	        echo "Copying files..."
-	        scp -r -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/innovus/\{areaReport,RC_timing,timingReports,ver\} reports/post_per
+	        scp -r -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/innovus/\{areaReport,RC_timing,timingReports,powReport,ver\} reports/lookahead_architecture/post_per
 	        scp  -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/innovus/netlist/*.v "$NET_DIR"/post_per
 	        echo "Done."
 	        echo
