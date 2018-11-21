@@ -17,8 +17,15 @@ elaborate iir_filter -arch structure -lib WORK > ./elaborate-log.txt
 uniquify
 link
 
-# create symbolic clock signal (period = 11.2 ns)
-create_clock -name CLOCK -period 11.2 clk
+# create symbolic clock signal (default period = 11.2 ns)
+
+if {[info exists env(T_TARGET)]} {
+    set clock_period "$env(T_TARGET)"
+} else {
+    set clock_period "11.2"
+}
+
+create_clock -name CLOCK -period $clock_period clk
 set_dont_touch_network CLOCK
 set_clock_uncertainty 0.07 [get_clocks CLOCK]
 
@@ -52,6 +59,5 @@ write -f verilog -hierarchy -output ../netlist/iir_filter.v
 # export Synopsys Design Constraints file
 write_sdc ../netlist/iir_filter.sdc
 
-#convert lib into .saif for modelsim
-read_file NangateOpenCellLibrary_typical_ecsm_nowlm.db
-lib2saif -out ../saif/NangateOpenCellLibrary.saif NangateOpenCellLibrary
+# Exit synopsys
+exit

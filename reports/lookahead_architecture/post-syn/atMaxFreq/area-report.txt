@@ -1,0 +1,24 @@
+ 
+****************************************
+Report : area
+Design : iir_filter
+Version: Z-2007.03-SP1
+Date   : Sun Nov 18 15:01:53 2018
+****************************************
+
+Library(s) Used:
+
+    NangateOpenCellLibrary (File: /software/dk/nangate45/synopsys/NangateOpenCellLibrary_typical_ecsm_nowlm.db)
+
+Number of ports:              172
+Number of nets:              1341
+Number of cells:              883
+Number of references:          27
+
+Combinational area:       16246.482002
+Noncombinational area:    2592.968084
+Net Interconnect area:      undefined  (Wire load has zero net area)
+
+Total cell area:          18839.449219
+Total area:                 undefined
+1

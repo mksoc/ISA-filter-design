@@ -1,6 +1,6 @@
 # File extensions:
 *.bak
-*.rpt
+# *.rpt
 *.summary
 *.qpf
 *.qsf
@@ -22,8 +22,8 @@
 *.idx
 *.new
 *.ini
-*.txt
 *.synctex*
+# *.txt
 
 # Files
 transcript

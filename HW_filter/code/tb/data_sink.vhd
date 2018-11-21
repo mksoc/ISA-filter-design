@@ -10,6 +10,7 @@ library work;
 use work.filter_pkg.all;
 
 entity data_sink is
+    generic (OUT_PATH: string := "../common");
     port (
         clock   : in std_logic;
         reset_n : in std_logic;
@@ -23,7 +24,7 @@ architecture behavior of data_sink is
 begin -- behavior
 
     process (clock, reset_n)
-        file res_fp       : text open WRITE_MODE is "../common/results-hw.txt";
+        file res_fp       : text open WRITE_MODE is OUT_PATH & "/results-hw.txt";
         variable line_out : line;
     begin -- process
         if reset_n = '0' then -- asynchronous reset (active low)

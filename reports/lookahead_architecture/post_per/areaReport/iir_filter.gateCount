@@ -1,0 +1,13 @@
+Gate area 0.7980 um^2
+Level 0 Module iir_filter                               Gates=     19087 Cells=    7276 Area=   15231.4 um^2
+Level 1 Module add_1_root_sub_0_root_DP_sub_217         Gates=126        Cells=25       Area=     100.5 um^2
+Level 1 Module sub_0_root_sub_0_root_DP_sub_217         Gates=118        Cells=57       Area=      94.7 um^2
+Level 1 Module add_2_root_add_0_root_DP_add_223         Gates=126        Cells=25       Area=     100.5 um^2
+Level 1 Module add_1_root_add_0_root_DP_add_223         Gates=126        Cells=25       Area=     100.5 um^2
+Level 1 Module add_0_root_add_0_root_DP_add_223         Gates=108        Cells=51       Area=      86.5 um^2
+Level 1 Module DP_mult_204                              Gates=2447       Cells=1028     Area=    1953.2 um^2
+Level 1 Module DP_mult_205                              Gates=2446       Cells=1021     Area=    1952.2 um^2
+Level 1 Module DP_mult_206                              Gates=2435       Cells=1011     Area=    1943.4 um^2
+Level 1 Module DP_mult_207                              Gates=2435       Cells=1016     Area=    1943.1 um^2
+Level 1 Module DP_mult_208                              Gates=2436       Cells=1011     Area=    1943.9 um^2
+Level 1 Module DP_mult_209                              Gates=2429       Cells=1011     Area=    1938.6 um^2
