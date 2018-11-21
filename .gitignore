@@ -1,6 +1,6 @@
 # File extensions:
 *.bak
-*.rpt
+# *.rpt
 *.summary
 *.qpf
 *.qsf

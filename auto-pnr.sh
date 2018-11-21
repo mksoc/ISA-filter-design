@@ -27,6 +27,8 @@ ssh -M -f -N -o ControlPath="$SSH_SOCKET" -p $PORT "$USER_HOST"
 echo "> Performing P&R with Innovus..."
 ssh -S "$SSH_SOCKET" -p $PORT "$USER_HOST" /bin/bash << EOF
     cd ${REMOTE_ROOT}/innovus
+    rm innovus.*
+    rm ./powReport/*
     source $INIT_PNR
     
     innovus -no_gui -file $PNR_SCRIPT
@@ -35,6 +37,12 @@ EOF
 # Launch simulation script
 echo "> Launching simulation script. Please select \"Post-per netlist\" when prompted."
 ./auto-simulate.sh
+
+# Test if everything went fine
+if [ $? -ne 0 ]; then
+    echo "> ERROR: Something went wrong durig simulation... Exiting now."
+    exit 1
+fi
 
 # Perform place and route 
 echo "> Performing P&R with Innovus..."

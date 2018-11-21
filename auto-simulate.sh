@@ -32,6 +32,7 @@ then
     USER_HOST="isa22@led-x3850-2.polito.it"
     PORT="10020"
     SSH_SOCKET=~/".ssh/$USER_HOST"
+    socket_created=0
 fi
 
 echo "> Running samples generator..."
@@ -56,8 +57,11 @@ echo "> Running C model..."
 cd ..
 if [ $place -eq 2 ]
 then
-    echo "> Connecting to server..."
-    ssh -M -f -N -o ControlPath="$SSH_SOCKET" -p $PORT "$USER_HOST"
+    if [ ! -S "$SSH_SOCKET" ]; then
+        echo "> Connecting to server..."
+        ssh -M -f -N -o ControlPath="$SSH_SOCKET" -p $PORT "$USER_HOST"
+        socket_created=1
+    fi
 
     echo "> Copying samples to server..."
     scp -o ControlPath="$SSH_SOCKET" -P $PORT common/samples.txt "$USER_HOST":"$REMOTE_ROOT"/common
@@ -104,9 +108,10 @@ EOF
 
     echo "> Copying results from server..."
     scp -o ControlPath="$SSH_SOCKET" -P $PORT "$USER_HOST":"$REMOTE_ROOT"/common/results-hw.txt common/
-
-    echo "> Closing connection..."
-    ssh -S "$SSH_SOCKET" -O exit "$USER_HOST"
+    if [ socket_created -ne 0 ]; then
+        echo "> Closing connection..."
+        ssh -S "$SSH_SOCKET" -O exit "$USER_HOST"
+    fi
 fi
 
 echo "> Comparing results..."
