@@ -8,6 +8,7 @@
 \usepackage{mathtools}
 \usepackage{siunitx}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage[dvipsnames]{xcolor}
 
 \sisetup{exponent-product=\cdot}
 
@@ -49,7 +50,7 @@ where
 
 \begin{figure}[hbtp]
     \centering
-    \includegraphics[width=.8\linewidth]{media/tf.pdf}
+    \includegraphics[width=.75\linewidth]{media/tf.pdf}
     \caption{Bode plot of the filter frequency response}
     \label{fig:tf}
 \end{figure}
@@ -57,7 +58,7 @@ Figure~\ref{fig:tf} shows the transfer function of the filter computed from both
 
 \begin{figure}[hbtp]
     \centering
-    \includegraphics[width=\linewidth]{media/sine.pdf}
+    \includegraphics[width=.8\linewidth]{media/sine.pdf}
     \caption{Input and output waveforms}
     \label{fig:sine}
 \end{figure}
@@ -66,7 +67,45 @@ Figure~\ref{fig:sine} on the other hand shows the time domain waveforms of an in
 \section{Fixed-point C model}
 The next step consists of writing a software model of the filter in C, which mirrors the behavior of the hardware architecture to be designed next. In this regard, the main difference between the MATLAB model and this one is that the former uses quantized coefficients but performs the internal computation using the maximum precision allowed by the machine, while the latter performs computation always resorting to the original fixed parallelism of data (12 bits here).
 
-The development of this software model started with the example provided in the assignment, tailored to our specifications. A \href{https://github.com/mksoc/ISA-filter-design/blob/master/common/compare-outputs.py}{Python script} was developed and used to compare the results file of the two models. As expected, the comparison shows that the two models differ at most of one unity, that is the previously computed $\varepsilon_{max}$ (\ref{eq:emax}) in fractional form. Furthermore, results from the MATLAB model, when different, are always greater than the results from the C model, as the latter performs multiple truncation (rounding towards $-\infty$) in its computations. 
+The development of this software model started with the example provided in the assignment, tailored to our specifications. A \href{https://github.com/mksoc/ISA-filter-design/blob/master/common/compare-outputs.py}{Python script} was developed and used to compare the results file of the two models. As expected, the comparison shows that the two models differ at most of one unity, that is the previously computed $\varepsilon_{max}$ (\ref{eq:emax}) in fractional form. Furthermore, results from the MATLAB model, when different, are always greater than the results from the C model, as the latter performs multiple truncations (rounding towards $-\infty$) in its computations. 
 
-\end{document}
+\section{Base architecture design}
+The development of the first architecture began with the definition of the Data Flow Graph of the filter, shown in figure~\ref{fig:base_dfg}, from which the number of hardware resources needed can be derived (i.e. two delay elements, four adders and five multipliers).
 
+\begin{figure}[hbtp]
+    \centering
+    \includegraphics[width=.8\linewidth]{media/base_dfg.pdf}
+    \caption{DFG of the filter}
+    \label{fig:base_dfg}
+\end{figure}
+
+\subsection{Datapath}
+% BUG!!!! output register in the scheme is called reg_in instead of reg_out
+From the generic DFG, a full datapath architecture was designed, shown in figure~\ref{fig:base_dp}. Compared to the simple DFG of figure~\ref{fig:base_dfg}, this datapath explicitly shows all signal names used throughout the design and their parallelism, along with additional interface registers required by the specifications. The following paragraphs detail the key points of the design. 
+
+\begin{figure}[hbtp]
+    \centering
+    \includegraphics[width=\linewidth]{media/base_dp.pdf}
+    \caption{Datapath}
+    \label{fig:base_dp}
+\end{figure}
+
+\subsubsection{Color legend}
+All datapath schemes used in this report follow the same color coding:
+\begin{itemize}
+    \item \textcolor{blue}{Blue} signals are data signals
+    \item \textcolor{ForestGreen}{Green} signals are external coefficients
+    \item \textcolor{Plum}{Purple} labels define the parallelism of the corresponding signal
+    \item \textcolor{orange}{Orange} signals are control signals coming from the Control Unit
+\end{itemize}
+
+\subsubsection{Registers}
+In addition to the two core delay elements of the filter DFG, the complete datapath includes also border registers for each piece of data coming in or out of the architecture, specifically the input and output sample stream and all filter coefficients. Input registers for the latter are not actually shown in figure~\ref{fig:base_dp} to avoid too much visual clutter, but assume that each coefficient in green is actually the output of a register.
+
+Each register has implicit clock and asynchronous reset signals, as well as individual enable signals. No synchronous clear is provided as it is of no use for the purposes of this design.
+
+\subsubsection{Arithmetic operators}
+As per specifications, 
+
+
+\end{document} 
