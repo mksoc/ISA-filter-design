@@ -61,7 +61,7 @@ module iir_filterTB ();
 	always @(end_sim_i) begin
 		if (end_sim_i) begin
 			// this initial block is needed only for the post-synthesis simulation,
-			// not for the basic architercure or the post P&R simulation
+			// not for the basic architecture or the post P&R simulation
 			`ifdef SYN
 				$toggle_stop;
 				$toggle_report("../saif/iir_filter_back.saif", 1.0e-9, "iir_filterTB.UUT");
