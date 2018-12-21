@@ -209,8 +209,9 @@ begin
 	pipe0_coeff_pipe03 <= multiplyAndRound(coeffs_ff_int(3), pipe03);
 
 	-- compute forward and backward sums
-	-- all these resize() (but the one on 'x') are useless as long as the parallelism is the same 
-	-- for all internal nodes, but they're kept for future development
+	-- all these resize() (but the one on 'x') are useless as long as 
+	-- the parallelism is the same for all internal nodes, 
+	-- but they're kept for future development
 	fb <= resize(ret0, fb'length) + resize(ret1, fb'length);
 	ff_part <= resize(pipe12, ff_part'length) + resize(pipe13, ff_part'length);
 	ff <= resize(pipe11, ff'length) + resize(ff_part, ff'length);

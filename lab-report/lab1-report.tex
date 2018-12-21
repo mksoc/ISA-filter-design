@@ -39,7 +39,9 @@ Quantization is performed by truncation (\texttt{floor} function), so that the m
 We accept that this error could be reduced by rounding and that truncation introduces a negative bias by approximating always towards \(-\infty\), because on the other hand truncation is much easier to implement in hardware, where it just represent an arithmetic shift.
 
 The resulting difference equation is in the end:
-\[y[n] = b_0x[n] + b_1x[n-1] + b_2x[n-2] - a_1y[n-1] - a_2y[n-2]\]
+\begin{equation}\label{eq:diff}
+    y[n] = b_0x[n] + b_1x[n-1] + b_2x[n-2] - a_1y[n-1] - a_2y[n-2]
+\end{equation}
 where
 \begin{description}
     \item \(b_0 = 0.20654 = 423\)
@@ -81,7 +83,6 @@ The development of the first architecture began with the definition of the Data 
 \end{figure}
 
 \subsection{Datapath}
-% BUG!!!! output register in the scheme is called reg_in instead of reg_out
 From the generic DFG, a full datapath architecture was designed, shown in figure~\ref{fig:base_dp}. Compared to the simple DFG of figure~\ref{fig:base_dfg}, this datapath explicitly shows all signal names used throughout the design and their parallelism, along with additional interface registers required by the specifications. The following paragraphs detail the key points of the design. 
 
 \begin{figure}[hbtp]
@@ -213,5 +214,123 @@ All the place and route was done using a clock frequency equal to a quarter of t
 By comparing tables~\ref{tab:base_post_syn} and~\ref{tab:base_post_pnr}, it is evident that results do not agree very much, apart from the static power. In terms of area this is due to the fact that the place and route was carried out at a much lower frequency while the area given by the synthesis refers to the maximum frequency achievable: this means that Design Compiler must have instantiated different hardware components in the two cases, the slower ones having also smaller area. 
 
 Regarding dynamic power on the other hand, the first thing that comes to mind is that Innovus certainly has a better estimation of the actual interconnects and their dissipated power. This however cannot be the only explanation, because comparing more closely the power reports from the two tools, both the internal power and the net switching power increase dramatically in the case of place and route. \textcolor{red}{SO WTF??}.
+
+\section{Look-ahead transform}\label{sec:improv}
+The next step consists of improving the previous basic design by means of formal transformations and pipelining. Being the case in exam a IIR filter, the method implemented is the so-called \emph{look-ahead} transform, which consists of expanding the difference equation of the original filter (see~\ref{eq:diff}) by making explicit the term $y[n-1]$ as follows:
+\begin{equation*}
+    y[n-1] = b_0x[n-1] + b_1x[n-2] + b_2x[n-3] - a_1y[n-2] - a_2y[n-3]
+\end{equation*}
+Resulting in this final form of the difference equation:
+\begin{equation}\label{eq:lookahead}
+\begin{split}
+    \Rightarrow y[n] &= \!\begin{multlined}[t]
+        b_0x[n] + b_1x[n-1] + b_2x[n-2] - a_1\left(b_0x[n-1]+ b_1x[n-2]+\right. \\
+        \left. +\ b_2x[n-3] - a_1y[n-2] - a_2y[n-3]\right) - a_2y[n-2]
+    \end{multlined} \\
+    &= \!\begin{multlined}[t]
+        b_0x[n] + (\textcolor{ForestGreen}{b_1-a_1b_0})x[n-1] + (\textcolor{ForestGreen}{b_2-a_2b_1})x[n-2] + \\
+        -\textcolor{ForestGreen}{a_1b_2x}[n-3] + (\textcolor{ForestGreen}{a_1^2-a_2})y[n-2] + (\textcolor{ForestGreen}{a_1a_2})y[n-3]
+    \end{multlined} \\   
+\end{split}
+\end{equation}
+The green highlights the fact that new coefficients different from the originals arise from the look-ahead transformation, which will necessitate adapting the parallelism and the hardware component to these new values.
+Figure~\ref{fig:lookahead_dfg} shows the modified DFG that implements equation~\ref{eq:lookahead}.
+
+\begin{figure}[hbtp]
+    \centering
+    \includegraphics[width=.9\linewidth]{media/lookahead_dfg.pdf}
+    \caption{Look-ahead transformed DFG}
+    \label{fig:lookahead_dfg}
+\end{figure}
+
+\subsection{Loop bound analysis}
+The justification for performing this modification on the original DFG lies in the analysis of the loop bound constrain and the critical path of the architecture. Figure~\ref{fig:base_dfg_lbcp} shows the loop bound (in blue) and the critical path (in green) on the original DFG, which values are respectively:
+\begin{itemize}
+    \item $T_\infty = 2T_a + T_m$
+    \item $T_{cp} = 3T_a + 2T_m$
+\end{itemize}
+Being that $T_\infty < T_{cp}$, there is theoretically room for improvement even in the base architecture. In fact it is quite easy to see that pipelining could be applied in the FIR part of the DFG.
+
+\begin{figure}[hbtp]
+    \centering
+    \includegraphics[width=.8\linewidth]{media/base_dfg_lbcp.pdf}
+    \caption{Loop bound and critical path of the base DFG}
+    \label{fig:base_dfg_lbcp}
+\end{figure}
+
+However, it makes more sense to apply improvements only on the modified DFG as the application of the look-ahead transform allows to halve the loop bound, as shown in figure~\ref{fig:lookahead_dfg_lbcp}, by introducing an additional delay element in the longest loop. 
+
+\begin{figure}[hbtp]
+    \centering
+    \includegraphics[width=.9\linewidth]{media/lookahead_dfg_lbcp.pdf}
+    \caption{Loop bound and critical path of the look-ahead DFG}
+    \label{fig:lookahead_dfg_lbcp}
+\end{figure}
+
+\subsection{Pipelining and retiming}
+Figure~\ref{fig:lookahead_dfg_lbcp} shows also that the critical path remains exactly the same after the transformation, which means that the look-ahead transform on its own does not lead to any improvement at all, but simply enables speed-up to be achieved in other ways. 
+
+In this particular case two different improvements can be performed on two different parts of the DFG:
+\begin{itemize}
+    \item \textbf{Pipelining}: in the feed-forward (or FIR) part of the filter two feed-forward cutsets can be identified and thus two levels of pipelining can be inserted. This reduces the critical path by excluding the last multiplier/adder couple from the total.
+    \item \textbf{Retiming}: in the feedback (or IIR) part instead no feed-forward cutset can be identified (obviously), but retiming can be performed by splitting the second and third register in the delay line along the two forking branches and moving the copy in the IIR part after the two multipliers to exclude them from the critical path as well.
+\end{itemize}
+These transformations lead to the final DFG of figure~\ref{fig:pipelined_dfg}, where of course the loop bound is unchanged but the critical is reduced to the delay of a single multiplier $T_m$ \footnote{This is valid only if one multiplier is slower than three adders, but this is probably the case.}.
+
+\begin{figure}[hbtp]
+    \centering
+    \includegraphics[width=.9\linewidth]{media/pipelined_lookahead_dfg.pdf}
+    \caption{Final pipelined and retimed DFG}
+    \label{fig:pipelined_dfg}
+\end{figure}
+
+Note that the loop bound is still smaller than the critical path, but no further improvement can be achieved without fine-grained pipelining inside the arithmetic operators, which is beyond the scope of this laboratory experience.
+
+\subsection{Datapath}
+\begin{figure}[hbtp]
+    \centering
+    \makebox[\textwidth][c]{\includegraphics[width=1.3\linewidth]{media/pipelined_lookahead_dp.pdf}}
+    \caption{Look-ahead datapath}
+    \label{fig:pipelined_dp}
+\end{figure}
+Figure~\ref{fig:pipelined_dp} shows the detailed datapath of the new architecture. The color scheme used to illustrate signals is the same used before.
+
+\subsubsection{Pipe registers}
+Pipeline and retiming registers differ from the others as they do not have an \emph{enable} signal. This way they are ``free running'' and always sample after the initial reset. 
+This choice was made to keep the design and the control as simple as before.
+
+\subsubsection{Parallelism}
+Having different coefficients expressed as sums and products of the original ones, the whole internal parallelism had to be recomputed. 
+
+The maximum number of bits that these new coefficients require was found to be 22 bit ($Q1.21$ format). Following the reasoning done for the original architecture, the multiplication function inside the VHDL package was modified to take care of the different parallelism and all the internal computations were chosen to be performed on 23 bits ($Q2.21$ format) to account for potential addition overflow. This number of bits was called \emph{word length} being the one used in all internal signals and is the one represented by the label \texttt{WL} in figure~\ref{fig:pipelined_dp}.
+
+One last point that needed care was the alignment of external data streams (as well as the only coefficient that remained the same, $b_0$) which continue to be expressed in $Q1.11$ format, and thus require proper fixed point alignment and extension in both directions before getting summed with internal signals. 
+
+As usual, the output is saturated in case of internal overflow.
+
+\subsection{Control unit}
+The great advantage of such pipelining process is that the control unit remains exactly the same as before, nothing at all needs to be modified.
+
+The only change resides in the top level design, where a couple of signals coming from the control unit (namely, the output register enable and the data valid signal) have to be delayed of a number of clock cycles equal to the depth of the pipeline, to account for the additional latency of the output. 
+
+This was very easy to implement, so that additionally the possibility to keep parametric the depth of the pipeline in the VHDL code was provided.
+
+\subsection{Results}
+Table~\ref{tab:lookahead} shows the results obtained by synthesis and place \& route on the look-ahead architecture. The procedure used for this as well as for the extensive simulation is exactly the same as before, so no additional detail have to pointed out.
+\textcolor{red}{PERÒ PORCO DIO NON HA SENSO UN CAZZO DI NIENTE. BUONANOTTE.}
+
+\begin{table}[hbtp]
+    \centering
+    \begin{tabular}{l|l|l|}
+    \cline{2-3}
+                                        & Post synthesis                  & Post place \& route            \\ \hline
+    \multicolumn{1}{|l|}{$f_{max}$}     & $\SI{689.7}{MHz}$               & -                              \\ \hline
+    \multicolumn{1}{|l|}{Area}          & $\SI{15337.56}{\micro\meter^2}$ & $\SI{15231.4}{\micro\meter^2}$ \\ \hline
+    \multicolumn{1}{|l|}{Dynamic power} & $\SI{159.26}{\micro\watt}$      & $\SI{10.84}{\milli\watt}$      \\ \hline
+    \multicolumn{1}{|l|}{Static power}  & $\SI{1.80}{\micro\watt}$        & $\SI{320.1}{\micro\watt}$      \\ \hline
+    \end{tabular}
+    \caption{Results of synthesis and place \& route for the look-ahead architecture. Area and power are computed at $f_{max}/4$.}
+    \label{tab:lookahead}
+\end{table}
 
 \end{document} 
