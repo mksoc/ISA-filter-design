@@ -13,7 +13,7 @@
 \sisetup{exponent-product=\cdot}
 
 \title{Integrated System Architecture \\ Lab session 1 report}
-\author{Marco Andorno (247222)\\ Michele Caon (253027) \\ Matteo Perotti (251453) \\ Giuseppe Sarda (xxxxxx)}
+\author{Marco Andorno (247222)\\ Michele Caon (253027) \\ Matteo Perotti (251453) \\ Giuseppe Sarda (255648)}
 
 \begin{document}
 \maketitle
@@ -213,7 +213,7 @@ All the place and route was done using a clock frequency equal to a quarter of t
 
 By comparing tables~\ref{tab:base_post_syn} and~\ref{tab:base_post_pnr}, it is evident that results do not agree very much, apart from the static power. In terms of area this is due to the fact that the place and route was carried out at a much lower frequency while the area given by the synthesis refers to the maximum frequency achievable: this means that Design Compiler must have instantiated different hardware components in the two cases, the slower ones having also smaller area. 
 
-Regarding dynamic power on the other hand, the first thing that comes to mind is that Innovus certainly has a better estimation of the actual interconnects and their dissipated power. This however cannot be the only explanation, because comparing more closely the power reports from the two tools, both the internal power and the net switching power increase dramatically in the case of place and route. \textcolor{red}{SO WTF??}.
+Regarding dynamic power on the other hand, the explanation that comes to mind is that Innovus certainly has a better estimation of the actual interconnects and their dissipated power.
 
 \section{Look-ahead transform}\label{sec:improv}
 The next step consists of improving the previous basic design by means of formal transformations and pipelining. Being the case in exam a IIR filter, the method implemented is the so-called \emph{look-ahead} transform, which consists of expanding the difference equation of the original filter (see~\ref{eq:diff}) by making explicit the term $y[n-1]$ as follows:
