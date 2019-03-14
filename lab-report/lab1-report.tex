@@ -179,7 +179,20 @@ The synthesis of the design has been carried out using Synopsys Design Compiler,
 
 At first try, the comparison between the synthesized design and the original RTL description resulted in outputs being completely different. After some trial and error, which included confrontation with colleagues and Professors, the issue came out to be the issuing of asynchronous reset signal in the first state of the control unit to all registers. The solution was to remove those outputs from such state and instead wire up the reset of the register directly to the external reset signal, which rendered the initial state of the control unit an empty idle state, as seen in the final FSM of figure~\ref{fig:fsm}.
 
-After successfully completing the synthesis and testing the correctness of the results from the netlist, the figures of merit in terms of maximum frequency, power and area resulted to be the ones shown in table~\ref{tab:base_post_syn}.
+After successfully completing the synthesis and testing the correctness of the results from the netlist, we extracted two figures of merit: the first at the maximum achievable frequency, that is shown in table~\ref{tab:base_post_syn_maxf}, and the second at a quarter of this frequency, shown in table~\ref{tab:base_post_syn}
+
+\begin{table}[hbtp]
+    \centering
+    \begin{tabular}{|l|l|}
+    \hline
+    $f_{max}$     & $\SI{314.7}{MHz}$              \\ \hline
+    Area          & $\SI{4742.51}{\micro\meter^2}$ \\ \hline
+    Dynamic power & $\SI{526.86}{\micro\watt}$     \\ \hline
+    Static power  & $\SI{81.55}{\micro\watt}$      \\ \hline
+    \end{tabular}
+    \caption{Figures of merit post-synthesis. Power was computed at $f_{max}/4 = \SI{89.3}{MHz}$ as per laboratory guidelines.}
+    \label{tab:base_post_syn_maxf}
+\end{table}
 
 \begin{table}[hbtp]
     \centering

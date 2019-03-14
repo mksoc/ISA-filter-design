@@ -1,4 +1,5 @@
 Information: Updating design information... (UID-85)
+Warning: There are 264 switching activity information conflicts. (PWR-19)
 Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
 Warning: There is no defined clock in the design. (PWR-80)
 Warning: Design has unannotated primary inputs. (PWR-414)
@@ -6,9 +7,9 @@ Warning: Design has unannotated primary inputs. (PWR-414)
 ****************************************
 Report : power
         -analysis_effort low
-Design : iir_filter_DW01_add_3
+Design : iir_filter_DW_mult_tc_1
 Version: Z-2007.03-SP1
-Date   : Sun Nov 18 17:02:23 2018
+Date   : Thu Mar 14 12:35:23 2019
 ****************************************
 
 
@@ -22,7 +23,8 @@ Wire Load Model Mode: top
 
 Design        Wire Load Model            Library
 ------------------------------------------------
-iir_filter_DW01_add_3  5K_hvratio_1_1    NangateOpenCellLibrary
+iir_filter_DW_mult_tc_1
+                       5K_hvratio_1_1    NangateOpenCellLibrary
 
 
 Global Operating Voltage = 1.1  
@@ -34,11 +36,11 @@ Power-specific unit information :
     Leakage Power Units = 1nW
 
 
-  Cell Internal Power  = 128.5908 uW   (81%)
-  Net Switching Power  =  30.6652 uW   (19%)
+  Cell Internal Power  =  41.6173 uW   (48%)
+  Net Switching Power  =  44.4612 uW   (52%)
                          ---------
-Total Dynamic Power    = 159.2560 uW  (100%)
+Total Dynamic Power    =  86.0785 uW  (100%)
 
-Cell Leakage Power     =   1.7994 uW
+Cell Leakage Power     =  15.5193 uW
 
 1
