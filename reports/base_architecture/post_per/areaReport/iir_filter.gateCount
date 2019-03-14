@@ -1,2 +1,7 @@
 Gate area 0.7980 um^2
-Level 0 Module iir_filter                               Gates=      4911 Cells=    1920 Area=    3919.2 um^2
+Level 0 Module iir_filter                               Gates=      4892 Cells=    1800 Area=    3904.3 um^2
+Level 1 Module DP_mult_105                              Gates=717        Cells=295      Area=     572.2 um^2
+Level 1 Module DP_mult_98                               Gates=717        Cells=295      Area=     572.2 um^2
+Level 1 Module DP_mult_96                               Gates=717        Cells=295      Area=     572.2 um^2
+Level 1 Module DP_mult_99                               Gates=717        Cells=295      Area=     572.2 um^2
+Level 1 Module DP_mult_97                               Gates=717        Cells=295      Area=     572.2 um^2
