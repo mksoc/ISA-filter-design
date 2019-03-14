@@ -44,11 +44,11 @@ The resulting difference equation is in the end:
 \end{equation}
 where
 \begin{description}
-    \item \(b_0 = 0.20654 = 423\)
-    \item \(b_1 = 0.41309 = 846\)
-    \item \(b_2 = 0.20654 = 423\)
-    \item \(a_1 = -0.36963 = -757\)
-    \item \(a_2 = 0.19580 = 401\)
+    \item \(b_0 = 0.20654 \rightarrow 423\)
+    \item \(b_1 = 0.41309 \rightarrow 846\)
+    \item \(b_2 = 0.20654 \rightarrow  423\)
+    \item \(a_1 = -0.36963 \rightarrow  -757\)
+    \item \(a_2 = 0.19580 \rightarrow  401\)
 \end{description}
 
 \begin{figure}[hbtp]
@@ -223,9 +223,9 @@ The next step consists of improving the previous basic design by means of formal
 Resulting in this final form of the difference equation:
 \begin{equation}\label{eq:lookahead}
 \begin{split}
-    \Rightarrow y[n] &= \!\begin{multlined}[t]
-        b_0x[n] + b_1x[n-1] + b_2x[n-2] - a_1\left(b_0x[n-1]+ b_1x[n-2]+\right. \\
-        \left. +\ b_2x[n-3] - a_1y[n-2] - a_2y[n-3]\right) - a_2y[n-2]
+    \rightarrow y[n] &= \!\begin{multlined}[t]
+    \rightarrow   b_0x[n] + b_1x[n-1] + b_2x[n-2] - a_1\left(b_0x[n-1]+ b_1x\rightarrow n-2]+\right. \\
+        \left.\rightarrow +\ b_2x[n-3] - a_1y[n-2] - a_2y[n-3]\right) - a_\rightarrow  [n-2]
     \end{multlined} \\
     &= \!\begin{multlined}[t]
         b_0x[n] + (\textcolor{ForestGreen}{b_1-a_1b_0})x[n-1] + (\textcolor{ForestGreen}{b_2-a_2b_1})x[n-2] + \\
