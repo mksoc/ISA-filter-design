@@ -1,5 +1,5 @@
 Information: Updating design information... (UID-85)
-Warning: There are 247 switching activity information conflicts. (PWR-19)
+Warning: There are 246 switching activity information conflicts. (PWR-19)
 Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
 Warning: There is no defined clock in the design. (PWR-80)
 Warning: Design has unannotated primary inputs. (PWR-414)
@@ -9,7 +9,7 @@ Report : power
         -analysis_effort low
 Design : iir_filter_DW_mult_tc_5
 Version: Z-2007.03-SP1
-Date   : Sun Nov 18 16:56:54 2018
+Date   : Fri Mar 15 11:29:53 2019
 ****************************************
 
 
@@ -36,11 +36,11 @@ Power-specific unit information :
     Leakage Power Units = 1nW
 
 
-  Cell Internal Power  =   1.2806 mW   (42%)
-  Net Switching Power  =   1.7496 mW   (58%)
+  Cell Internal Power  =   1.2794 mW   (42%)
+  Net Switching Power  =   1.7484 mW   (58%)
                          ---------
-Total Dynamic Power    =   3.0302 mW  (100%)
+Total Dynamic Power    =   3.0278 mW  (100%)
 
-Cell Leakage Power     =  57.5837 uW
+Cell Leakage Power     =  57.5505 uW
 
 1

@@ -185,12 +185,12 @@ After successfully completing the synthesis and testing the correctness of the r
     \centering
     \begin{tabular}{|l|l|}
     \hline
-    $f_{max}$     & $\SI{352.11}{MHz}$              \\ \hline % 352.11 MHz
-    Area          & $\SI{4705.51}{\micro\meter^2}$ \\ \hline % 4705 um2
-    Dynamic power & $\SI{86.08}{\micro\watt}$     \\ \hline % 86.08 uW
-    Static power  & $\SI{81.55}{\micro\watt}$      \\ \hline % 15.52 uW
+    $f_{max}$     & $\SI{352.11}{MHz}$              \\ \hline
+    Area          & $\SI{4705.51}{\micro\meter^2}$  \\ \hline
+    Dynamic power & $\SI{86.13}{\micro\watt}$       \\ \hline
+    Static power  & $\SI{16.53}{\micro\watt}$       \\ \hline
     \end{tabular}
-    \caption{Figures of merit post-synthesis at $f_{max}$.}
+    \caption{Figures of merit post-synthesis at $f_{max} = \SI{352.11}{MHz}$.}
     \label{tab:base_post_syn_maxf}
 \end{table}
 
@@ -198,36 +198,41 @@ After successfully completing the synthesis and testing the correctness of the r
     \centering
     \begin{tabular}{|l|l|}
     \hline
-    $f$           & $\SI{88.8}{MHz}$                \\ \hline
+    $f$           & $\SI{88.0}{MHz}$                \\ \hline
     Area          & $\SI{3915.25}{\micro\meter^2}$  \\ \hline 
     Dynamic power & $\SI{84.41}{\micro\watt}$       \\ \hline
-    Static power  & $\SI{0.996}{\nano\watt}$        \\ \hline
+    Static power  & $\SI{966.11}{\nano\watt}$       \\ \hline
     \end{tabular}
-    \caption{Figures of merit post-synthesis at $f_{max}/4$.}
+    \caption{Figures of merit post-synthesis at $f_{max}/4 = \SI{88.0}{MHz}$.}
     \label{tab:base_post_syn}
 \end{table}
+
+These results show a reduction of $94\%$ on the leakage power, that has now almost no impact on the total powerr consumption of the chip. 
 
 \subsection{Place \& route}
 The place and route phase was carried out using Cadence Innovus and the instructions provided in the lab track. As always, a script was put together to collect all commands issued to the tool, even if it was more difficult in this case as the GUI was heavily used. 
 
-All the place and route was done using a clock frequency equal to a quarter of the maximum one found during synthesis. The results are shown in table~\ref{tab:base_post_pnr}.
+All the place and route was done using a clock frequency equal to a quarter of the maximum one found during synthesis. At the end of the process, three layers of metal interconnections were used. The results are shown in table~\ref{tab:base_post_pnr}.
 
 \begin{table}[hbtp]
     \centering
     \begin{tabular}{|l|l|}
     \hline
-    $f$           & $\SI{88.8}{MHz}$                \\ \hline
-    Area          & $\SI{3919.2}{\micro\meter^2}$   \\ \hline % 3904.3 um2
-    Dynamic power & $\SI{1599}{\micro\watt}$        \\ \hline % same...
-    Static power  & $\SI{79.4}{\micro\watt}$        \\ \hline % same...
+    $f$           & $\SI{88.0}{MHz}$                \\ \hline
+    Area          & $\SI{3904.3}{\micro\meter^2}$   \\ \hline 
+    Dynamic power & $\SI{1.381}{\milli\watt}$      \\ \hline 
+    Static power  & $\SI{78.7}{\micro\watt}$        \\ \hline
     \end{tabular}
-    \caption{Figures of merit post-place \& route. Both area and power were computed at $f_{max}/4 = \SI{89.3}{MHz}$ as per laboratory guidelines.}
+    \caption{Figures of merit post-place \& route. Both area and power were computed at $f_{max}/4 = \SI{88.0}{MHz}$ as per laboratory guidelines.}
     \label{tab:base_post_pnr}
 \end{table}
 
-By comparing tables~\ref{tab:base_post_syn} and~\ref{tab:base_post_pnr}, it is evident that results do not agree very much, apart from the static power. In terms of area this is due to the fact that the place and route was carried out at a much lower frequency while the area given by the synthesis refers to the maximum frequency achievable: this means that Design Compiler must have instantiated different hardware components in the two cases, the slower ones having also smaller area. 
+\subsection{Remarks}
+\label{sec:base_remarks}
 
-Regarding dynamic power on the other hand, the explanation that comes to mind is that Innovus certainly has a better estimation of the actual interconnects and their dissipated power.
+By comparing tables~\ref{tab:base_post_syn} and~\ref{tab:base_post_pnr}, it is possible to see how the early, post-synthesis estimation of the chip area is quite consistent with the place and route results. However, the reported dynamic and static power are quite different. In fact, the dynamic power is about $16$ times higher, while the static power (leakage) is about $80$ times higher, even worse than the expected leakage power of the same chip working at $f_{max}$. The explanation can be found in the fact that the synthesis doesn't take into account interconnections and power rings. The introduced capacitance might be a reason for the dynamic power to be increased. On the other hand, the huge increase in leakage power is something we are not able to explain properly. Innovus reported high leakage in the combinational logic ($87\%$ of total static power). Maybe this is related to the the necessity of driving the metal interconnections. 
+
+Comparing our results with those from other groups, we noticed that, in general, FIR filters brought to better results in terms of consistency between post-synthesis and post-place and route power reports. This might be explained by by considering that FIR filter are usually bigger (higher order), to obtain a frequency response as steep as the one from an IIR filter. For this reason, the introduced capacitance and logic required to drive the interconnections in a FIR filter might have a lower impact on the overall power performance of the chip with respect to an IIR filter, that contains fewer combinational and sequential nodes. 
 
 \section{Look-ahead transform}\label{sec:improv}
 The next step consists of improving the previous basic design by means of formal transformations and pipelining. Being the case in exam a IIR filter, the method implemented is the so-called \emph{look-ahead} transform, which consists of expanding the difference equation of the original filter (see~\ref{eq:diff}) by making explicit the term $y[n-1]$ as follows:
@@ -329,22 +334,65 @@ The only change resides in the top level design, where a couple of signals comin
 
 This was very easy to implement, so that additionally the possibility to keep parametric the depth of the pipeline in the VHDL code was provided.
 
-\subsection{Results}
-Table~\ref{tab:lookahead} shows the results obtained by synthesis and place \& route on the look-ahead architecture. The procedure used for this as well as for the extensive simulation is exactly the same as before, so no additional detail have to pointed out.
-\textcolor{red}{PERÒ PORCO DIO NON HA SENSO UN CAZZO DI NIENTE. BUONANOTTE.}
+\subsection{Synthesis}
+Table~\ref{tab:lookahead_post_syn_fmax} and table~\ref{tab:lookahead_post_syn} show the results obtained by the synthesis process on the look-ahead architecture. The procedure used for this as well as for the extensive simulation is exactly the same as before, so no additional detail have to be pointed out. 
+
+% \textcolor{red}{PERÒ PORCO DIO NON HA SENSO UN CAZZO DI NIENTE. BUONANOTTE.} % Questa riga non verrà rimossa dalla sorgente per una semplice questione di "I know that feeling bro" dopo che ho smadonnato due giorni anche io sulle stesse cose... I feel you bro \m/
 
 \begin{table}[hbtp]
     \centering
-    \begin{tabular}{l|l|l|}
-    \cline{2-3}
-                                        & Post synthesis                  & Post place \& route            \\ \hline
-    \multicolumn{1}{|l|}{$f_{max}$}     & $\SI{689.7}{MHz}$               & -                              \\ \hline
-    \multicolumn{1}{|l|}{Area}          & $\SI{15337.56}{\micro\meter^2}$ & $\SI{15231.4}{\micro\meter^2}$ \\ \hline
-    \multicolumn{1}{|l|}{Dynamic power} & $\SI{159.26}{\micro\watt}$      & $\SI{10.84}{\milli\watt}$      \\ \hline
-    \multicolumn{1}{|l|}{Static power}  & $\SI{1.80}{\micro\watt}$        & $\SI{320.1}{\micro\watt}$      \\ \hline
+    \begin{tabular}{l|l|}
+    \hline
+    \multicolumn{1}{|l|}{$f_{max}$}     & $\SI{689.7}{MHz}$                 \\ \hline
+    \multicolumn{1}{|l|}{Area}          & $\SI{18839.45}{\micro\meter^2}$   \\ \hline
+    \multicolumn{1}{|l|}{Dynamic power} & $\SI{3.028}{\milli\watt}$         \\ \hline
+    \multicolumn{1}{|l|}{Static power}  & $\SI{57.55}{\micro\watt}$         \\ \hline
     \end{tabular}
-    \caption{Results of synthesis and place \& route for the look-ahead architecture. Area and power are computed at $f_{max}/4$.}
-    \label{tab:lookahead}
+    \caption{Results of synthesis for the look-ahead architecture at $f_{max} = \SI{689.7}{MHz}$.}
+    \label{tab:lookahead_post_syn_fmax}
 \end{table}
+
+\begin{table}[hbtp]
+    \centering
+    \begin{tabular}{l|l|}
+    \hline
+    \multicolumn{1}{|l|}{$f$}           & $\SI{172.41}{MHz}$                \\ \hline
+    \multicolumn{1}{|l|}{Area}          & $\SI{15337.56}{\micro\meter^2}$   \\ \hline
+    \multicolumn{1}{|l|}{Dynamic power} & $\SI{159.26}{\micro\watt}$        \\ \hline
+    \multicolumn{1}{|l|}{Static power}  & $\SI{1.80}{\micro\watt}$          \\ \hline
+    \end{tabular}
+    \caption{Results of synthesis for the look-ahead architecture at $f = f_{max}/4 = \SI{172.41}{MHz}$.}
+    \label{tab:lookahead_post_syn}
+\end{table}
+
+\subsubsection{Remarks}
+
+Comparing these results, we can see how the dynamic power is reduced by $94\%$ when working at a quarter of the maximum frequency. Notice how this is consistent with the theoretical expectations. The dynamic power is a function of the clock frequency squared:
+\begin{equation*}
+    P_{dyn} \propto f^2 \Rightarrow P_{dyn} \left( f/4 \right) \approx P_{dyn} \left( f \right) = \frac{1}{16} P_{dyn} \left( f \right)
+\end{equation*}
+
+That is $1-1/16 = 94\%$ lower. 
+
+Regarding the static leakage power, the reduction is consistent with the one obtained for the base architecture.
+
+\subsection{Place \& route}
+Again, the procedures followed to perform the place and rout and the related simulations on the lookahead implementation are the same as for the base architecture. Table~\ref{tab:lookahead_post_pnr} shows the obtained results. These were computed at $f = f_{max}/4 = \SI{172.41}{MHz}$. 
+
+\begin{table}[hbtp]
+    \centering
+    \begin{tabular}{l|l|}
+    \hline
+    \multicolumn{1}{|l|}{$f$}           & $\SI{172.41}{MHz}$                \\ \hline
+    \multicolumn{1}{|l|}{Area}          & $\SI{15231.4}{\micro\meter^2}$    \\ \hline
+    \multicolumn{1}{|l|}{Dynamic power} & $\SI{4.511}{\milli\watt}$        \\ \hline
+    \multicolumn{1}{|l|}{Static power}  & $\SI{323.6}{\micro\watt}$          \\ \hline
+    \end{tabular}
+    \caption{Results of place and route for the look-ahead architecture at $f = f_{max}/4 = \SI{172.41}{MHz}$.}
+    \label{tab:lookahead_post_pnr}
+\end{table}
+
+\subsubsection{Remarks}
+Comparing table~\ref{tab:lookahead_post_syn} and~\ref{tab:lookahead_post_pnr}, the conclusion are very similar to the ones already expressed for the base architecture. The post-synthesis area estimation was quite accurate, while the dynamic power has increased by $28\%$ after the place and route analysis. Also static power is, again, very different from the expected one from the synthesis process. However, the order of magnitude of the place and route results is the same as the ones from the first implementation. This supports the thesis expressed in section~\ref{sec:base_remarks}, that can be applied here as well. Of course, the datapath of the lookahead implementation is more complex than the original one, and this explains the increase in static and dynamic power. 
 
 \end{document} 
