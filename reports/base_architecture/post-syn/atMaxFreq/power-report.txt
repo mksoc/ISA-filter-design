@@ -1,0 +1,45 @@
+Information: Updating design information... (UID-85)
+Warning: There are 26 switching activity information conflicts. (PWR-19)
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+Warning: There is no defined clock in the design. (PWR-80)
+ 
+****************************************
+Report : power
+        -analysis_effort low
+Design : iir_filter_DW_mult_tc_1
+Version: Z-2007.03-SP1
+Date   : Fri Mar 15 10:52:58 2019
+****************************************
+
+
+Library(s) Used:
+
+    NangateOpenCellLibrary (File: /software/dk/nangate45/synopsys/NangateOpenCellLibrary_typical_ecsm_nowlm.db)
+
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+Design        Wire Load Model            Library
+------------------------------------------------
+iir_filter_DW_mult_tc_1
+                       5K_hvratio_1_1    NangateOpenCellLibrary
+
+
+Global Operating Voltage = 1.1  
+Power-specific unit information :
+    Voltage Units = 1V
+    Capacitance Units = 1.000000ff
+    Time Units = 1ns
+    Dynamic Power Units = 1uW    (derived from V,C,T units)
+    Leakage Power Units = 1nW
+
+
+  Cell Internal Power  =  20.0891 uW   (54%)
+  Net Switching Power  =  17.2783 uW   (46%)
+                         ---------
+Total Dynamic Power    =  37.3674 uW  (100%)
+
+Cell Leakage Power     =  16.5387 uW
+
+1

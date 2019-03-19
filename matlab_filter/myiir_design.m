@@ -4,7 +4,7 @@ function [bi, ai, bq, aq] = myiir_design(N, nb)
     %% nb is the number of bits
     %% bi,ai taps represented as integers
     %% bq,aq quantized taps
-
+   
     close all;
 
     f_cut_off = 2000; % 2kHz

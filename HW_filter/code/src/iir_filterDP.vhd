@@ -10,8 +10,8 @@ entity iir_filterDP is
 		-- from external world
 		clk, rst_n: in std_logic;
 		dIn: in dataType;
-		a: in aCoeffType;
-		b: in bCoeffType;
+		coeffs_fb: in aCoeffType;
+		coeffs_ff: in bCoeffType;
 		dOut: out dataType;
 		-- controls from CU
 		input_regs_en, sw_regs_en, out_reg_en: in std_logic
@@ -21,11 +21,9 @@ end entity;
 architecture behavior of iir_filterDP is
 	-- signal declarations (refer to scheme for the naming used)
 	signal x, y_out: dataType;
-	signal coeff_ret0, coeff_ret1, coeff_pipe01, coeff_pipe02, coeff_pipe03, ret0, ret1, pipe0_b0, pipe0_coeff_pipe01, pipe0_coeff_pipe02, pipe0_coeff_pipe03, pipe10, pipe11, pipe12, pipe13, sw0_coeff_ret0, sw1_coeff_ret1, fb, ff_part, w, sw0, sw1, sw2, pipe00, pipe01, pipe02, pipe03, ff, y: word;
-	signal a_int: aCoeffType;
-	signal b_int: bCoeffType;
-	
-
+	signal ret0, ret1, pipe0_coeff_pipe00, pipe0_coeff_pipe01, pipe0_coeff_pipe02, pipe0_coeff_pipe03, pipe10, pipe11, pipe12, pipe13, sw0_coeff_ret0, sw1_coeff_ret1, fb, ff_part, w, sw0, sw1, sw2, pipe00, pipe01, pipe02, pipe03, ff, y: word;
+	signal coeffs_fb_int: aCoeffType;
+	signal coeffs_ff_int: bCoeffType;
 begin
 	-----------------------------
 	-- component instantiations
@@ -41,26 +39,26 @@ begin
 			enable => input_regs_en,
 			signed(Q) => x
 		);
-	reg_a_gen: for i in aCoeffType'range generate
-		reg_a_i: reg
-			generic map (N => a_int(i)'length)
+	reg_coeff_fb_gen: for i in aCoeffType'range generate
+		reg_coeff_fb_i: reg
+			generic map (N => coeffs_fb_int(i)'length)
 			port map (
-				D => std_logic_vector(a(i)),
+				D => std_logic_vector(coeffs_fb(i)),
 				clock => clk,
 				reset_n => rst_n,
 				enable => input_regs_en,
-				signed(Q) => a_int(i)
+				signed(Q) => coeffs_fb_int(i)
 			);
 	end generate;
 	reg_b_gen: for i in bCoeffType'range generate
 		reg_b_i: reg
-			generic map (N => b_int(i)'length)
+			generic map (N => coeffs_ff_int(i)'length)
 			port map (
-				D => std_logic_vector(b(i)),
+				D => std_logic_vector(coeffs_ff(i)),
 				clock => clk,
 				reset_n => rst_n,
 				enable => input_regs_en,
-				signed(Q) => b_int(i)
+				signed(Q) => coeffs_ff_int(i)
 			);
 	end generate;
 	
@@ -153,7 +151,7 @@ begin
 	reg_pipe10: reg
 		generic map (N => pipe10'length)
 		port map (
-			D => std_logic_vector(pipe0_b0),
+			D => std_logic_vector(pipe0_coeff_pipe00),
 			clock => clk,
 			reset_n => rst_n,
 			enable => '1',
@@ -202,25 +200,18 @@ begin
 	-- signal assignments 
 	-----------------------------
 
-	-- compute new coefficients
-	-- I have no idea why shift_left() doesn't work, so I manually shifted by adding trailing 0s
-	coeff_ret0 <= resize(- a_int(1)*a_int(1) + (a_int(2) & "00000000000"), coeff_ret0'length);
-	coeff_ret1 <= resize(- a_int(1)*a_int(2), coeff_ret1'length);
-	coeff_pipe01 <= resize((b_int(1) & "00000000000") - a_int(1)*b_int(0), coeff_pipe01'length);
-	coeff_pipe02 <= resize((b_int(2) & "00000000000") - a_int(1)*b_int(1), coeff_pipe02'length);
-	coeff_pipe03 <= resize(- a_int(1)*b_int(2), coeff_pipe03'length);
-
 	-- compute products
-	sw0_coeff_ret0 <= multiplyAndRound(coeff_ret0, sw0);
-	sw1_coeff_ret1 <= multiplyAndRound(coeff_ret1, sw1);
-	pipe0_b0 <= multiplyAndRound(resize(b_int(0) & "00000000000", WL), pipe00); -- shift left b0 to be Q1.22
-	pipe0_coeff_pipe01 <= multiplyAndRound(coeff_pipe01, pipe01);
-	pipe0_coeff_pipe02 <= multiplyAndRound(coeff_pipe02, pipe02);
-	pipe0_coeff_pipe03 <= multiplyAndRound(coeff_pipe03, pipe03);
+	sw0_coeff_ret0 <= multiplyAndRound(coeffs_fb_int(1), sw0);
+	sw1_coeff_ret1 <= multiplyAndRound(coeffs_fb_int(2), sw1);
+	pipe0_coeff_pipe00 <= multiplyAndRound(coeffs_ff_int(0), pipe00);
+	pipe0_coeff_pipe01 <= multiplyAndRound(coeffs_ff_int(1), pipe01);
+	pipe0_coeff_pipe02 <= multiplyAndRound(coeffs_ff_int(2), pipe02);
+	pipe0_coeff_pipe03 <= multiplyAndRound(coeffs_ff_int(3), pipe03);
 
 	-- compute forward and backward sums
-	-- all these resize() (but the one on 'x') are useless as long as the parallelism is the same 
-	-- for all internal nodes, but they're kept for future development
+	-- all these resize() (but the one on 'x') are useless as long as 
+	-- the parallelism is the same for all internal nodes, 
+	-- but they're kept for future development
 	fb <= resize(ret0, fb'length) + resize(ret1, fb'length);
 	ff_part <= resize(pipe12, ff_part'length) + resize(pipe13, ff_part'length);
 	ff <= resize(pipe11, ff'length) + resize(ff_part, ff'length);
