@@ -293,7 +293,7 @@ Figure~\ref{fig:lookahead_dfg} shows the modified DFG that implements equation~\
 \subsection{Loop bound analysis}
 The justification for performing this modification on the original DFG lies in the analysis of the loop bound constrain and the critical path of the architecture. Figure~\ref{fig:base_dfg_lbcp} shows the loop bound (in blue) and the critical path (in green) on the original DFG, which values are respectively:
 \begin{itemize}
-    \item $T_\infty = 2T_a + T_m$
+    \item $T_\infty = \frac{2T_a + T_m}{2}$
     \item $T_{cp} = 3T_a + 2T_m$
 \end{itemize}
 Being that $T_\infty < T_{cp}$, there is theoretically room for improvement even in the base architecture. In fact it is quite easy to see that pipelining could be applied in the FIR part of the DFG.
