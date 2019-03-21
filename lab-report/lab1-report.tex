@@ -395,12 +395,12 @@ Table~\ref{tab:lookahead_post_syn_fmax} and table~\ref{tab:lookahead_post_syn} s
 
 \subsubsection{Remarks}
 
-Comparing these results, we can see how the dynamic power is reduced by $94\%$ when working at a quarter of the maximum frequency. Notice how this is consistent with the theoretical expectations. The dynamic power is a function of the clock frequency squared:
+Comparing these results, we can see how the dynamic power is reduced by $94\%$ when working at a quarter of the maximum frequency. Notice how this is not consistent with the theoretical expectations. The dynamic power is a direct function of the clock frequency:
 \begin{equation*}
-    P_{dyn} \propto f^2 \Rightarrow P_{dyn} \left( f/4 \right) \approx P_{dyn} \left( f \right) = \frac{1}{16} P_{dyn} \left( f \right)
+    P_{dyn} \propto f \Rightarrow P_{dyn} \left( f/4 \right) \approx P_{dyn} \left( f \right) = \frac{1}{4} P_{dyn} \left( f \right)
 \end{equation*}
 
-That is $1-1/16 = 94\%$ lower. 
+That is $1-1/4 = 75\%$ lower. However, besides the reduction of the clock frequency, also the reduction in the number of logic elements must be considered. In fact, the load capacitance of the entire circuit depends on it. So, the total dynamic power is reduced more than expected considering only the reduction of the frequency.
 
 Regarding the static leakage power, the reduction is consistent with the one obtained for the base architecture.
 
