@@ -12,14 +12,42 @@
 
 \sisetup{exponent-product=\cdot}
 
-\title{Integrated System Architecture \\ Lab session 1 report}
 \author{Marco Andorno (247222)\\ Michele Caon (253027) \\ Matteo Perotti (251453) \\ Giuseppe Sarda (255648)}
 
 \begin{document}
-\maketitle
+\begin{center}
+\thispagestyle{empty}
 
+% INTESTAZIONE
+
+\textbf{\textsc{\Large Integrated Systems Architecture}}\\[1.0cm] 
+\textsc{\Large Politecnico di Torino}\\[0.5cm] 
+\textsc{\large Department of Electronics and Telecommunications
+}\\[1cm] 
+
+% TITOLO
+
+\huge \textbf{Laboratory 1: \\ Filter design}
+
+\end{center}
+
+% AUTORI
+
+\vfill
+\large
+\begin{flushleft}
+\makeatletter
+\emph{Authors:}\\
+\@author \\
+\vspace{1cm}
+\normalsize \@date
+\makeatother
+\end{flushleft} 
+
+\newpage
 This report along with all the source files, scripts, reports and diagrams for the project can be found on GitHub at \url{https://github.com/mksoc/ISA-filter-design}.
 \tableofcontents
+\newpage
 
 \section{Filter design}
 Following the rules given in the assignment, the main specifications were derived:
@@ -207,7 +235,7 @@ After successfully completing the synthesis and testing the correctness of the r
     \label{tab:base_post_syn}
 \end{table}
 
-These results show a reduction of $94\%$ on the leakage power, that has now almost no impact on the total powerr consumption of the chip. 
+These results show a reduction of $94\%$ on the leakage power, that has now almost no impact on the total power consumption of the chip. 
 
 \subsection{Place \& route}
 The place and route phase was carried out using Cadence Innovus and the instructions provided in the lab track. As always, a script was put together to collect all commands issued to the tool, even if it was more difficult in this case as the GUI was heavily used. 
